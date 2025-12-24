@@ -1,0 +1,7 @@
+# Private environment file in home directory
+.dotfiles-private.env
+
+.config/ngrok
+.config/gh/
+.config/lazygit/*
+!.config/lazygit/config.yml

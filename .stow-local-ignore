@@ -1,0 +1,34 @@
+# Comments and blank lines are allowed.
+
+RCS
+.+,v
+
+CVS
+\.\#.+       # CVS conflict files / emacs lock files
+\.cvsignore
+
+\.svn
+_darcs
+\.hg
+
+\.git
+\.gitignore
+\.gitmodules
+
+.+~          # emacs backup files
+\#.*\#       # emacs autosave files
+
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+\.DS_Store
+
+\.ssh/id_.*
+\.ssh/known_hosts
+\.gnupg/private-keys-v1.d
+\.gnupg/secring.gpg
+
+^/\.dotfiles-private\.env
+/config/gh/
+/config/ngrok/ngrok.yml

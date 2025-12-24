@@ -1,0 +1,44 @@
+[include]
+    path = ~/.gitconfig_user
+
+[init]
+	defaultBranch = master
+
+[rerere]
+	enabled = true
+
+[column]
+	ui = auto
+
+[branch]
+	sort = -committerdate
+
+[diff]
+	algorithm = myers
+	colorMoved = default
+	tool = delta
+
+[difftool "delta"]
+	cmd = delta "$LOCAL" "$REMOTE"
+
+[difftool]
+	prompt = false
+
+[rebase]
+	updateRefs = true
+
+[merge]
+	conflictstyle = zdiff3
+
+# Delta setup
+[core]
+	pager = delta
+    excludesFile = ~/.gitignore_global
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	line-numbers = true
+	hyperlinks = true
