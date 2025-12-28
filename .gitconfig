@@ -42,3 +42,9 @@
 	navigate = true
 	line-numbers = true
 	hyperlinks = true
+
+[submodule]
+    recurse = true
+
+[push]
+    recurseSubmodules = on-demand
