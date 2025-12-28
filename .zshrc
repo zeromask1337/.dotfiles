@@ -13,6 +13,7 @@ if [[ -z "$TMUX" ]]; then
     tmux attach-session -t default || tmux new-session -s default
 fi
 
+fpath=(~/.zsh/completions $fpath)
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -178,3 +179,5 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # zsh-autosuggestions
 bindkey '^k' autosuggest-accept
+
+eval "$(fnm env --use-on-cd --shell zsh)"
