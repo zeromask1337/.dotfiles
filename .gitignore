@@ -5,3 +5,5 @@
 .config/gh/
 .config/lazygit/*
 !.config/lazygit/config.yml
+
+mole
