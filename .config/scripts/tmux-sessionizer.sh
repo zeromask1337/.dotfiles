@@ -1,27 +1,35 @@
 #!/bin/bash
 
-DIRS=(
-    "$HOME/Development"
-    "$HOME/.config"
+ROOTS=(
+  "$HOME/Development"
+  "$HOME/.config"
+)
+
+PINNED=(
+  "$HOME/.dotfiles"
 )
 
 if [[ $# -eq 1 ]]; then
-    selected=$1
+  selected=$1
 else
-    selected=$(fd . "${DIRS[@]}" --type=dir --max-depth=1 --full-path --base-directory $HOME \
-        | sed "s|^$HOME/||" \
-        | fzf --margin 10% --color="bw")
-
-    [[ $selected ]] && selected="$HOME/$selected"
+  selected=$(
+    {
+      printf '%s\n' "${PINNED[@]}"
+      fd . "${ROOTS[@]}" --type=dir --max-depth=1 --full-path
+    } | awk '!seen[$0]++' \
+      | sed "s|^$HOME/||" \
+      | fzf --margin 10% --color="bw" \
+      | sed "s|^|$HOME/|"
+  )
 fi
 
-[[ ! $selected ]] && exit 0
+[[ -z $selected ]] && exit 0
 
 selected_name=$(basename "$selected" | tr . _)
 
-if ! tmux has-session -t "$selected_name"; then
-    tmux new-session -ds "$selected_name" -c "$selected"
-    tmux select-window -t "$selected_name:1"
+if ! tmux has-session -t "$selected_name" 2>/dev/null; then
+  tmux new-session -ds "$selected_name" -c "$selected"
+  tmux select-window -t "$selected_name:1"
 fi
 
 tmux switch-client -t "$selected_name"
