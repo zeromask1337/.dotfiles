@@ -1,5 +1,4 @@
 tap "grishka/grishka"
-tap "homebrew/services"
 tap "macos-fuse-t/cask"
 tap "ngrok/ngrok"
 tap "nikitabobko/tap"
