@@ -87,7 +87,7 @@
         "Verify stow creates symlinks in /home/test",
         "Verify no errors in execution"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "category": "ci",

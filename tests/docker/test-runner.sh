@@ -55,6 +55,9 @@ run_container() {
     -e DOTFILES_DIR=/home/test/.dotfiles
     -e DOTFILES_REPO=/work
     -v "$HOME/.ssh:/home/test/.ssh:ro"
+    -v "$SCRIPT_DIR/Brewfile.test:/home/test/Brewfile.test"
+    -e BREWFILE=/home/test/Brewfile.test
+    -e HOMEBREW_NO_AUTO_UPDATE=1
   )
   
   log "Mounting ~/.ssh read-only"

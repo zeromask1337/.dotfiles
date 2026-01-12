@@ -210,7 +210,7 @@ step_brew() {
 step_bundle() {
   log "Installing packages from Brewfile..."
   
-  local brewfile="$DOTFILES_DIR/.Brewfile"
+  local brewfile="${BREWFILE:-$DOTFILES_DIR/.Brewfile}"
   
   if [[ ! -f "$brewfile" ]]; then
     log_warn "Brewfile not found: $brewfile (skipping)"
