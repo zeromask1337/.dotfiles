@@ -59,7 +59,7 @@
         "Test stow step after bundle: should find stow and succeed",
         "Test stow step without brew: should die with 'stow not found' error"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "category": "logging",

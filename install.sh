@@ -251,8 +251,7 @@ step_stow() {
   log "Linking dotfiles with stow..."
   
   if ! command -v stow >/dev/null 2>&1; then
-    log_warn "stow not found; skipping"
-    return 0
+    die "stow not found"
   fi
   
   run bash -c "cd '$DOTFILES_DIR' && stow --restow ."

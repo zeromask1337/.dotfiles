@@ -1,8 +1,10 @@
-00001| - Reordered install steps: clone now runs before brew/bundle to ensure .Brewfile exists.
-00002| - Updated README-BOOTSTRAP.md to reflect new order.
-00003| - Updated tests/docker/test-runner.sh to match new order and use local repo for cloning (avoiding SSH issues).
-00004| - Fixed issue where brew bundle failed with --no-lock (removed the flag).
-00005| - Verified that bundle finds .Brewfile and installs packages.
-00006| - Verified SSH step no longer generates keys (already implemented).
-00007| - Updated Docker tests to mount ~/.ssh read-only instead of using SSH agent forwarding.
-00008| - Verified SSH tests pass with mounted keys.
+- Reordered install steps: clone now runs before brew/bundle to ensure .Brewfile exists.
+- Updated README-BOOTSTRAP.md to reflect new order.
+- Updated tests/docker/test-runner.sh to match new order and use local repo for cloning (avoiding SSH issues).
+- Fixed issue where brew bundle failed with --no-lock (removed the flag).
+- Verified that bundle finds .Brewfile and installs packages.
+- Verified SSH step no longer generates keys (already implemented).
+- Updated Docker tests to mount ~/.ssh read-only instead of using SSH agent forwarding.
+- Verified SSH tests pass with mounted keys.
+- Modified install.sh to make missing 'stow' command a hard error (die) instead of a warning.
+- Verified that running the stow step without stow installed now fails with a clear error.
