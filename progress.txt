@@ -1,0 +1,5 @@
+- Reordered install steps: clone now runs before brew/bundle to ensure .Brewfile exists.
+- Updated README-BOOTSTRAP.md to reflect new order.
+- Updated tests/docker/test-runner.sh to match new order and use local repo for cloning (avoiding SSH issues).
+- Fixed issue where brew bundle failed with --no-lock (removed the flag).
+- Verified that bundle finds .Brewfile and installs packages.

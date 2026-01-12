@@ -1,0 +1,105 @@
+[
+    {
+      "category": "installer",
+      "description": "Reorder steps so .Brewfile exists before brew bundle (clone before bundle)",
+      "steps": [
+        "Check current step order in install.sh:22",
+        "Change order from 'preflight ssh brew bundle clone stow postflight' to 'preflight ssh clone brew bundle stow postflight'",
+        "Verify clone happens before bundle in ALL_STEPS array",
+        "Test with --only preflight,ssh,clone,brew,bundle",
+        "Verify .Brewfile found and bundle succeeds"
+      ],
+      "passes": true
+    },
+    {
+      "category": "ssh",
+      "description": "SSH step: stop auto-generating keys; only verify prerequisites exist",
+      "steps": [
+        "Remove key generation logic from step_ssh()",
+        "Add check: if SSH_AUTH_SOCK set and ssh-add -l shows keys -> OK",
+        "Add check: if ~/.ssh/id_ed25519 or ~/.ssh/id_rsa exist -> OK",
+        "Else: print actionable instructions and die with non-zero exit",
+        "Change ssh -T git@github.com failure from warning to die (unless SKIP_SSH_GITHUB_CHECK=1)",
+        "Test with existing key: script should find it and pass",
+        "Test without key and without agent: script should die with instructions"
+      ],
+      "passes": false
+    },
+    {
+      "category": "docker",
+      "description": "Docker tests: mount ~/.ssh readonly instead of SSH agent",
+      "steps": [
+        "Remove detect_ssh_socket() and agent mount logic from test-runner.sh",
+        "Add .ssh mount: -v '$HOME/.ssh:/home/test/.ssh:ro'",
+        "Ensure mount is read-only (no write access)",
+        "Test step ssh: should find mounted key or die with clear message",
+        "Verify no files written to container /home/test/.ssh during test"
+      ],
+      "passes": false
+    },
+    {
+      "category": "tests",
+      "description": "Fix test sequencing: bundle and stow only tested as part of full prefix",
+      "steps": [
+        "Remove bundle and stow from test_all_steps() standalone list (install.sh:118-129)",
+        "Update test_all_prefixes() to include clone before bundle",
+        "New prefix sequence: preflight, preflight+ssh, preflight+ssh+clone, preflight+ssh+clone+brew, preflight+ssh+clone+brew+bundle, preflight+ssh+clone+brew+bundle+stow",
+        "Test each prefix in order",
+        "Verify all prefixes pass"
+      ],
+      "passes": false
+    },
+    {
+      "category": "stow",
+      "description": "Make missing stow a hard error instead of silent skip",
+      "steps": [
+        "Locate step_stow() in install.sh",
+        "Change warning 'stow not found; skipping' to die()",
+        "Since bundle installs stow, if stow missing after bundle -> clear failure signal",
+        "Test stow step after bundle: should find stow and succeed",
+        "Test stow step without brew: should die with 'stow not found' error"
+      ],
+      "passes": false
+    },
+    {
+      "category": "logging",
+      "description": "Add log file output after installation completes",
+      "steps": [
+        "Add --log-file PATH flag to argument parser",
+        "Default log file path: ~/.dotfiles-install.log or timestamped variant",
+        "At main() start: if --log-file set, redirect stdout/stderr to both terminal and log file",
+        "In postflight: print 'Log saved at <path>'",
+        "Test: run full install, verify log file created with all output",
+        "Test: verify both terminal and log file contain identical output"
+      ],
+      "passes": false
+    },
+    {
+      "category": "integration",
+      "description": "Full Docker prefix test: preflight through stow",
+      "steps": [
+        "Build test image with ~/.ssh mounted ro",
+        "Run full prefix: preflight,ssh,clone,brew,bundle,stow",
+        "Verify preflight detects Linux correctly",
+        "Verify ssh step finds mounted key (no generation)",
+        "Verify clone succeeds with SSH",
+        "Verify bundle installs core packages including stow",
+        "Verify stow creates symlinks in /home/test",
+        "Verify no errors in execution"
+      ],
+      "passes": false
+    },
+    {
+      "category": "ci",
+      "description": "GitHub Actions workflow runs updated tests",
+      "steps": [
+        "Update .github/workflows/test-bootstrap.yml to use new step order",
+        "Ubuntu job: run preflight,ssh,clone,brew,bundle prefix (full stack)",
+        "Ubuntu job: verify .Brewfile loaded and packages installed",
+        "macOS job: run dry-run --only preflight,clone (no brew/bundle in CI)",
+        "Verify shellcheck passes on install.sh and test-runner.sh",
+        "Push to repo and verify GHA runs successfully"
+      ],
+      "passes": false
+    }
+]
