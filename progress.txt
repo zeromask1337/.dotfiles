@@ -8,3 +8,6 @@
 - Verified SSH tests pass with mounted keys.
 - Modified install.sh to make missing 'stow' command a hard error (die) instead of a warning.
 - Verified that running the stow step without stow installed now fails with a clear error.
+- Updated tests/docker/test-runner.sh to fix test sequencing: removed bundle and stow from standalone step tests.
+- Verified that test_all_prefixes correctly tests the cumulative flow including clone before bundle.
+- Verified per-step tests pass for independent steps (preflight, ssh, clone, brew).

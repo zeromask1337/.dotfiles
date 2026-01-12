@@ -94,7 +94,7 @@ test_prefix() {
 
 # Run all per-step tests
 test_all_steps() {
-  local steps=(preflight ssh brew bundle clone stow)
+  local steps=(preflight ssh clone brew)
   local failed=0
   
   log "Running per-step tests..."

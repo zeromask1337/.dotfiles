@@ -47,7 +47,7 @@
         "Test each prefix in order",
         "Verify all prefixes pass"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "category": "stow",
