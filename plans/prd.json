@@ -23,7 +23,7 @@
         "Test with existing key: script should find it and pass",
         "Test without key and without agent: script should die with instructions"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "category": "docker",
@@ -35,7 +35,7 @@
         "Test step ssh: should find mounted key or die with clear message",
         "Verify no files written to container /home/test/.ssh during test"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "category": "tests",

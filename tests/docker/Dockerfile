@@ -23,11 +23,8 @@ RUN useradd -m -s /bin/bash test && \
 USER test
 WORKDIR /home/test
 
-# Set up SSH directory with correct permissions
-RUN mkdir -p ~/.ssh && chmod 700 ~/.ssh && \
-    ssh-keygen -t ed25519 -C "test@example.com" -f ~/.ssh/id_ed25519 -N "" && \
-    ssh-keyscan github.com >> ~/.ssh/known_hosts && \
-    chmod 644 ~/.ssh/known_hosts
+# Set up SSH directory (will be mounted)
+RUN mkdir -p ~/.ssh && chmod 700 ~/.ssh
 
 # Default shell
 SHELL ["/bin/bash", "-c"]

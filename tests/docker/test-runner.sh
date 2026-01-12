@@ -36,18 +36,6 @@ die() {
   exit 1
 }
 
-# Detect SSH agent socket (platform-specific)
-detect_ssh_socket() {
-  if [[ -n "${SSH_AUTH_SOCK:-}" && -S "$SSH_AUTH_SOCK" ]]; then
-    echo "$SSH_AUTH_SOCK"
-  elif [[ "$OSTYPE" == "darwin"* ]] && [[ -S "/run/host-services/ssh-auth.sock" ]]; then
-    echo "/run/host-services/ssh-auth.sock"
-  else
-    log_warn "SSH agent socket not found; SSH tests may fail"
-    echo ""
-  fi
-}
-
 # Build test image
 build_image() {
   log "Building test image: $IMAGE_NAME"
@@ -55,11 +43,9 @@ build_image() {
   log_success "Image built: $IMAGE_NAME"
 }
 
-# Run container with SSH agent mount
+# Run container with SSH mount
 run_container() {
   local steps="$1"
-  local ssh_socket
-  ssh_socket="$(detect_ssh_socket)"
   
   local docker_args=(
     --rm
@@ -68,18 +54,10 @@ run_container() {
     -e SKIP_SSH_GITHUB_CHECK=1
     -e DOTFILES_DIR=/home/test/.dotfiles
     -e DOTFILES_REPO=/work
+    -v "$HOME/.ssh:/home/test/.ssh:ro"
   )
   
-  # Mount SSH agent if available
-  if [[ -n "$ssh_socket" ]]; then
-    log "Mounting SSH agent: $ssh_socket"
-    docker_args+=(
-      -v "$ssh_socket:/ssh-agent"
-      -e SSH_AUTH_SOCK=/ssh-agent
-    )
-  else
-    log_warn "Running without SSH agent mount"
-  fi
+  log "Mounting ~/.ssh read-only"
   
   log "Running: install.sh --yes --only $steps"
   docker run "${docker_args[@]}" "$IMAGE_NAME" \
