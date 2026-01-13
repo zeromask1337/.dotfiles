@@ -226,10 +226,30 @@ step_brew() {
     eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv 2>/dev/null)"
   elif is_linux; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+    local shellenv='eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"'
+    if ! grep -qF "$shellenv" "$HOME/.bashrc" 2>/dev/null; then
+	    echo >> "$HOME/.bashrc"
+	    echo "$shellenv" >> "$HOME/.bashrc"
+	    log "Added Homebrew to .bashrc"
+    fi
+  fi
+
+  has_brew || die "Homebrew installation failed"
+  log_success "Homebrew ready: $(command -v brew). Installing stow..."
+  brew install stow
+  return 0
+}
+
+step_stow() {
+  log "Linking dotfiles with stow..."
+  
+  if ! command -v stow >/dev/null 2>&1; then
+    die "stow not found"
   fi
   
-  has_brew || die "Homebrew installation failed"
-  log_success "Homebrew ready: $(command -v brew)"
+  run bash -c "cd '$DOTFILES_DIR' && stow --restow --adopt ."
+  log_success "Dotfiles linked via stow"
   return 0
 }
 
