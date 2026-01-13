@@ -23,7 +23,7 @@ brew "gh"
 brew "git-delta"
 brew "git-flow"
 brew "git-secrets"
-brew "lazygit", link: false
+brew "lazygit"
 brew "librdkafka"
 brew "lua-language-server"
 brew "mkcert"
