@@ -20,7 +20,7 @@ OPT_SKIP=""
 OPT_LOG_FILE=""
 
 # Step registry (order enforced)
-ALL_STEPS=(preflight ssh clone brew bundle stow postflight)
+ALL_STEPS=(preflight ssh clone brew stow bundle ohmyzsh postflight)
 
 # ============================================================================
 # Logging + Helpers
@@ -278,31 +278,25 @@ step_bundle() {
   return 0
 }
 
-step_clone() {
-  log "Cloning dotfiles repository..."
-  
-  if [[ -d "$DOTFILES_DIR/.git" ]]; then
-    log "Dotfiles already cloned; updating..."
-    run git -C "$DOTFILES_DIR" pull --recurse-submodules
-  else
-    run git clone --recurse-submodules "$DOTFILES_REPO" "$DOTFILES_DIR"
-  fi
-  
-  run git -C "$DOTFILES_DIR" submodule update --init --recursive
-  log_success "Dotfiles ready: $DOTFILES_DIR"
-  return 0
-}
+step_ohmyzsh() {
+  log "Installing oh-my-zsh..."
 
-step_stow() {
-  log "Linking dotfiles with stow..."
-  
-  if ! command -v stow >/dev/null 2>&1; then
-    die "stow not found"
+  local ohmyzsh_dir="$HOME/.oh-my-zsh"
+  local install_url="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
+
+  if [[ -d "$ohmyzsh_dir" ]]; then
+    log "oh-my-zsh already installed"
+    return 0
   fi
-  
-  run bash -c "cd '$DOTFILES_DIR' && stow --restow ."
-  log_success "Dotfiles linked via stow"
-  return 0
+
+  run sh -c "$(curl -fsSL "$install_url")" "" --unattended
+
+  if [[ -d "$ohmyzsh_dir" ]]; then
+    log_success "oh-my-zsh installed: $ohmyzsh_dir"
+    return 0
+  else
+    die "oh-my-zsh installation failed"
+  fi
 }
 
 step_postflight() {
