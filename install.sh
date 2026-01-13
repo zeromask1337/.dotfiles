@@ -185,7 +185,8 @@ step_ssh() {
   
   # Verify GitHub access
   log "Verifying GitHub SSH access..."
-  if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+  output=$(ssh -T git@github.com 2>&1 || true)
+  if echo "$output" | grep -q "successfully authenticated"; then   
     log_success "GitHub SSH authentication successful"
   else
     die "Cannot authenticate with GitHub. Ensure your SSH key is added:\n  https://github.com/settings/keys\nOr verify with: ssh -T git@github.com"
