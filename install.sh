@@ -150,11 +150,19 @@ step_ssh() {
   
   local has_key=0
   local has_agent=0
+  local found_keys=()
   
-  # Check for SSH key files
-  if [[ -f "$HOME/.ssh/id_ed25519" || -f "$HOME/.ssh/id_rsa" || -f "$HOME/.ssh/id_ecdsa" ]]; then
-    log "Found SSH private key"
-    has_key=1
+  # Check for any keys containing "github" in the name
+  if ls "$HOME/.ssh"/*github* >/dev/null 2>&1; then
+    for key in "$HOME/.ssh"/*github*; do
+      if [[ -f "$key" && ! "$key" =~ \.pub$ ]]; then
+        found_keys+=("$(basename "$key")")
+        has_key=1
+      fi
+    done
+    log "Found SSH key(s) with github in name: ${found_keys[*]}"
+  else
+    log_warn "Didn't find any ssh key with github in the name"
   fi
   
   # Check for SSH agent with loaded keys
