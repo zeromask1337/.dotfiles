@@ -48,3 +48,6 @@
 
 [push]
     recurseSubmodules = on-demand
+[user]
+	email = vysmol@gmail.com
+	name = D3monizer
