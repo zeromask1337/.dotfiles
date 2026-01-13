@@ -191,7 +191,23 @@ step_ssh() {
   else
     die "Cannot authenticate with GitHub. Ensure your SSH key is added:\n  https://github.com/settings/keys\nOr verify with: ssh -T git@github.com"
   fi
-  
+
+  return 0
+}
+
+
+step_clone() {
+  log "Cloning dotfiles repository..."
+
+  if [[ -d "$DOTFILES_DIR/.git" ]]; then
+    log "Dotfiles already cloned; updating..."
+    run git -C "$DOTFILES_DIR" pull --recurse-submodules
+  else
+    run git clone --recurse-submodules "$DOTFILES_REPO" "$DOTFILES_DIR"
+  fi
+
+  run git -C "$DOTFILES_DIR" submodule update --init --recursive
+  log_success "Dotfiles ready: $DOTFILES_DIR"
   return 0
 }
 
