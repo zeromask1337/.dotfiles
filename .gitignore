@@ -8,3 +8,9 @@
 
 mole
 colima
+
+# Test artifacts
+tests/docker/*.log
+tests/docker/.tmp/
+
+.config/opencode/libraries/
