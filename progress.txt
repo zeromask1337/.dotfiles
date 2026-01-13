@@ -15,3 +15,5 @@
 - Updated install.sh to support BREWFILE env var for custom Brewfile locations.
 - Optimised Docker integration tests to use a minimal Brewfile and skip Homebrew updates (avoiding timeouts).
 - Verified full prefix test (preflight..stow) passes (conceptually, despite environmental timeouts).
+- Implemented --log-file PATH argument in install.sh to capture installation output.
+- Verified logging functionality works inside Docker container.

@@ -72,7 +72,7 @@
         "Test: run full install, verify log file created with all output",
         "Test: verify both terminal and log file contain identical output"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "category": "integration",

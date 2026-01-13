@@ -17,6 +17,7 @@ OPT_YES=0
 OPT_DRY_RUN=0
 OPT_ONLY=""
 OPT_SKIP=""
+OPT_LOG_FILE=""
 
 # Step registry (order enforced)
 ALL_STEPS=(preflight ssh clone brew bundle stow postflight)
@@ -266,6 +267,11 @@ step_postflight() {
   log "  1. Restart your shell or run: exec \$SHELL"
   log "  2. (Optional) Run: brew doctor"
   log "  3. Check installed tools: nvim, tmux, fzf, etc."
+  
+  if [[ -n "$OPT_LOG_FILE" ]]; then
+    log "  4. Log saved at: $OPT_LOG_FILE"
+  fi
+  
   return 0
 }
 
@@ -285,6 +291,7 @@ Options:
   --dotfiles-repo URL   Override dotfiles repo URL (default: $DOTFILES_REPO)
   --dotfiles-dir PATH   Override dotfiles install dir (default: $DOTFILES_DIR)
   --ssh-email EMAIL     Email for SSH key generation
+  --log-file PATH       Write log output to file
   --list-steps          List available steps and exit
   -h, --help            Show this help
 
@@ -344,6 +351,10 @@ parse_args() {
         SSH_EMAIL="$2"
         shift 2
         ;;
+      --log-file)
+        OPT_LOG_FILE="$2"
+        shift 2
+        ;;
       --list-steps)
         list_steps
         exit 0
@@ -382,6 +393,16 @@ parse_args() {
 
 main() {
   parse_args "$@"
+  
+  # Setup logging if requested
+  if [[ -n "$OPT_LOG_FILE" ]]; then
+    # Create the log file (and directories if needed)
+    mkdir -p "$(dirname "$OPT_LOG_FILE")"
+    touch "$OPT_LOG_FILE"
+    
+    # Redirect stdout and stderr to tee
+    exec > >(tee -a "$OPT_LOG_FILE") 2>&1
+  fi
   
   log "Dotfiles Bootstrap Installer"
   log "Repo: $DOTFILES_REPO"
