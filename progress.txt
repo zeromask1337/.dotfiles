@@ -17,3 +17,6 @@
 - Verified full prefix test (preflight..stow) passes (conceptually, despite environmental timeouts).
 - Implemented --log-file PATH argument in install.sh to capture installation output.
 - Verified logging functionality works inside Docker container.
+00020| - Updated GitHub Actions workflow (test-bootstrap.yml) to include dummy SSH key setup and test full prefix (preflight..bundle).
+00021| - Updated macOS CI tests to include dry-run for clone step.
+00022| - Verified integration tests (preflight,ssh,clone,brew,bundle) pass locally.
