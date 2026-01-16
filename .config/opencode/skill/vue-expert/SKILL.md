@@ -3,8 +3,9 @@ name: vue-expert
 description: Expert guidance for Vue.js development using Composition API, script setup, reactivity, components, and best practices. Use when building Vue applications, components, or solving Vue-specific problems.
 metadata:
   author: opencode
-  version: "1.0"
+  version: "2.0"
   source: https://vuejs.org/llms-full.txt
+  updated: 2026-01-16
 ---
 
 Expert Vue.js development skill focused on modern patterns, Composition API, and best practices from official Vue documentation.
@@ -450,11 +451,75 @@ onUnmounted(() => {
 
 ### Accessibility
 
-- Use semantic HTML
-- Include ARIA attributes when needed
-- Ensure keyboard navigation
-- Test with screen readers
-- Maintain color contrast ratios
+Vue apps should follow WCAG guidelines for web accessibility:
+
+**Semantic Forms**:
+```vue
+<template>
+  <form @submit.prevent="handleSubmit" autocomplete="on">
+    <label for="name">Name:</label>
+    <input id="name" v-model="form.name" type="text" />
+    <button type="submit">Submit</button>
+  </form>
+</template>
+```
+
+**ARIA attributes**:
+```vue
+<template>
+  <!-- aria-label for accessible names -->
+  <button aria-label="Close dialog" @click="close">×</button>
+  
+  <!-- aria-labelledby to link labels -->
+  <input 
+    id="email" 
+    aria-labelledby="email-label email-hint"
+    v-model="email"
+  />
+  <label id="email-label">Email</label>
+  <p id="email-hint">We'll never share your email</p>
+  
+  <!-- aria-describedby for descriptions -->
+  <input 
+    id="password" 
+    aria-describedby="password-requirements"
+    type="password"
+  />
+  <p id="password-requirements">Must be 8+ characters</p>
+</template>
+```
+
+**Skip Links**:
+```vue
+<template>
+  <span ref="backToTop" tabindex="-1" />
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <main id="main"><!-- content --></main>
+</template>
+
+<style>
+.skip-link {
+  position: fixed;
+  opacity: 0;
+}
+.skip-link:focus {
+  opacity: 1;
+  background: white;
+  padding: 0.5em;
+}
+</style>
+```
+
+**Landmarks and Headings**:
+- Use semantic HTML: `<header>`, `<nav>`, `<main>`, `<aside>`, `<footer>`
+- Maintain heading hierarchy: `<h1>` → `<h2>` → `<h3>` (don't skip levels)
+- Add ARIA roles when needed: `role="navigation"`, `role="search"`, etc.
+
+**Testing Tools**:
+- Lighthouse for automated checks
+- WAVE browser extension
+- Screen readers: NVDA, VoiceOver, JAWS
+- Color contrast checkers
 
 ### State Management
 
@@ -511,6 +576,48 @@ const theme = inject('theme')
 </script>
 ```
 
+## Template Refs
+
+Access DOM elements and component instances:
+
+```vue
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const input = ref(null)
+const childComponent = ref(null)
+
+onMounted(() => {
+  input.value.focus() // Access DOM element
+  childComponent.value.someMethod() // Call child method
+})
+</script>
+
+<template>
+  <input ref="input" />
+  <ChildComponent ref="childComponent" />
+</template>
+```
+
+**Dynamic refs with v-for**:
+```vue
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const itemRefs = ref([])
+
+onMounted(() => {
+  console.log(itemRefs.value) // Array of elements
+})
+</script>
+
+<template>
+  <li v-for="item in list" :ref="el => itemRefs.push(el)">
+    {{ item }}
+  </li>
+</template>
+```
+
 ## Common Patterns
 
 ### Form Handling
@@ -522,7 +629,9 @@ import { reactive } from 'vue'
 const form = reactive({
   name: '',
   email: '',
-  age: null
+  age: null,
+  terms: false,
+  category: 'default'
 })
 
 function handleSubmit() {
@@ -532,9 +641,38 @@ function handleSubmit() {
 
 <template>
   <form @submit.prevent="handleSubmit">
+    <!-- Text inputs -->
     <input v-model="form.name" placeholder="Name" />
+    
+    <!-- Email with type -->
     <input v-model="form.email" type="email" placeholder="Email" />
+    
+    <!-- Number modifier -->
     <input v-model.number="form.age" type="number" placeholder="Age" />
+    
+    <!-- Checkbox -->
+    <input v-model="form.terms" type="checkbox" id="terms" />
+    <label for="terms">Accept terms</label>
+    
+    <!-- Radio buttons -->
+    <input v-model="form.category" type="radio" value="basic" id="basic" />
+    <label for="basic">Basic</label>
+    <input v-model="form.category" type="radio" value="premium" id="premium" />
+    <label for="premium">Premium</label>
+    
+    <!-- Select -->
+    <select v-model="form.category">
+      <option disabled value="">Please select</option>
+      <option>Basic</option>
+      <option>Premium</option>
+    </select>
+    
+    <!-- Lazy modifier - update on change instead of input -->
+    <input v-model.lazy="form.name" />
+    
+    <!-- Trim modifier -->
+    <input v-model.trim="form.name" />
+    
     <button type="submit">Submit</button>
   </form>
 </template>
@@ -587,6 +725,44 @@ onMounted(fetchData)
 </template>
 ```
 
+## KeepAlive for Component Caching
+
+Preserve component state when switching:
+
+```vue
+<template>
+  <!-- Cache inactive dynamic components -->
+  <KeepAlive>
+    <component :is="activeTab"></component>
+  </KeepAlive>
+  
+  <!-- With include/exclude -->
+  <KeepAlive :include="['ComponentA', 'ComponentB']" :max="10">
+    <component :is="view"></component>
+  </KeepAlive>
+  
+  <!-- With router-view -->
+  <router-view v-slot="{ Component }">
+    <KeepAlive>
+      <component :is="Component" />
+    </KeepAlive>
+  </router-view>
+</template>
+
+<script setup>
+import { onActivated, onDeactivated } from 'vue'
+
+// Lifecycle hooks for cached components
+onActivated(() => {
+  // Called when component is re-activated from cache
+})
+
+onDeactivated(() => {
+  // Called when component is deactivated
+})
+</script>
+```
+
 ## Restrictions & Gotchas
 
 - `<script setup>` cannot use `src` attribute
@@ -595,6 +771,12 @@ onMounted(fetchData)
 - `defineProps`, `defineEmits`, `defineModel`, `defineExpose`, `defineOptions`, `defineSlots` are compiler macros - don't import them
 - Props options cannot reference local variables (module scope only)
 - Default values for objects/arrays in `withDefaults` should be functions
+- Always use `:key` with `v-for`
+- Don't use `v-if` and `v-for` on same element (wrap in `<template>` if needed)
+- Avoid mutating props directly - emit events instead
+- `ref()` requires `.value` in script, but auto-unwraps in template
+- `reactive()` doesn't work with primitives - use `ref()` instead
+- Watch sources must be refs, reactive objects, or getter functions
 
 ## Migration Notes
 
@@ -607,6 +789,217 @@ onMounted(fetchData)
 - `this.$refs` → `ref()` with template refs
 - `this.$emit` → `emit` from `defineEmits()`
 
+## Transitions & Animations
+
+### Built-in Transition Component
+
+```vue
+<template>
+  <Transition name="fade">
+    <p v-if="show">Hello</p>
+  </Transition>
+</template>
+
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>
+```
+
+### TransitionGroup for Lists
+
+```vue
+<template>
+  <TransitionGroup name="list" tag="ul">
+    <li v-for="item in items" :key="item.id">
+      {{ item.text }}
+    </li>
+  </TransitionGroup>
+</template>
+
+<style>
+.list-enter-active, .list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+</style>
+```
+
+### JavaScript Hooks
+
+```vue
+<template>
+  <Transition
+    @before-enter="onBeforeEnter"
+    @enter="onEnter"
+    @after-enter="onAfterEnter"
+    @leave="onLeave"
+  >
+    <div v-if="show">Content</div>
+  </Transition>
+</template>
+
+<script setup>
+function onEnter(el, done) {
+  // Animate with JS library (GSAP, etc.)
+  // Call done() when animation completes
+}
+</script>
+```
+
+## Teleport
+
+Render content to different DOM location:
+
+```vue
+<template>
+  <button @click="open = true">Open Modal</button>
+  
+  <Teleport to="body">
+    <div v-if="open" class="modal">
+      <p>Modal content</p>
+      <button @click="open = false">Close</button>
+    </div>
+  </Teleport>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+const open = ref(false)
+</script>
+```
+
+## Suspense (Experimental)
+
+Handle async dependencies in component tree:
+
+```vue
+<template>
+  <Suspense>
+    <template #default>
+      <AsyncComponent />
+    </template>
+    <template #fallback>
+      <div>Loading...</div>
+    </template>
+  </Suspense>
+</template>
+
+<script setup>
+import { defineAsyncComponent } from 'vue'
+
+const AsyncComponent = defineAsyncComponent(() =>
+  import('./AsyncComponent.vue')
+)
+</script>
+```
+
+## Performance Optimization
+
+### Lazy Loading Components
+
+```js
+// Route-based code splitting
+const UserProfile = defineAsyncComponent(() =>
+  import('./UserProfile.vue')
+)
+
+// With loading/error states
+const AsyncComp = defineAsyncComponent({
+  loader: () => import('./Comp.vue'),
+  loadingComponent: LoadingComponent,
+  errorComponent: ErrorComponent,
+  delay: 200,
+  timeout: 3000
+})
+```
+
+### v-once for Static Content
+
+```vue
+<template>
+  <div v-once>
+    <!-- Never re-renders, even if data changes -->
+    <h1>{{ expensiveComputation }}</h1>
+  </div>
+</template>
+```
+
+### v-memo for Conditional Re-renders
+
+```vue
+<template>
+  <!-- Only re-render when valueA or valueB change -->
+  <div v-memo="[valueA, valueB]">
+    {{ expensiveRender }}
+  </div>
+</template>
+```
+
+### Shallow Reactivity
+
+```js
+import { shallowRef, shallowReactive } from 'vue'
+
+// Only .value triggers reactivity, not nested properties
+const state = shallowRef({ count: 1 })
+
+// Only top-level properties are reactive
+const state2 = shallowReactive({
+  foo: 1,
+  nested: { bar: 2 } // not deeply reactive
+})
+```
+
+## Testing Patterns
+
+### Component Testing
+
+```js
+import { mount } from '@vue/test-utils'
+import MyComponent from './MyComponent.vue'
+
+test('increments count', async () => {
+  const wrapper = mount(MyComponent)
+  
+  await wrapper.find('button').trigger('click')
+  
+  expect(wrapper.find('.count').text()).toBe('1')
+})
+```
+
+### Composables Testing
+
+```js
+import { ref } from 'vue'
+import { useMouse } from './useMouse'
+
+test('useMouse tracks position', () => {
+  const { x, y } = useMouse()
+  
+  // Simulate mousemove
+  const event = new MouseEvent('mousemove', {
+    clientX: 100,
+    clientY: 200
+  })
+  window.dispatchEvent(event)
+  
+  expect(x.value).toBe(100)
+  expect(y.value).toBe(200)
+})
+```
+
 ## Resources
 
 When encountering Vue-specific problems:
@@ -616,7 +1009,16 @@ When encountering Vue-specific problems:
 4. Consider reactivity caveats (destructuring, refs, etc.)
 5. Check Vue 3.5+ features for modern patterns
 
-For complex state: Use Pinia
-For routing: Use Vue Router
-For SSR: Use Nuxt or Vite SSR
-For build tooling: Use Vite (recommended) or Webpack
+**Official Ecosystem**:
+- **State Management**: Pinia (recommended)
+- **Routing**: Vue Router
+- **SSR**: Nuxt
+- **Build Tool**: Vite (recommended) or Webpack
+- **Testing**: Vitest + Vue Test Utils
+- **DevTools**: Vue DevTools browser extension
+
+**Key Version Features**:
+- **Vue 3.5+**: Reactive props destructure, improved SSR
+- **Vue 3.4+**: `defineModel()`, improved v-bind
+- **Vue 3.3+**: `defineOptions()`, `defineSlots()`, generic components
+- **Vue 3.2+**: `v-memo`, `<script setup>` improvements
