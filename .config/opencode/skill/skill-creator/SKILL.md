@@ -24,13 +24,15 @@ Treat them as authoritative. Do not omit or soften requirements, because other p
 
 **Is there more information than can fit in a skill?**  
 Create additional info files that the agent can lazy-load from the skill-local `@references` folder. Each self-contained subject should have its own file. Make sure to tag links to those files using the `@path` opencode syntax.
+For example if documentation is more then 1024 lines, split it like this `@references/how-to-import-components.md` or `@references/how-to-use-plugins`.
+SKILL.md file should only contain main information for accomplishing task, everything else goes to @references.
 
 **How do I set up a harness for the skill?**  
 The source material may include some kind of harness. If not, ask the user clarifying questions (if any are needed). If the harness is a large piece of code, put it in a file in the skill-local `@scripts` folder and link to it from `SKILL.md` using `@path`.
 
 ## Phase 2: Use the agent skill spec to format the information
 
-The `@references` folder contains the full agent skill specification that explains how to create high-level skills. Follow all rules. They are not recommendations—they are requirements.
+The `@references` folder contains the full agent skill specification that explains how to create high-level skills. Follow all rules. They are not recommendations, they are requirements.
 
 ## Phase 3: Create and test the skill with CLI commands
 
@@ -43,7 +45,7 @@ The `@references` folder contains the full agent skill specification that explai
 1. Create a branch from `master` with the same name as the skill.
 
 **If user wants to update skill**
-1. Create a branch from `<existing-skill-name>` and give it updated name where version number is added `<skill-name/v2>`. For example `<bun-expert/v2>.`
+1. Check for existing branches related to this skill. If exists, create new branch from it and give it updated version number. For example `<bun-expert> -> <bun-expert-v2` or `<effect-explorer-v2> -> <effect-explorer-v3>`. If no related branches found, create new one from master.
 
 **Then**
 2. Create `SKILL.md` at `<path_to_skill_file>`.
