@@ -1,33 +1,21 @@
 # Vue Expert References
 
-This directory contains detailed Vue.js documentation references for advanced topics.
+This directory contains detailed Vue.js reference material used by the `vue-expert` skill.
 
-## Available References
+## Files
 
-### Created Files
-
-- **`accessibility.md`** - WCAG guidelines, ARIA, semantic HTML, screen reader support, skip links, form accessibility
-- **`animations.md`** - Transition/TransitionGroup components, CSS animations, JavaScript hooks, GSAP integration
-- **`sfc-spec.md`** - Complete Single File Component `<script setup>` specification and compiler details
-- **`application-api.md`** - Application-level API (createApp, mount, component registration, global config)
-
-### Future Reference Files
-
-Additional topics that can be extracted from https://vuejs.org/llms-full.txt as needed:
-
-- `reactivity-api.md` - Deep dive into reactivity system internals
-- `render-functions.md` - h(), render functions, JSX
-- `typescript.md` - Advanced TypeScript patterns and typing
-- `testing.md` - Component testing with Vitest and Vue Test Utils
-- `router.md` - Vue Router patterns and best practices
-- `pinia.md` - Advanced Pinia state management
+- `accessibility.md` - WCAG/ARIA/semantic HTML, skip links, focus management
+- `animations.md` - Transition/TransitionGroup + animation techniques
+- `application-api.md` - `createApp`, global config, app-level APIs
+- `composition-api.md` - Composition API + `<script setup>` reference
+- `pinia.md` - Pinia overview + patterns
+- `reactivity-api.md` - Reactivity primitives + gotchas
+- `render-functions.md` - `h()`, render functions, JSX/TSX
+- `router.md` - Vue Router overview + patterns
+- `sfc-spec.md` - `<script setup>` + SFC macro details
+- `testing.md` - Testing strategy + tooling
+- `typescript.md` - Vue + TS patterns
 
 ## Usage
 
-Reference files are loaded lazily when specific topics are needed. The main SKILL.md contains the essential Vue patterns for 90% of use cases. Use these references for:
-
-- Deep dives into specific features
-- Accessibility compliance guidance
-- Advanced animation techniques
-- Application configuration details
-- Complete SFC specification
+These files are meant for lazy-load reads when deeper detail is needed than `SKILL.md` provides.

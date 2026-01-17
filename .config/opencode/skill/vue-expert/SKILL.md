@@ -936,15 +936,22 @@ store.increment()
 
 ## Additional Resources
 
-For complex scenarios, reference:
-- [references/accessibility.md](references/accessibility.md) - Accessibility best practices
-- [references/animations.md](references/animations.md) - Animation techniques
-- [references/sfc-spec.md](references/sfc-spec.md) - Single File Component specification
-- [references/application-api.md](references/application-api.md) - Application-level API reference
+For deeper detail, reference:
+- [references/composition-api.md](references/composition-api.md) - Composition API + `<script setup>`
+- [references/reactivity-api.md](references/reactivity-api.md) - Reactivity API
+- [references/sfc-spec.md](references/sfc-spec.md) - `<script setup>` / SFC macros
+- [references/application-api.md](references/application-api.md) - App-level APIs
+- [references/render-functions.md](references/render-functions.md) - Render functions + JSX/TSX
+- [references/typescript.md](references/typescript.md) - TypeScript patterns
+- [references/testing.md](references/testing.md) - Testing strategy
+- [references/router.md](references/router.md) - Vue Router (ecosystem)
+- [references/pinia.md](references/pinia.md) - Pinia (ecosystem)
+- [references/accessibility.md](references/accessibility.md) - Accessibility
+- [references/animations.md](references/animations.md) - Animations
 
-**Ecosystem:**
-- **Router**: Vue Router
-- **State**: Pinia
-- **SSR**: Nuxt
-- **Build**: Vite (recommended)
-- **Testing**: Vitest + Vue Test Utils
+**Ecosystem (high-level):**
+- Router: Vue Router
+- State: Pinia
+- SSR: Nuxt
+- Build: Vite
+- Testing: Vitest + Vue Test Utils
