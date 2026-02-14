@@ -195,3 +195,9 @@ bindkey '^k' autosuggest-accept
 
 eval "$(fnm env --use-on-cd --shell zsh)"
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# zerobrew
+export PATH="/Users/flippy/.local/bin:$PATH"
+
+# zerobrew
+export PATH="/opt/zerobrew/prefix/bin:$PATH"
