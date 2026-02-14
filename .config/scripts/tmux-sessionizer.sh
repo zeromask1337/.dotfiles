@@ -2,6 +2,7 @@
 
 ROOTS=(
   "$HOME/Development"
+  "$HOME/Development/research"
   "$HOME/.config"
 )
 
