@@ -152,6 +152,8 @@ export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
+export BAT_THEME="Flexoki Light"
+
 # Rust
 source "$HOME/.cargo/env"
 
