@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+url="$1"
+dir="${2:-${url##*/}}"
+dir="${dir%.git}"
+git clone "$url" "$HOME/Development/research/$dir"
