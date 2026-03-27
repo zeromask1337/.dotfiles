@@ -15,10 +15,9 @@ git sparse-checkout set .config/nvim
 
 I use git `commit-msg` hook shown in ./commit-msg.example. It injects correct config scope into commit message, before commiting. Example:
 
-```
-
+```sh
 ~/.dotfiles/.config/nvim:$ git commit -am "feat: add opencode plugin"
-~/.dotfiles/.config/nvim:$ git log"
+~/.dotfiles/.config/nvim:$ git log
 
 commit 0af08aa7f00000f22eb300000f156753648831be (HEAD -> master, origin/master, origin/HEAD)
 Author: flippy <example@gmail.com>
