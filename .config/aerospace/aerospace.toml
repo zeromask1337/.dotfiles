@@ -212,5 +212,13 @@ if.app-id="com.apple.reminders"
 run = ["layout floating"]
 
 [[on-window-detected]]
+if.app-id="com.apple.Notes"
+run = ["move-node-to-workspace E"]
+
+[[on-window-detected]]
+if.app-id="com.blackmagic-design.DaVinciResolve"
+run = ["move-node-to-workspace D"]
+
+[[on-window-detected]]
 if.app-id="company.thebrowser.Browser"
 run = 'move-node-to-workspace B'
