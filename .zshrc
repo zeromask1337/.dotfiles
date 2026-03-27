@@ -140,6 +140,7 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.dotfiles/.config/scripts:$PATH"
 
 # brew
 export HOMEBREW_BUNDLE_DUMP_NO_VSCODE=1
