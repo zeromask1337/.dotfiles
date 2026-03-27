@@ -19,15 +19,14 @@
         "playwright": {
             "type": "local",
             "command": [
-                "npx",
+                "pnpx",
                 "@playwright/mcp@latest"
-            ],
+            ]
         },
         "chrome-devtools": {
             "type": "local",
             "command": [
-                "npx",
-                "-y",
+                "pnpx",
                 "chrome-devtools-mcp@latest"
             ]
         }
