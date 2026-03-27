@@ -4,10 +4,17 @@
     "model": "opencode/kimi-k2.5",
     "default_agent": "plan",
     "mcp": {
-        "xai-search-mcp": {
-            "type": "remote",
-            "url": "http://localhost:3000/mcp",
-            "enabled": true
+        "xai": {
+            "type": "local",
+            "command": [
+                "bun",
+                "run",
+                "/Users/flippy/Development/xai-mcp-server/src/index.ts",
+                "--stdio"
+            ],
+            "environment": {
+                "XAI_API_KEY": "{env:XAI_API_KEY}"
+            }
         },
         "playwright": {
             "type": "local",
