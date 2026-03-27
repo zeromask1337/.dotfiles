@@ -128,6 +128,7 @@ alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias sp='bash tmux-project-handler.sh'
 alias fixmypackage='sudo xattr -r -c'
 alias vim='bob run stable'
+alias oc='opencode'
 
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$PATH:$VOLTA_HOME/bin"
