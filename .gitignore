@@ -1,5 +1,6 @@
 # Private environment file in home directory
 .dotfiles-private.env
+.env
 
 .config/ngrok
 .config/gh/
