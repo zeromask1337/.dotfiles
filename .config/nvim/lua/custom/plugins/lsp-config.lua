@@ -197,6 +197,7 @@ return {
                 },
                 eslint = {},
                 biome = {},
+                jsonls = {},
                 lua_ls = {
                     settings = {
                         Lua = {

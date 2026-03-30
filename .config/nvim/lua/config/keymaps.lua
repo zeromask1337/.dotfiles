@@ -29,6 +29,24 @@ map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 map('n', '<C-M-j>', '<cmd>cnext<CR>')
 map('n', '<C-M-k>', '<cmd>cprev<CR>')
 
+-- Write and quit operations
+map('n', '<leader>w', '<cmd>:w<CR>', { desc = 'Write the file' })
+map('n', '<leader>wa', '<cmd>:wa<CR>', { desc = 'Write all files' })
+map('n', '<leader>wq', '<cmd>:wq<CR>', { desc = 'Write and quit' })
+
+-- Lazygit with tmux popups
+map("n", "<leader>gg", function()
+    vim.fn.system("tmux display-popup -E -w 80% -h 80% 'lazygit'")
+end, { desc = 'Open Lazygit' })
+
+map("n", "<leader>gf", function()
+    vim.fn.system("tmux display-popup -E -w 80% -h 80% 'lazygit -f " .. vim.fn.shellescape(vim.fn.expand('%:p')) .. "'")
+end, { desc = 'Lazygit Current File History' })
+
+map("n", "<leader>gl", function()
+    vim.fn.system("tmux display-popup -E -w 80% -h 80% 'lazygit log'")
+end, { desc = 'Lazygit Log (cwd)' })
+
 -- Debugging nvim config
 map('n', '<space><space>x', '<cmd>source %<CR>', { desc = 'Reload current file' })
 map('n', '<space>x', ':.lua<CR>', { desc = 'Execute current line' })

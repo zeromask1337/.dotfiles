@@ -9,7 +9,17 @@ return {
     config = function()
         ---@type opencode.Opts
         vim.g.opencode_opts = {
-            -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
+            provider = {
+                enabled = "tmux",
+                tmux = {
+                    options = '-h -p 40',
+                    -- popup = true,        -- Enable popup
+                    -- popup_width = "40%", -- Try different sizes
+                    -- popup_height = "100%",
+                    -- popup_x = "R",       -- Right-aligned
+                    -- popup_y = "0",
+                }
+            }
         }
 
         -- Required for `opts.events.reload`.
@@ -17,9 +27,9 @@ return {
 
         -- Recommended/example keymaps.
         vim.keymap.set({ "n", "x" }, "<leader>oa", function() require("opencode").ask("@this: ", { submit = true }) end,
-            { desc = "Ask opencode…" })
+            { desc = "Ask opencode" })
         vim.keymap.set({ "n", "x" }, "<leader>ox", function() require("opencode").select() end,
-            { desc = "Execute opencode action…" })
+            { desc = "Execute opencode action" })
         vim.keymap.set({ "n", "t" }, "<leader>o.", function() require("opencode").toggle() end,
             { desc = "Toggle opencode" })
 

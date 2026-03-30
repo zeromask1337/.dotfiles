@@ -32,6 +32,7 @@ opt.scrolloff = 9999
 opt.tabstop = 4
 opt.expandtab = true
 opt.shiftwidth = 4
+opt.winborder = 'rounded'
 
 -- Schedule clipboard setting
 vim.schedule(function()
