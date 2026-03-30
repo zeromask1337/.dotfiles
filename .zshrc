@@ -5,6 +5,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+eval "$(fnm env --use-on-cd --shell zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+
 if [ -f ~/.dotfiles-private.env ]; then
     source ~/.dotfiles-private.env
 fi
@@ -195,11 +198,10 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # zsh-autosuggestions
 bindkey '^k' autosuggest-accept
 
-eval "$(fnm env --use-on-cd --shell zsh)"
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 # zerobrew
 export PATH="/Users/flippy/.local/bin:$PATH"
 
 # zerobrew
 export PATH="/opt/zerobrew/prefix/bin:$PATH"
+
+
