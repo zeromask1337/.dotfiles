@@ -34,8 +34,9 @@ return { -- Autoformat
     },
     formatters_by_ft = {
       lua = { 'stylua' },
-      vue = { 'eslint_d', 'biome', 'stylelint', stop_after_first = true },
-      typescript = { 'eslint_d', 'biome' },
+      vue = { 'eslint_d', 'stylelint', stop_after_first = true },
+      typescript = { 'oxlint', 'oxfmt' },
+      json = { 'jq' },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
       --
