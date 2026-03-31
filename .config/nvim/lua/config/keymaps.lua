@@ -5,7 +5,7 @@ map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Better enter behavior
 map('n', '<CR>', 'o<Esc>')
-map('n', '<M-CR>', 'O<Esc>')
+map('n', '<M-CR>', 'a<CR><Esc>')
 
 -- Diagnostic mappings
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
