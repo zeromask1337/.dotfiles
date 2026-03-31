@@ -1,2 +1,3 @@
 keybind = global:cmd+backquote=toggle_quick_terminal
+keybind = shift+enter=text:\n
 theme = Flexoki Light
