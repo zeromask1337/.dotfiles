@@ -195,8 +195,7 @@ return {
                     },
                     filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
                 },
-                eslint = {},
-                biome = {},
+                eslint_lsp = {},
                 jsonls = {},
                 lua_ls = {
                     settings = {
