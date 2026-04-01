@@ -197,6 +197,7 @@ return {
                 },
                 eslint_lsp = {},
                 jsonls = {},
+                bashls = {},
                 lua_ls = {
                     settings = {
                         Lua = {
