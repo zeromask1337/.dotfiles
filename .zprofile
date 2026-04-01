@@ -17,5 +17,3 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 eval "$(fnm env --use-on-cd --shell zsh)"
 
 source "$HOME/.cargo/env"
-
-
