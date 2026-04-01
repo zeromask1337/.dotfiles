@@ -34,6 +34,7 @@
 [core]
 	pager = delta
     excludesFile = ~/.gitignore_global
+    hooksPath = ~/.githooks
 
 [interactive]
 	diffFilter = delta --color-only
