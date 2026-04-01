@@ -36,15 +36,17 @@ map('n', '<leader>wq', '<cmd>:wq<CR>', { desc = 'Write and quit' })
 
 -- Lazygit with tmux popups
 map("n", "<leader>gg", function()
-    vim.fn.system("tmux display-popup -E -w 80% -h 80% 'lazygit'")
+    vim.fn.jobstart("tmux display-popup -E -w 80% -h 80% 'lazygit'", { pty = true })
 end, { desc = 'Open Lazygit' })
 
 map("n", "<leader>gf", function()
-    vim.fn.system("tmux display-popup -E -w 80% -h 80% 'lazygit -f " .. vim.fn.shellescape(vim.fn.expand('%:p')) .. "'")
+    vim.fn.jobstart(
+        "tmux display-popup -E -w 80% -h 80% 'lazygit -f " .. vim.fn.shellescape(vim.fn.expand('%:p')) .. "'",
+        { pty = true })
 end, { desc = 'Lazygit Current File History' })
 
 map("n", "<leader>gl", function()
-    vim.fn.system("tmux display-popup -E -w 80% -h 80% 'lazygit log'")
+    vim.fn.jobstart("tmux display-popup -E -w 80% -h 80% 'lazygit log'", { pty = true })
 end, { desc = 'Lazygit Log (cwd)' })
 
 -- Debugging nvim config
