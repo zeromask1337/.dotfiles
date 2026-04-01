@@ -5,6 +5,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# styling
+ZSH_THEME="powerlevel10k/powerlevel10k"
+zstyle ':omz:update' mode auto
+zstyle ':omz:update' frequency 13
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -34,13 +41,6 @@ alias lg="lazygit"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias fixmypackage='sudo xattr -r -c'
 alias oc='opencode'
-
-# styling
-ZSH_THEME="powerlevel10k/powerlevel10k"
-zstyle ':omz:update' mode auto
-zstyle ':omz:update' frequency 13
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # history setup
 HISTFILE=$HOME/.zhistory
