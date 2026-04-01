@@ -16,3 +16,5 @@ tests/docker/.tmp/
 
 .config/opencode/libraries/
 .config/uv/uv-receipt.json
+
+*.local
