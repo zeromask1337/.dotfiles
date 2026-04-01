@@ -18,6 +18,10 @@ export FZF_COMPLETION_OPTS="--preview 'bat --style=numbers --color=always --line
 source $ZSH/oh-my-zsh.sh
 source <(fzf --zsh) # Set up fzf key bindings and fuzzy completion
 
+# completions
+source <(fzf --zsh)
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
 alias zshconfig="nvim ~/.zshrc"
 alias tmuxconfig="nvim ~/.config/tmux/tmux.conf"
 alias aeroconfig="nvim ~/.config/aerospace/aerospace.toml"
