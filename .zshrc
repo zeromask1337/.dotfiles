@@ -8,20 +8,23 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# zsh setup
 fpath=(~/.zsh/completions $fpath)
 plugins=(zsh-autosuggestions fast-syntax-highlighting)
 
+# exports
 export ZSH=$HOME/.oh-my-zsh
 export EDITOR=nvim
 export FZF_COMPLETION_OPTS="--preview 'bat --style=numbers --color=always --line-range=:200 {} 2>/dev/null || sed -n \"1,200p\" {}' --preview-window=right:60%"
 
+# ohmyzsh setup
 source $ZSH/oh-my-zsh.sh
-source <(fzf --zsh) # Set up fzf key bindings and fuzzy completion
 
 # completions
 source <(fzf --zsh)
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
+# aliases
 alias zshconfig="nvim ~/.zshrc"
 alias tmuxconfig="nvim ~/.config/tmux/tmux.conf"
 alias aeroconfig="nvim ~/.config/aerospace/aerospace.toml"
@@ -32,7 +35,12 @@ alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias fixmypackage='sudo xattr -r -c'
 alias oc='opencode'
 
+# styling
 ZSH_THEME="powerlevel10k/powerlevel10k"
+zstyle ':omz:update' mode auto
+zstyle ':omz:update' frequency 13
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # history setup
 HISTFILE=$HOME/.zhistory
@@ -43,12 +51,9 @@ setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_verify
 
-zstyle ':omz:update' mode auto
-zstyle ':omz:update' frequency 13
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
+# completions setup
 autoload -Uz compinit
 compinit
 
+# bindings
 bindkey '^k' autosuggest-accept
