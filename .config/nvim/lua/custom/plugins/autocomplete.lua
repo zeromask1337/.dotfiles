@@ -57,9 +57,9 @@ return {
                 highlight = function(ctx)
                   return require('colorful-menu').blink_components_highlight(ctx)
                 end,
-              }
+              },
             },
-            treesitter = { 'lsp' }
+            treesitter = { 'lsp' },
           },
         },
       },
@@ -77,5 +77,15 @@ return {
   {
     'windwp/nvim-ts-autotag',
     opts = {},
+  },
+  {
+    'supermaven-inc/supermaven-nvim',
+    config = function()
+      require('supermaven-nvim').setup {
+        keymaps = {
+          accept_suggestion = '<C-l>',
+        },
+      }
+    end,
   },
 }
