@@ -43,6 +43,7 @@
 	navigate = true
 	line-numbers = true
 	hyperlinks = true
+    syntax-theme = Catppuccin Latte
 
 [submodule]
     recurse = true
