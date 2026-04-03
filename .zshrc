@@ -27,6 +27,9 @@ export FZF_COMPLETION_OPTS="--preview 'bat --style=numbers --color=always --line
 # ohmyzsh setup
 source $ZSH/oh-my-zsh.sh
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
+eval "$(fnm env --use-on-cd --shell zsh)"
+
 # completions
 source <(fzf --zsh)
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"

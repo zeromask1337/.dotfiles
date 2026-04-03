@@ -13,7 +13,5 @@ export PATH=$PATH:$HOME/.dotfiles/.config/scripts
 export HOMEBREW_BUNDLE_DUMP_NO_VSCODE=1
 export HOMEBREW_BUNDLE_DUMP_NO_CARGO=1
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
-eval "$(fnm env --use-on-cd --shell zsh)"
 
 source "$HOME/.cargo/env"
