@@ -1,0 +1,15 @@
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  caps
+)
+
+;; (defalias
+;;   cap_ctrl lctl
+;; )
+
+(deflayer base
+  (tap-hold 100 100 caps lctl)
+)
