@@ -6,7 +6,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # styling
-ZSH_THEME="powerlevel10k/powerlevel10k"
 zstyle ':omz:update' mode auto
 zstyle ':omz:update' frequency 13
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
