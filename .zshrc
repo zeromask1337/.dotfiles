@@ -26,6 +26,7 @@ export FZF_COMPLETION_OPTS="--preview 'bat --style=numbers --color=always --line
 
 # ohmyzsh setup
 source $ZSH/oh-my-zsh.sh
+source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv bash)"
 eval "$(fnm env --use-on-cd --shell zsh)"
