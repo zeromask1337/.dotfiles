@@ -4,6 +4,14 @@
     "model": "fireworks-ai/kimi-k2.5",
     "default_agent": "plan",
     "mcp": {
+        "executor": {
+            "type": "local",
+            "command": [
+                "executor",
+                "mcp"
+            ],
+            "environment": {}
+        },
         "xai": {
             "type": "local",
             "command": [
