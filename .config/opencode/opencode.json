@@ -31,16 +31,5 @@
                 "@playwright/mcp@latest"
             ]
         },
-        "chrome-devtools": {
-            "type": "local",
-            "command": [
-                "pnpx",
-                "chrome-devtools-mcp@latest"
-            ]
-        },
-        "pdf-reader": {
-            "type": "local",
-            "command": [ "pnpx", "@sylphx/pdf-reader-mcp" ],
-        }
     }
 }
