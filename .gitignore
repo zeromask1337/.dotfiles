@@ -4,6 +4,9 @@
 
 .config/ngrok
 .config/gh/
+.config/add-mcp
+.config/configstore
+.config/iterm2
 .config/lazygit/*
 !.config/lazygit/config.yml
 
