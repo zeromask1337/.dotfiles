@@ -12,6 +12,7 @@
 
 mole
 colima
+executor.jsonc
 
 # Test artifacts
 tests/docker/*.log
