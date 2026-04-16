@@ -1,4 +1,5 @@
 gui:
+  language: 'en'
   branchColors:
     "feature": "#11aaff"
 git:
