@@ -93,100 +93,55 @@ return {
               callback = vim.lsp.buf.clear_references,
             })
 
-            vim.api.nvim_create_autocmd('LspDetach', {
-              group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
-              callback = function(event2)
-                vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
-              end,
-            })
-          end
+            -- LSP servers and clients are able to communicate to each other what features they support.
+            --  By default, Neovim doesn't support everything that is in the LSP specification.
+            --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
+            --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
+            local capabilities = require('blink.cmp').get_lsp_capabilities()
+            local svelte_lsp_capabilities = vim.tbl_deep_extend('force', {}, capabilities)
+            svelte_lsp_capabilities.workspace = { didChangeWatchedFiles = false }
+            local vue_language_server_path = vim.fn.expand '$MASON/packages' ..
+                '/vue-language-server' .. '/node_modules/@vue/language-server'
 
-          -- The following code creates a keymap to toggle inlay hints in your
-          -- code, if the language server you are using supports them
-          --
-          -- This may be unwanted, since they displace some of your code
-          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, { bufnr = event.buf }) then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-            end, '[T]oggle Inlay [H]ints')
-          end
-
-          -- Enable LSP-based folding when server supports it
-          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange, event.buf) then
-            local win = vim.api.nvim_get_current_win()
-            vim.wo[win][0].foldmethod = 'expr'
-            vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
-            vim.wo[win][0].foldtext = 'v:lua.vim.lsp.foldtext()'
-          end
-        end,
-      })
-
-      -- Diagnostic Config
-      -- See :help vim.diagnostic.Opts
-      vim.diagnostic.config {
-        severity_sort = true,
-        float = { border = 'rounded', source = 'if_many' },
-        underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
-          text = {
-            [vim.diagnostic.severity.ERROR] = 'E',
-            [vim.diagnostic.severity.WARN] = 'W',
-            [vim.diagnostic.severity.INFO] = 'I',
-            [vim.diagnostic.severity.HINT] = 'H',
-          },
-        } or {},
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
-      }
-
-      -- LSP servers and clients are able to communicate to each other what features they support.
-      --  By default, Neovim doesn't support everything that is in the LSP specification.
-      --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
-      local svelte_lsp_capabilities = vim.tbl_deep_extend('force', {}, capabilities)
-      svelte_lsp_capabilities.workspace = { didChangeWatchedFiles = false }
-      local vue_language_server_path = vim.fn.expand '$MASON/packages' ..
-          '/vue-language-server' .. '/node_modules/@vue/language-server'
-
-      vim.lsp.config('*', {
-          capabilities = capabilities,
-      })
-
-      local servers = {
-        html = {
-          settings = {
-            html = {
-              format = {
-                extraLiners = '',
-              },
-            },
-          },
-        },
-        cssls = {},
-        vtsls = {
-          settings = {
-            vtsls = {
-              tsserver = {
-                globalPlugins = {
-                  {
-                    name = '@vue/typescript-plugin',
-                    location = vue_language_server_path,
-                    languages = { 'vue' },
-                    configNamespace = 'typescript',
-                  },
+            local servers = {
+                html = {
+                    settings = {
+                        html = {
+                            format = {
+                                extraLiners = '',
+                            },
+                        },
+                    },
+                },
+                cssls = {},
+                vtsls = {
+                    settings = {
+                        vtsls = {
+                            tsserver = {
+                                globalPlugins = {
+                                    {
+                                        name = '@vue/typescript-plugin',
+                                        location = vue_language_server_path,
+                                        languages = { 'vue' },
+                                        configNamespace = 'typescript',
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+                },
+                eslint_lsp = {},
+                jsonls = {},
+                bashls = {},
+                lua_ls = {
+                    settings = {
+                        Lua = {
+                            completion = {
+                                callSnippet = 'Replace',
+                            },
+                        },
+                    },
                 },
               },
             },
