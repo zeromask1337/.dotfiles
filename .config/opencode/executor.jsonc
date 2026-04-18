@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "kind": "mcp",
+      "transport": "stdio",
+      "name": "chrome_devtools",
+      "command": "pnpx",
+      "args": [
+        "chrome-devtools-mcp@latest"
+      ],
+      "namespace": "chrome_devtools"
+    }
+  ]
+}
