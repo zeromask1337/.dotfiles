@@ -44,9 +44,9 @@ end)
 local os = vim.uv.os_uname().sysname
 
 if os == 'Darwin' or os == 'Windows_NT' then
-  vim.cmd 'language en_US'
+    vim.cmd 'language en_US.UTF-8'
 elseif os == 'Linux' then
-  vim.cmd 'language C'
+    vim.cmd 'language C'
 end
 
 return {} -- Return empty table for consistency
