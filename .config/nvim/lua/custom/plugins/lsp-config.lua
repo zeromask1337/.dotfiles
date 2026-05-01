@@ -18,7 +18,6 @@ return {
         dependencies = {
             { 'mason-org/mason.nvim', opts = {} },
 
-            { 'j-hui/fidget.nvim',    opts = {} },
             'saghen/blink.cmp',
         },
         config = function()
