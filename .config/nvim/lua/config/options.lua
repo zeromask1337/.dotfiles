@@ -28,6 +28,7 @@ opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 opt.inccommand = 'split'
 opt.cursorline = true
 opt.scrolloff = 9999
+opt.autoindent = true
 
 opt.tabstop = 4
 opt.expandtab = true
