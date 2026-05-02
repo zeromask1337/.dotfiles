@@ -22,6 +22,28 @@ return {
                         padding = { 1, 10 },
                         columns = { { 'kind_icon' }, { 'label', gap = 1 } },
                         components = {
+                            kind_icon = {
+                                text = function(ctx)
+                                    local icon = ctx.kind_icon
+                                    if ctx.item.source_name == 'LSP' then
+                                        local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
+                                        if color_item and color_item.abbr ~= '' then
+                                            icon = color_item.abbr
+                                        end
+                                    end
+                                    return icon .. ctx.icon_gap
+                                end,
+                                highlight = function(ctx)
+                                    local highlight = 'BlinkCmpKind' .. ctx.kind
+                                    if ctx.item.source_name == 'LSP' then
+                                        local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
+                                        if color_item and color_item.abbr_hl_group then
+                                            highlight = color_item.abbr_hl_group
+                                        end
+                                    end
+                                    return highlight
+                                end,
+                            },
                             label = {
                                 text = function(ctx)
                                     return require('colorful-menu').blink_components_text(ctx)
