@@ -108,8 +108,16 @@ return {
           -- This may be unwanted, since they displace some of your code
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, { bufnr = event.buf }) then
             map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
             end, '[T]oggle Inlay [H]ints')
+          end
+
+          -- Enable LSP-based folding when server supports it
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange, event.buf) then
+            local win = vim.api.nvim_get_current_win()
+            vim.wo[win][0].foldmethod = 'expr'
+            vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+            vim.wo[win][0].foldtext = 'v:lua.vim.lsp.foldtext()'
           end
         end,
       })
@@ -152,6 +160,10 @@ return {
       svelte_lsp_capabilities.workspace = { didChangeWatchedFiles = false }
       local vue_language_server_path = vim.fn.expand '$MASON/packages' ..
           '/vue-language-server' .. '/node_modules/@vue/language-server'
+
+      vim.lsp.config('*', {
+          capabilities = capabilities,
+      })
 
       local servers = {
         html = {
@@ -216,8 +228,6 @@ return {
       }
 
       for server_name, config in pairs(servers) do
-        config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
-
         vim.lsp.config(server_name, config)
         vim.lsp.enable(server_name)
       end
