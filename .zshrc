@@ -1,18 +1,8 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
 # styling
 zstyle ':omz:update' mode auto
 zstyle ':omz:update' frequency 13
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # zsh setup
 fpath=(~/.zsh/completions $fpath)
@@ -24,8 +14,7 @@ export EDITOR=nvim
 export FZF_COMPLETION_OPTS="--preview 'bat --style=numbers --color=always --line-range=:200 {} 2>/dev/null || sed -n \"1,200p\" {}' --preview-window=right:60%"
 
 # ohmyzsh setup
-# source $ZSH/oh-my-zsh.sh
-# source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
+source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 eval "$(fnm env --use-on-cd --shell zsh)"
