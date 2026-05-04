@@ -92,100 +92,86 @@ return {
               group = highlight_augroup,
               callback = vim.lsp.buf.clear_references,
             })
+          end
 
-            -- LSP servers and clients are able to communicate to each other what features they support.
-            --  By default, Neovim doesn't support everything that is in the LSP specification.
-            --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
-            --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-            local capabilities = require('blink.cmp').get_lsp_capabilities()
-            local svelte_lsp_capabilities = vim.tbl_deep_extend('force', {}, capabilities)
-            svelte_lsp_capabilities.workspace = { didChangeWatchedFiles = false }
-            local vue_language_server_path = vim.fn.expand '$MASON/packages' ..
-                '/vue-language-server' .. '/node_modules/@vue/language-server'
+          -- LSP servers and clients are able to communicate to each other what features they support.
+          --  By default, Neovim doesn't support everything that is in the LSP specification.
+          --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
+          --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
+          local capabilities = require('blink.cmp').get_lsp_capabilities()
+          local svelte_lsp_capabilities = vim.tbl_deep_extend('force', {}, capabilities)
+          svelte_lsp_capabilities.workspace = { didChangeWatchedFiles = false }
+          local vue_language_server_path = vim.fn.expand '$MASON/packages' ..
+              '/vue-language-server' .. '/node_modules/@vue/language-server'
 
-            local servers = {
+          local servers = {
+            html = {
+              settings = {
                 html = {
-                    settings = {
-                        html = {
-                            format = {
-                                extraLiners = '',
-                            },
-                        },
-                    },
-                },
-                cssls = {},
-                vtsls = {
-                    settings = {
-                        vtsls = {
-                            tsserver = {
-                                globalPlugins = {
-                                    {
-                                        name = '@vue/typescript-plugin',
-                                        location = vue_language_server_path,
-                                        languages = { 'vue' },
-                                        configNamespace = 'typescript',
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-                },
-                eslint_lsp = {},
-                jsonls = {},
-                bashls = {},
-                lua_ls = {
-                    settings = {
-                        Lua = {
-                            completion = {
-                                callSnippet = 'Replace',
-                            },
-                        },
-                    },
-                },
-              },
-            },
-          },
-          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-        },
-        eslint_lsp = {},
-        jsonls = {},
-        bashls = {},
-        lua_ls = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-            },
-          },
-        },
-        svelte = {
-          capabilities = svelte_lsp_capabilities,
-          filetypes = { 'svelte' },
-          settings = {
-            svelte = {
-              plugin = {
-                svelte = {
-                  defaultScriptLanguage = 'ts',
                   format = {
-                    config = {
-                      svelteBracketNewLine = false,
-                      svelteIndentScriptAndStyle = false,
-                      singleQuote = true,
+                    extraLiners = '',
+                  },
+                },
+              },
+            },
+            cssls = {},
+            vtsls = {
+              settings = {
+                vtsls = {
+                  tsserver = {
+                    globalPlugins = {
+                      {
+                        name = '@vue/typescript-plugin',
+                        location = vue_language_server_path,
+                        languages = { 'vue' },
+                        configNamespace = 'typescript',
+                      },
+                    },
+                  },
+                },
+              },
+              filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+            },
+            eslint_lsp = {},
+            jsonls = {},
+            bashls = {},
+            lua_ls = {
+              settings = {
+                Lua = {
+                  completion = {
+                    callSnippet = 'Replace',
+                  },
+                },
+              },
+            },
+            svelte = {
+              capabilities = svelte_lsp_capabilities,
+              filetypes = { 'svelte' },
+              settings = {
+                svelte = {
+                  plugin = {
+                    svelte = {
+                      defaultScriptLanguage = 'ts',
+                      format = {
+                        config = {
+                          svelteBracketNewLine = false,
+                          svelteIndentScriptAndStyle = false,
+                          singleQuote = true,
+                        },
+                      },
                     },
                   },
                 },
               },
             },
-          },
-        },
-      }
+          }
 
-      for server_name, config in pairs(servers) do
-        vim.lsp.config(server_name, config)
-        vim.lsp.enable(server_name)
-      end
+          for server_name, config in pairs(servers) do
+            vim.lsp.config(server_name, config)
+            vim.lsp.enable(server_name)
+          end
+        end,
+      })
     end,
   },
 }
