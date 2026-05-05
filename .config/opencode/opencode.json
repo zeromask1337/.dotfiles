@@ -1,38 +1,41 @@
 {
-    "$schema": "https://opencode.ai/config.json",
-    "autoupdate": true,
-    "model": "fireworks-ai/kimi-k2.5",
-    "default_agent": "plan",
-    "mcp": {
-        "xai": {
-            "type": "local",
-            "command": [
-                "bun",
-                "run",
-                "/Users/flippy/Development/xai-mcp-server/src/index.ts",
-                "--stdio"
-            ],
-            "environment": {
-                "XAI_API_KEY": "{env:XAI_API_KEY}"
-            }
-        },
-        "playwright": {
-            "type": "local",
-            "command": [
-                "pnpx",
-                "@playwright/mcp@latest"
-            ]
-        },
-        "chrome-devtools": {
-            "type": "local",
-            "command": [
-                "pnpx",
-                "chrome-devtools-mcp@latest"
-            ]
-        },
-        "pdf-reader": {
-            "type": "local",
-            "command": [ "pnpx", "@sylphx/pdf-reader-mcp" ],
-        }
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": true,
+  "model": "fireworks-ai/kimi-k2.5",
+  "default_agent": "plan",
+  "mcp": {
+    "xai": {
+      "type": "local",
+      "command": [
+        "bun",
+        "run",
+        "/Users/flippy/Development/xai-mcp-server/src/index.ts",
+        "--stdio"
+      ],
+      "environment": {
+        "XAI_API_KEY": "{env:XAI_API_KEY}"
+      }
+    },
+    "playwright": {
+      "type": "local",
+      "command": [
+        "pnpx",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "chrome-devtools": {
+      "type": "local",
+      "command": [
+        "pnpx",
+        "chrome-devtools-mcp@latest"
+      ]
+    },
+    "pdf-reader": {
+      "type": "local",
+      "command": [
+        "pnpx",
+        "@sylphx/pdf-reader-mcp"
+      ]
     }
+  }
 }
