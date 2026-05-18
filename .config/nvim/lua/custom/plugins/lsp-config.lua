@@ -71,6 +71,7 @@ return {
             },
           },
         },
+        docker_compose_language_service = {},
         svelte = {
           capabilities = svelte_lsp_capabilities,
           filetypes = { 'svelte' },
