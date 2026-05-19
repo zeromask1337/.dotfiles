@@ -21,6 +21,25 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
+      -- Configure diagnostics to show virtual text at end of line with emoji prefixes
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = function(diagnostic)
+            local icons = {
+              [vim.diagnostic.severity.ERROR] = '❌ ',
+              [vim.diagnostic.severity.WARN] = '⚠️ ',
+              [vim.diagnostic.severity.INFO] = 'ℹ️ ',
+              [vim.diagnostic.severity.HINT] = '💡 ',
+            }
+            return icons[diagnostic.severity] or '● '
+          end,
+        },
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+      })
+
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
