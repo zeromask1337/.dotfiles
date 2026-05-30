@@ -1,7 +1,5 @@
 return {
   'NickvanDyke/opencode.nvim',
-  commit = '14e8610a5fc7c246b37f3eaa7b493bde57de4077', -- Full commit hash
-  pin = true, -- Prevents updates even if you run :Lazy update
   dependencies = {
     -- Recommended for `ask()` and `select()`.
     -- Required for `snacks` provider.
