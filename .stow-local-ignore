@@ -32,3 +32,5 @@ _darcs
 ^/\.dotfiles-private\.env
 /config/gh/
 /config/ngrok/ngrok.yml
+^/lefthook\.yml
+^/\.lefthook/

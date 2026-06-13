@@ -1,5 +1,11 @@
 # Setup
-Clone this repo into your home folder, cd into it and run `stow .`
+Clone this repo into your home folder, cd into it and run `stow .`.
+
+Then install lefthook and activate the hooks:
+```sh
+brew install lefthook
+lefthook install
+```
 
 # QA
 ## What if I need specific folder from `.config`?
@@ -13,7 +19,9 @@ git sparse-checkout set .config/nvim
 
 ## How can I simplify scoping commits for various configs?
 
-I use git `commit-msg` hook shown in ./commit-msg.example. It injects correct config scope into commit message, before commiting. Example:
+`lefthook` manages a `commit-msg` hook that automatically injects the correct `.config` scope into your commit message.
+
+Example:
 
 ```sh
 ~/.dotfiles/.config/nvim:$ git commit -am "feat: add opencode plugin"

@@ -1,0 +1,4 @@
+commit-msg:
+  scripts:
+    inject-scope:
+      runner: bash
