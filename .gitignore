@@ -8,6 +8,7 @@
 .config/configstore
 .config/iterm2
 .config/lazygit/*
+.config/homebrew
 !.config/lazygit/config.yml
 
 mole
