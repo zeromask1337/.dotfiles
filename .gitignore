@@ -9,6 +9,7 @@
 .config/iterm2
 .config/lazygit/*
 .config/homebrew
+.config/portless-*
 !.config/lazygit/config.yml
 
 mole
