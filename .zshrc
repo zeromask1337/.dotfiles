@@ -33,6 +33,7 @@ alias lg="lazygit"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias fixmypackage='sudo xattr -r -c'
 alias oc='opencode'
+alias occ='opencode --continue'
 
 # history setup
 HISTFILE=$HOME/.zhistory
