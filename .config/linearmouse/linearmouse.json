@@ -1,5 +1,5 @@
 {
-  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.2",
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.11.2",
   "schemes" : [
     {
       "if" : {
@@ -14,6 +14,61 @@
         "acceleration" : 1.7846,
         "disableAcceleration" : true,
         "speed" : 0.1866
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "distance" : {
+          "vertical" : "auto"
+        },
+        "smoothed" : {
+          "vertical" : {
+            "acceleration" : 0.54,
+            "bouncing" : true,
+            "enabled" : true,
+            "inertia" : 0.66,
+            "preset" : "linear",
+            "response" : 1.37,
+            "speed" : 1.69
+          }
+        },
+        "speed" : {
+          "vertical" : 0
+        }
+      }
+    },
+    {
+      "if" : {
+        "app" : "ru.keepcoder.Telegram",
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0xc547",
+          "productName" : "USB Receiver",
+          "vendorID" : "0x46d"
+        }
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "distance" : {
+          "vertical" : "auto"
+        },
+        "smoothed" : {
+          "vertical" : {
+            "acceleration" : 0.65,
+            "bouncing" : false,
+            "enabled" : true,
+            "inertia" : 0.74,
+            "preset" : "easeInOut",
+            "response" : 0.68,
+            "speed" : 1.02
+          }
+        },
+        "speed" : {
+          "vertical" : 0
+        }
       }
     }
   ]
