@@ -34,6 +34,24 @@
         "pnpx",
         "@sylphx/pdf-reader-mcp"
       ]
+    },
+    "email": {
+      "type": "local",
+      "command": [
+        "node",
+        "/Users/flippy/.claude/mcp-servers/imap/dist/index.js"
+      ]
+    },
+    "excel": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "excel-mcp-server",
+        "stdio"
+      ]
     }
+  },
+  "tools": {
+    "email_imap_*delete*": false
   }
 }
