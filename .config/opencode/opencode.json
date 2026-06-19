@@ -23,6 +23,7 @@
     },
     "chrome-devtools": {
       "type": "local",
+      "enabled": false,
       "command": [
         "pnpx",
         "chrome-devtools-mcp@latest"
@@ -30,6 +31,7 @@
     },
     "pdf-reader": {
       "type": "local",
+      "enabled": false,
       "command": [
         "pnpx",
         "@sylphx/pdf-reader-mcp"
@@ -37,6 +39,7 @@
     },
     "email": {
       "type": "local",
+      "enabled": false,
       "command": [
         "node",
         "/Users/flippy/.claude/mcp-servers/imap/dist/index.js"
@@ -44,6 +47,7 @@
     },
     "excel": {
       "type": "local",
+      "enabled": false,
       "command": [
         "uvx",
         "excel-mcp-server",
