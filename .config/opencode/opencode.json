@@ -17,8 +17,12 @@
       "type": "local",
       "command": [
         "pnpx",
-        "@playwright/mcp@latest"
-      ]
+        "@playwright/mcp@latest",
+        "--extension"
+      ],
+      "environment": {
+        "PLAYWRIGHT_MCP_EXTENSION_TOKEN": "{env:PLAYWRIGHT_CHROME_TOKEN}"
+      }
     },
     "chrome-devtools": {
       "type": "local",
