@@ -3,11 +3,12 @@
 ROOTS=(
   "$HOME/Development"
   "$HOME/Development/research"
-  "$HOME/.config"
+  "$HOME/.dotfiles/.config"
 )
 
 PINNED=(
   "$HOME/.dotfiles"
+  "$HOME/.dotfiles/.openclaw"
 )
 
 if [[ $# -eq 1 ]]; then
