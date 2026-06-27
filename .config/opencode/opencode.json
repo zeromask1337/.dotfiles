@@ -6,8 +6,7 @@
       "type": "local",
       "command": [
         "bun",
-        "run",
-        "/Users/flippy/Development/xai-mcp-server/src/index.ts",
+        "/Users/flippy/Development/xai-mcp-server/dist/index.js",
         "--stdio"
       ],
       "environment": {
