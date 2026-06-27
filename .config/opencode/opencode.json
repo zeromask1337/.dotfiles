@@ -56,6 +56,11 @@
         "excel-mcp-server",
         "stdio"
       ]
+    },
+    "firecrawl": {
+      "type": "remote",
+      "url": "https://mcp.firecrawl.dev/{env:FIRECRAWL_API_KEY}/v2/mcp",
+      "enabled": true
     }
   },
   "tools": {
