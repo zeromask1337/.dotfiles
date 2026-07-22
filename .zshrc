@@ -27,7 +27,7 @@ source <(fzf --zsh)
 alias zshconfig="nvim ~/.zshrc"
 alias tmuxconfig="nvim ~/.config/tmux/tmux.conf"
 alias aeroconfig="nvim ~/.config/aerospace/aerospace.toml"
-alias occonfig="nvim ~/.config/opencode/AGENTS.md"
+alias occonfig="nvim ~/.config/opencode/opencode.json"
 alias sshconfig="nvim ~/.ssh/config"
 alias lg="lazygit"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
