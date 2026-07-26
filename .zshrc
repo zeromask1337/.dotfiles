@@ -51,3 +51,6 @@ compinit
 
 # bindings
 bindkey '^k' autosuggest-accept
+
+# OpenClaw Completion
+[ -f "/Users/flippy/.openclaw/completions/openclaw.zsh" ] && source "/Users/flippy/.openclaw/completions/openclaw.zsh"
