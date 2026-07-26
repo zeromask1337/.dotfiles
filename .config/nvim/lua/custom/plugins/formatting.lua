@@ -37,8 +37,8 @@ return { -- Autoformat
       vue = { 'eslint_d', 'stylelint', stop_after_first = true },
       typescript = { 'oxlint', 'oxfmt' },
       json = { 'jq' },
+      python = { 'ruff_format', 'ruff_fix', 'ruff_organize_imports' },
       -- Conform can also run multiple formatters sequentially
-      -- python = { "isort", "black" },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
