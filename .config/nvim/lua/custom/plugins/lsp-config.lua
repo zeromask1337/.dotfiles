@@ -81,6 +81,14 @@ return {
         eslint = {},
         jsonls = {},
         bashls = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = { typeCheckingMode = 'basic' },
+            },
+          },
+        },
+        ruff = {},
         lua_ls = {
           settings = {
             Lua = {
