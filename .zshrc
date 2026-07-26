@@ -18,6 +18,7 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 eval "$(fnm env --use-on-cd --shell zsh)"
+eval "$(mise activate zsh)"
 
 # completions
 source <(fzf --zsh)
