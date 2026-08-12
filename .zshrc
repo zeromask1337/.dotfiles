@@ -25,11 +25,11 @@ source <(fzf --zsh)
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # aliases
-alias zshconfig="nvim ~/.zshrc"
-alias tmuxconfig="nvim ~/.config/tmux/tmux.conf"
-alias aeroconfig="nvim ~/.config/aerospace/aerospace.toml"
-alias occonfig="nvim ~/.config/opencode/opencode.json"
-alias sshconfig="nvim ~/.ssh/config"
+alias zshrc="nvim ~/.zshrc"
+alias tmuxrc="nvim ~/.config/tmux/tmux.conf"
+alias aerorc="nvim ~/.config/aerospace/aerospace.toml"
+alias ocrc="nvim ~/.config/opencode/opencode.json"
+alias sshrc="nvim ~/.ssh/config"
 alias hrc='hermes config edit'
 alias lg="lazygit"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
