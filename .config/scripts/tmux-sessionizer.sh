@@ -8,7 +8,7 @@ ROOTS=(
 
 PINNED=(
   "$HOME/.dotfiles"
-  "$HOME/.dotfiles/.openclaw"
+  "$HOME/.hermes"
 )
 
 if [[ $# -eq 1 ]]; then
