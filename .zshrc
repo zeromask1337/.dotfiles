@@ -36,6 +36,7 @@ alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias fixmypackage='sudo xattr -r -c'
 alias oc='opencode'
 alias occ='opencode --continue'
+alias ocr='opencode run'
 
 # history setup
 HISTFILE=$HOME/.zhistory
