@@ -60,10 +60,10 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 inner.horizontal = 10
 inner.vertical = 10
 
-outer.left = [{ monitor."SSN-24" = 40 }, 100]
-outer.right = [{ monitor."SSN-24" = 40 }, 100]
-outer.top = [{ monitor."SSN-24" = 40 }, 100]
-outer.bottom = [{ monitor."SSN-24" = 30 }, 100]
+outer.left = [{ monitor."SSN-24" = 40 }, { monitor."Built-in Retina Display" = 30 }, 100]
+outer.right = [{ monitor."SSN-24" = 40 }, { monitor."Built-in Retina Display" = 30 }, 100]
+outer.top = [{ monitor."SSN-24" = 40 }, { monitor."Built-in Retina Display" = 30 }, 100]
+outer.bottom = [{ monitor."SSN-24" = 30 }, { monitor."Built-in Retina Display" = 30 }, 100]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
