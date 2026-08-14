@@ -1,0 +1,102 @@
+[tools]
+node = "latest"
+usage = "latest"
+
+[bootstrap.brew.taps]
+"anomalyco/tap" = "https://github.com/anomalyco/homebrew-tap.git"
+"antoniorodr/memo" = "https://github.com/antoniorodr/homebrew-memo.git"
+"ataraxy-labs/tap" = "https://github.com/ataraxy-labs/homebrew-tap.git"
+"cirruslabs/cli" = "https://github.com/cirruslabs/homebrew-cli.git"
+"gittower/tap" = "https://github.com/gittower/homebrew-tap.git"
+"sichengchen/tap" = "https://github.com/sichengchen/homebrew-tap.git"
+"steipete/tap" = "https://github.com/steipete/homebrew-tap.git"
+
+[bootstrap.packages]
+"brew:ada-url" = "latest"  # ! dependency
+"brew:bat" = "latest"
+"brew:bottom" = "latest"
+"brew:cairo" = "latest"  # ! dependency
+"brew:cloudflared" = "latest"
+"brew:cmake" = "latest"
+"brew:displayplacer" = "latest"
+"brew:docker" = "latest"
+"brew:docker-compose" = "latest"
+"brew:doppler" = "latest"
+"brew:fd" = "latest"
+"brew:ffmpeg" = "latest"  # ! dependency
+"brew:fnm" = "latest"
+"brew:fzf" = "latest"
+"brew:gdu" = "latest"
+"brew:gettext" = "latest"  # ! dependency
+"brew:gh" = "latest"
+"brew:git-delta" = "latest"
+"brew:git-secrets" = "latest"
+"brew:gnupg" = "latest"  # ! dependency
+"brew:himalaya" = "latest"
+"brew:kanata" = "latest"
+"brew:lazygit" = "latest"
+"brew:lazysql" = "latest"
+"brew:lefthook" = "latest"
+"brew:libngtcp2" = "latest"  # ! dependency
+"brew:librdkafka" = "latest"
+"brew:llama.cpp" = "latest"
+"brew:lua-language-server" = "latest"
+"brew:mkcert" = "latest"
+"brew:mole" = "latest"
+"brew:fastfetch" = "latest"  # ! was neofetch (removed from homebrew-core)
+"brew:neovim" = "latest"
+"brew:node" = "latest"  # ! dependency
+"brew:ollama" = "latest"
+"brew:pandoc" = "latest"
+"brew:parallel" = "latest"
+"brew:pass" = "latest"
+"brew:pass-import" = "latest"
+"brew:poppler" = "latest"
+"brew:powerlevel10k" = "latest"
+"brew:python@3.12" = "latest"
+"brew:redis" = "latest"
+"brew:ripgrep" = "latest"
+"brew:simdjson" = "latest"  # ! dependency
+"brew:sshpass" = "latest"
+"brew:starship" = "latest"
+"brew:stow" = "latest"
+"brew:summarize" = "latest"
+"brew:tesseract" = "latest"  # ! dependency
+"brew:timewarrior" = "latest"
+"brew:tmux" = "latest"
+"brew:tree" = "latest"  # ! dependency
+"brew:tree-sitter-cli" = "latest"
+"brew:typst" = "latest"
+"brew:yazi" = "latest"
+"brew:yq" = "latest"
+"brew:yt-dlp" = "latest"  # ! dependency
+"brew:zsh-autosuggestions" = "latest"
+
+# Tap formulae can't be installed by mise directly (taps must publish api/formula/<name>.json metadata).
+# mise refuses to proxy tap formulae through the brew CLI, so install them via brew in this hook.
+[bootstrap.hooks.post-packages]
+run = """
+set -e
+# Trust third-party taps (brew 6.x tap-trust requirement)
+brew trust sichengchen/tap steipete/tap gittower/tap antoniorodr/memo anomalyco/tap ataraxy-labs/tap cirruslabs/cli 2>/dev/null || true
+# Ensure taps are present
+brew tap sichengchen/tap 2>/dev/null || true
+brew tap steipete/tap 2>/dev/null || true
+brew tap gittower/tap 2>/dev/null || true
+brew tap antoniorodr/memo 2>/dev/null || true
+brew tap anomalyco/tap 2>/dev/null || true
+brew tap ataraxy-labs/tap 2>/dev/null || true
+brew tap cirruslabs/cli 2>/dev/null || true
+# Install tap formulae (idempotent; skip ones needing full Xcode.app when absent)
+brew list sichengchen/tap/apple-calendar-cli &>/dev/null || { [ -d /Applications/Xcode.app ] && brew install sichengchen/tap/apple-calendar-cli || echo "SKIP apple-calendar-cli (needs Xcode.app)"; }
+brew list steipete/tap/gifgrep &>/dev/null || brew install steipete/tap/gifgrep
+brew list gittower/tap/git-flow-next &>/dev/null || brew install gittower/tap/git-flow-next
+brew list steipete/tap/imsg &>/dev/null || brew install steipete/tap/imsg
+brew list antoniorodr/memo/memo &>/dev/null || brew install antoniorodr/memo/memo
+brew list anomalyco/tap/opencode &>/dev/null || brew install anomalyco/tap/opencode
+brew list steipete/tap/peekaboo &>/dev/null || brew install steipete/tap/peekaboo
+brew list steipete/tap/remindctl &>/dev/null || brew install steipete/tap/remindctl
+brew list ataraxy-labs/tap/sem &>/dev/null || brew install --overwrite ataraxy-labs/tap/sem
+brew list cirruslabs/cli/tart &>/dev/null || brew install cirruslabs/cli/tart
+echo TAP_PACKAGES_HOOK_DONE
+"""
