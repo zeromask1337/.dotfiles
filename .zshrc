@@ -29,6 +29,7 @@ alias zshrc="nvim ~/.zshrc"
 alias tmuxrc="nvim ~/.config/tmux/tmux.conf"
 alias aerorc="nvim ~/.config/aerospace/aerospace.toml"
 alias ocrc="nvim ~/.config/opencode/opencode.json"
+alias miserc="nvim ~/.config/mise/config.toml"
 alias sshrc="nvim ~/.ssh/config"
 alias hrc='hermes config edit'
 alias lg="lazygit"
