@@ -29,8 +29,12 @@ _darcs
 \.gnupg/private-keys-v1.d
 \.gnupg/secring.gpg
 
-^/\.dotfiles-private\.env
+^/.dotfiles-private\.env
 /config/gh/
 /config/ngrok/ngrok.yml
+# mise bootstrap config drives bootstrap itself — DON'T let stow own it, or a
+# clone + `stow .` could symlink it to the repo's committed version and revert
+# any freshly-scp'd/pre-bootstrap config. Keep it a real file the bootstrap runs from.
+/config/mise/
 ^/lefthook\.yml
-^/\.lefthook/
+^/.lefthook/
