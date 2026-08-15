@@ -5,7 +5,6 @@ usage = "latest"
 [bootstrap.brew.taps]
 "anomalyco/tap" = "https://github.com/anomalyco/homebrew-tap.git"
 "antoniorodr/memo" = "https://github.com/antoniorodr/homebrew-memo.git"
-"ataraxy-labs/tap" = "https://github.com/ataraxy-labs/homebrew-tap.git"
 "cirruslabs/cli" = "https://github.com/cirruslabs/homebrew-cli.git"
 "gittower/tap" = "https://github.com/gittower/homebrew-tap.git"
 "sichengchen/tap" = "https://github.com/sichengchen/homebrew-tap.git"
@@ -103,14 +102,13 @@ tap_install() {
   fi
 }
 # Trust third-party taps (brew 6.x tap-trust requirement)
-brew trust sichengchen/tap steipete/tap gittower/tap antoniorodr/memo anomalyco/tap ataraxy-labs/tap cirruslabs/cli 2>/dev/null || true
+brew trust sichengchen/tap steipete/tap gittower/tap antoniorodr/memo anomalyco/tap cirruslabs/cli 2>/dev/null || true
 # Ensure taps are present
 brew tap sichengchen/tap 2>/dev/null || true
 brew tap steipete/tap 2>/dev/null || true
 brew tap gittower/tap 2>/dev/null || true
 brew tap antoniorodr/memo 2>/dev/null || true
 brew tap anomalyco/tap 2>/dev/null || true
-brew tap ataraxy-labs/tap 2>/dev/null || true
 brew tap cirruslabs/cli 2>/dev/null || true
 # Install tap formulae (non-fatal; skip ones needing full Xcode.app when absent)
 tap_install sichengchen/tap/apple-calendar-cli || { [ -d /Applications/Xcode.app ] && tap_install sichengchen/tap/apple-calendar-cli || echo "SKIP apple-calendar-cli (needs Xcode.app)"; }
