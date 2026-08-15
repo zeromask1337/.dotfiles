@@ -87,6 +87,21 @@ usage = "latest"
 [bootstrap.hooks.post-packages]
 run = """
 set -e
+# Helper: install a tap formula WITHOUT aborting the whole hook on failure, so a
+# single broken/flaky tap formula (e.g. memo) can't block oh-my-zsh / dotfiles/stow.
+tap_install() {
+  local formula="$1"
+  if brew list "$formula" &>/dev/null; then
+    echo "TAP present: $formula"
+    return 0
+  fi
+  if brew install "$formula"; then
+    echo "TAP installed: $formula"
+  else
+    echo "TAP FAILED (continuing): $formula"
+    return 0
+  fi
+}
 # Trust third-party taps (brew 6.x tap-trust requirement)
 brew trust sichengchen/tap steipete/tap gittower/tap antoniorodr/memo anomalyco/tap ataraxy-labs/tap cirruslabs/cli 2>/dev/null || true
 # Ensure taps are present
@@ -97,17 +112,17 @@ brew tap antoniorodr/memo 2>/dev/null || true
 brew tap anomalyco/tap 2>/dev/null || true
 brew tap ataraxy-labs/tap 2>/dev/null || true
 brew tap cirruslabs/cli 2>/dev/null || true
-# Install tap formulae (idempotent; skip ones needing full Xcode.app when absent)
-brew list sichengchen/tap/apple-calendar-cli &>/dev/null || { [ -d /Applications/Xcode.app ] && brew install sichengchen/tap/apple-calendar-cli || echo "SKIP apple-calendar-cli (needs Xcode.app)"; }
-brew list steipete/tap/gifgrep &>/dev/null || brew install steipete/tap/gifgrep
-brew list gittower/tap/git-flow-next &>/dev/null || brew install gittower/tap/git-flow-next
-brew list steipete/tap/imsg &>/dev/null || brew install steipete/tap/imsg
-brew list antoniorodr/memo/memo &>/dev/null || brew install antoniorodr/memo/memo
-brew list anomalyco/tap/opencode &>/dev/null || brew install anomalyco/tap/opencode
-brew list steipete/tap/peekaboo &>/dev/null || brew install steipete/tap/peekaboo
-brew list steipete/tap/remindctl &>/dev/null || brew install steipete/tap/remindctl
-brew list ataraxy-labs/tap/sem &>/dev/null || brew install --overwrite ataraxy-labs/tap/sem
-brew list cirruslabs/cli/tart &>/dev/null || brew install cirruslabs/cli/tart
+# Install tap formulae (non-fatal; skip ones needing full Xcode.app when absent)
+tap_install sichengchen/tap/apple-calendar-cli || { [ -d /Applications/Xcode.app ] && tap_install sichengchen/tap/apple-calendar-cli || echo "SKIP apple-calendar-cli (needs Xcode.app)"; }
+tap_install steipete/tap/gifgrep
+tap_install gittower/tap/git-flow-next
+tap_install steipete/tap/imsg
+tap_install antoniorodr/memo/memo
+tap_install anomalyco/tap/opencode
+tap_install steipete/tap/peekaboo
+tap_install steipete/tap/remindctl
+tap_install ataraxy-labs/tap/sem || echo "SKIP sem (may need --overwrite)"
+tap_install cirruslabs/cli/tart
 
 # Install Oh My Zsh via the official installer — OS-specific download tool
 # (curl on macOS, wget on Linux). Idempotent: skip if already installed.
