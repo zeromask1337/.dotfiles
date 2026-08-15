@@ -121,7 +121,6 @@ tap_install antoniorodr/memo/memo
 tap_install anomalyco/tap/opencode
 tap_install steipete/tap/peekaboo
 tap_install steipete/tap/remindctl
-tap_install ataraxy-labs/tap/sem || echo "SKIP sem (may need --overwrite)"
 tap_install cirruslabs/cli/tart
 
 # Install Oh My Zsh via the official installer — OS-specific download tool
