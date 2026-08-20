@@ -1,5 +1,6 @@
 [tools]
 node = "latest"
+rust = "latest"
 usage = "latest"
 
 [bootstrap.brew.taps]
