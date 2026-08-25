@@ -3,17 +3,6 @@
   "autoupdate": true,
   "model": "opencode-go/deepseek-v4-flash",
   "mcp": {
-    "xai": {
-      "type": "local",
-      "command": [
-        "bun",
-        "/Users/flippy/Development/xai-mcp-server/dist/index.js",
-        "--stdio"
-      ],
-      "environment": {
-        "XAI_API_KEY": "{env:XAI_API_KEY}"
-      }
-    },
     "playwright": {
       "type": "local",
       "command": [
@@ -33,31 +22,6 @@
         "chrome-devtools-mcp@latest"
       ]
     },
-    "pdf-reader": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "pnpx",
-        "@sylphx/pdf-reader-mcp"
-      ]
-    },
-    "email": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "node",
-        "/Users/flippy/.claude/mcp-servers/imap/dist/index.js"
-      ]
-    },
-    "excel": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "uvx",
-        "excel-mcp-server",
-        "stdio"
-      ]
-    },
     "firecrawl": {
       "type": "remote",
       "url": "https://mcp.firecrawl.dev/v2/mcp",
@@ -66,8 +30,5 @@
       },
       "enabled": true
     }
-  },
-  "tools": {
-    "email_imap_*delete*": false
   }
 }
