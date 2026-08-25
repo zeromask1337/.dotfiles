@@ -16,3 +16,6 @@ export HOMEBREW_NO_ENV_HINTS=1
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
 
 source "$HOME/.cargo/env"
+
+# Added by Obsidian
+export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
