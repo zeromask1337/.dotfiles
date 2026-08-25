@@ -35,9 +35,9 @@ alias hrc='hermes config edit'
 alias lg="lazygit"
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
 alias fixmypackage='sudo xattr -r -c'
-alias oc='opencode'
-alias occ='opencode --continue'
-alias ocr='opencode run'
+alias oc='doppler run -- opencode'
+alias occ='doppler run -- opencode --continue'
+alias ocr='doppler run -- opencode run'
 
 # history setup
 HISTFILE=$HOME/.zhistory
