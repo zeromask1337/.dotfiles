@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/mynameistito/oc-usage-limits-plugin/main/usage-limits.schema.json",
+  "enabled": true,
+  "refreshIntervalSeconds": 60,
+  "requestTimeoutMs": 10000,
+  "showErrors": true,
+  "providers": {
+    "opencode-go": {
+      "enabled": true,
+      "label": "OpenCode GO"
+    }
+  }
+}
