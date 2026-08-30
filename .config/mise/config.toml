@@ -145,9 +145,9 @@ fi
 # caught too — not just top-level files.
 DOTFILES_REPO_URL="https://github.com/zeromask1337/.dotfiles.git"
 if [ ! -d "$HOME/.dotfiles/.git" ]; then
-  git clone --depth=1 "$DOTFILES_REPO_URL" "$HOME/.dotfiles"
+  git clone "$DOTFILES_REPO_URL" "$HOME/.dotfiles"
 else
-  git -C "$HOME/.dotfiles" fetch --depth=1 origin master && git -C "$HOME/.dotfiles" reset --hard origin/master
+  git -C "$HOME/.dotfiles" fetch --unshallow origin master && git -C "$HOME/.dotfiles" reset --hard origin/master
 fi
 cd "$HOME/.dotfiles"
 if stow . 2>/tmp/stow.err; then
