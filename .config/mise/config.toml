@@ -174,5 +174,19 @@ else
 fi
 rm -f /tmp/stow.err
 
+# === Install lefthook git hooks for the dotfiles repo ===
+# lefthook.yml lives in the dotfiles repo; `lefthook install` wires its hooks
+# (e.g. commit-msg inject-scope) into .git/hooks. Idempotent and non-fatal.
+if command -v lefthook >/dev/null 2>&1; then
+  if (cd "$HOME/.dotfiles" && lefthook install 2>/tmp/lefthook.err); then
+    echo "lefthook: hooks installed"
+  else
+    echo "WARN lefthook install failed (continuing): $(cat /tmp/lefthook.err)"
+  fi
+  rm -f /tmp/lefthook.err
+else
+  echo "SKIP lefthook install (lefthook not found)"
+fi
+
 echo TAP_PACKAGES_HOOK_DONE
 """
