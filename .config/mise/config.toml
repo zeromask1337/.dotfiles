@@ -18,7 +18,7 @@ usage = "latest"
 "brew:cairo" = "latest"  # ! dependency
 "brew:cloudflared" = "latest"
 "brew:cmake" = "latest"
-"brew:displayplacer" = "latest"
+"brew:displayplacer" = { version = "latest", os = ["macos"] }
 "brew:docker" = "latest"
 "brew:docker-compose" = "latest"
 "brew:doppler" = "latest"
@@ -42,7 +42,7 @@ usage = "latest"
 "brew:llama.cpp" = "latest"
 "brew:lua-language-server" = "latest"
 "brew:mkcert" = "latest"
-"brew:mole" = "latest"
+"brew:mole" = { version = "latest", os = ["macos"] }
 "brew:fastfetch" = "latest"  # ! was neofetch (removed from homebrew-core)
 "brew:neovim" = "latest"
 "brew:node" = "latest"  # ! dependency
@@ -88,6 +88,10 @@ usage = "latest"
 [bootstrap.hooks.post-packages]
 run = """
 set -e
+# macOS-only tap formulae: only run on Darwin; skipped on other platforms.
+MACOS_ONLY_TAPS="sichengchen/tap/apple-calendar-cli steipete/tap/imsg steipete/tap/peekaboo steipete/tap/remindctl cirruslabs/cli/tart"
+# Cross-platform tap formulae: run on all platforms.
+ALL_OS_TAPS="steipete/tap/gifgrep gittower/tap/git-flow-next antoniorodr/memo/memo anomalyco/tap/opencode"
 # Helper: install a tap formula WITHOUT aborting the whole hook on failure, so a
 # single broken/flaky tap formula (e.g. memo) can't block oh-my-zsh / dotfiles/stow.
 tap_install() {
@@ -112,16 +116,19 @@ brew tap gittower/tap 2>/dev/null || true
 brew tap antoniorodr/memo 2>/dev/null || true
 brew tap anomalyco/tap 2>/dev/null || true
 brew tap cirruslabs/cli 2>/dev/null || true
-# Install tap formulae (non-fatal; skip ones needing full Xcode.app when absent)
-tap_install sichengchen/tap/apple-calendar-cli || { [ -d /Applications/Xcode.app ] && tap_install sichengchen/tap/apple-calendar-cli || echo "SKIP apple-calendar-cli (needs Xcode.app)"; }
-tap_install steipete/tap/gifgrep
-tap_install gittower/tap/git-flow-next
-tap_install steipete/tap/imsg
-tap_install antoniorodr/memo/memo
-tap_install anomalyco/tap/opencode
-tap_install steipete/tap/peekaboo
-tap_install steipete/tap/remindctl
-tap_install cirruslabs/cli/tart
+# Install cross-platform tap formulae
+for formula in $ALL_OS_TAPS; do
+  tap_install "$formula"
+done
+# Install macOS-only tap formulae (skip non-macOS platforms; skip ones needing full Xcode.app when absent)
+if [ "$(uname)" = "Darwin" ]; then
+  tap_install sichengchen/tap/apple-calendar-cli || { [ -d /Applications/Xcode.app ] && tap_install sichengchen/tap/apple-calendar-cli || echo "SKIP apple-calendar-cli (needs Xcode.app)"; }
+  for formula in steipete/tap/imsg steipete/tap/peekaboo steipete/tap/remindctl cirruslabs/cli/tart; do
+    tap_install "$formula"
+  done
+else
+  echo "SKIP macOS-only tap formulae (on Linux)"
+fi
 
 # Install Oh My Zsh via the official installer — OS-specific download tool
 # (curl on macOS, wget on Linux). Idempotent: skip if already installed.
