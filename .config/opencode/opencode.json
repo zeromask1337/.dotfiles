@@ -47,6 +47,10 @@
       "headers": {
         "Authorization": "Bearer {env:FIRECRAWL_API_KEY}"
       }
+    },
+    "cloudflare-api": {
+      "type": "remote",
+      "url": "https://mcp.cloudflare.com/mcp"
     }
   }
 }
