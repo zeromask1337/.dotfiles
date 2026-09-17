@@ -6,7 +6,6 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # zsh setup
 fpath=(~/.zsh/completions $fpath)
-plugins=(zsh-autosuggestions fast-syntax-highlighting)
 
 # exports
 export ZSH=$HOME/.oh-my-zsh
@@ -52,6 +51,9 @@ setopt hist_verify
 autoload -Uz compinit
 compinit
 
+# zsh plugins (brew)
+source /opt/homebrew/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # bindings
 bindkey '^k' autosuggest-accept
 
@@ -61,3 +63,6 @@ source <(mise completion zsh)
 
 # Hermes Agent — ensure ~/.local/bin is on PATH
 export PATH="$HOME/.local/bin:$PATH"
+
+# syntax highlighting (brew) — must be sourced last
+source /opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh

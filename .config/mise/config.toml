@@ -72,6 +72,7 @@ usage = "latest"
 "brew:yq" = "latest"
 "brew:yt-dlp" = "latest"  # ! dependency
 "brew:zsh-autosuggestions" = "latest"
+"brew:zsh-fast-syntax-highlighting" = "latest"
 
 # Tap formulae can't be installed by mise directly: mise fetches bottle metadata
 # from the tap's GitHub raw `api/formula/<name>.json` and never shells out to brew.
