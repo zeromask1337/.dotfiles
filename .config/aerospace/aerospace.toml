@@ -217,11 +217,20 @@ run = "move-node-to-workspace E"
 
 [[on-window-detected]]
 if.app-id="com.nousresearch.hermes"
-run = "move-node-to-workspace B"
+run = "move-node-to-workspace M"
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+if.window-title-regex-substring = '^Settings'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id="md.obsidian"
+run = "move-node-to-workspace O"
 
 [[on-window-detected]]
 if.app-id="com.blackmagic-design.DaVinciResolve"
-run = "move-node-to-workspace D"
+run = "move-node-to-workspace E"
 
 [[on-window-detected]]
 if.app-id="app.zen-browser.zen"
