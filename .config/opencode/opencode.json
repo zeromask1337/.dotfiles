@@ -15,7 +15,7 @@
     },
     {
       "action": "external_directory",
-      "resource": "/Users/flippy/.config/opencode/**",
+      "resource": "{env:HOME}/.config/opencode/**",
       "effect": "allow"
     }
   ],
@@ -54,8 +54,8 @@
       "type": "local",
       "enabled": true,
       "command": [
-        "/Users/flippy/Library/Application Support/davinci-resolve-mcp/venv/bin/python",
-        "/Users/flippy/Library/Application Support/davinci-resolve-mcp/src/server.py"
+        "{env:HOME}/Library/Application Support/davinci-resolve-mcp/venv/bin/python",
+        "{env:HOME}/Library/Application Support/davinci-resolve-mcp/src/server.py"
       ],
       "environment": {
         "RESOLVE_SCRIPT_API": "/Library/Application Support/Blackmagic Design/DaVinci Resolve/Developer/Scripting",
