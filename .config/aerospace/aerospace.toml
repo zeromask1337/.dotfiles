@@ -230,7 +230,7 @@ run = "move-node-to-workspace O"
 
 [[on-window-detected]]
 if.app-id="com.blackmagic-design.DaVinciResolve"
-run = "move-node-to-workspace E"
+run = "move-node-to-workspace R"
 
 [[on-window-detected]]
 if.app-id="app.zen-browser.zen"
