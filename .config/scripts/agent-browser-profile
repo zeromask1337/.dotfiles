@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# Purpose: hover the user's real Chrome login state for agent-browser on macOS.
+#
+# Why not `agent-browser --profile Default`: that copies the profile and launches
+# Chrome for Testing on the copy. On macOS the copied Cookies DB cannot be
+# decrypted (Chrome's Safe Storage / keychain binding), so every page is logged
+# out. Launching the *real* Chrome binary on a copied directory keeps cookie
+# decryption and the login state alive; agent-browser then attaches over CDP.
+#
+# Usage:
+#   agent-browser-profile start    # copy profile, launch Chrome, print port
+#   agent-browser-profile port     # print the CDP port (Chrome running)
+#   agent-browser-profile attach [args...]
+#                                  # print the argv to run agent-browser --cdp
+#   agent-browser-profile stop     # kill the copy's Chrome, delete the copy
+#
+# Typical agent flow:
+#   agent-browser-profile start                     # -> PORT=$(agent-browser-profile port)
+#   agent-browser --cdp "$PORT" open https://example.com
+#   agent-browser-profile stop
+set -euo pipefail
+
+REAL="${HOME}/Library/Application Support/Google/Chrome"
+COPY="${AGENT_BROWSER_PROFILE_COPY:-${TMPDIR:-/tmp}/agent-browser-profile-copy}"
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+PID_FILE="${COPY}.chrome.pid"
+PORT_FILE="${COPY}.cdp.port"
+
+die() { echo "error: $*" >&2; exit 1; }
+
+copy_is_running() {
+  [[ -f "${PID_FILE}" ]] || return 1
+  local pid; pid="$(cat "${PID_FILE}")"
+  [[ -n "${pid}" ]] && kill -0 "${pid}" 2>/dev/null
+}
+
+start() {
+  copy_is_running && die "already running (pid $(cat "${PID_FILE}"); port $(port 2>/dev/null || echo '?')). Run 'stop' first."
+  [[ -d "${REAL}/Default" ]] || die "no Chrome profile at ${REAL}. Launch Chrome plus sign in once, or grant Full Disk Access."
+
+  rm -rf "${COPY}" "${PID_FILE}" "${PORT_FILE}"
+  # -c clones (APFS copy-on-write); skip caches to keep the copy small
+  /bin/cp -c -R "${REAL}" "${COPY}" 2>/dev/null || /bin/cp -R "${REAL}" "${COPY}"
+  rm -rf "${COPY}"/Default/{Cache,Code Cache,GPUCache,DawnGraphiteCache,DawnWebGPUCache,GPUPersistentCache,Media Cache} \
+         "${COPY}"/{Crashpad,component_crx_cache,extensions_crx_cache}
+
+  "${CHROME}" --user-data-dir="${COPY}" --remote-debugging-port=0 \
+    --no-first-run --no-default-browser-check --disable-background-networking \
+    --disable-component-update --disable-default-apps --disable-popup-blocking \
+    --disable-prompt-on-repost --homepage=about:blank \
+    >/dev/null 2>&1 &
+  echo $! > "${PID_FILE}"
+
+  local p=""
+  for _ in $(seq 1 60); do
+    p="$(head -1 "${COPY}/DevToolsActivePort" 2>/dev/null || true)"
+    if [[ "${p}" =~ ^[0-9]+$ ]] && curl -sf --max-time 2 "http://127.0.0.1:${p}/json/version" >/dev/null 2>&1; then
+      break
+    fi
+    p=""
+    sleep 0.25
+  done
+  [[ -n "${p}" ]] || die "Chrome did not expose a reachable CDP port (check the copy at ${COPY})"
+  echo "${p}" > "${PORT_FILE}"
+  echo "ready: cdp port ${p} (profile copy ${COPY})"
+  echo "attach: agent-browser --cdp ${p} open <url>"
+}
+
+port() {
+  [[ -s "${PORT_FILE}" ]] || return 1
+  cat "${PORT_FILE}"
+}
+
+stop() {
+  if copy_is_running; then
+    kill "$(cat "${PID_FILE}")" 2>/dev/null || true
+    sleep 1
+    copy_is_running && kill -9 "$(cat "${PID_FILE}")" 2>/dev/null || true
+  fi
+  rm -f "${PID_FILE}" "${PORT_FILE}"
+  rm -rf "${COPY}"
+  echo "stopped: Chrome copy killed, ${COPY} removed"
+}
+
+case "${1:-}" in
+  start)  start ;;
+  port)   port || die "not running" ;;
+  attach) shift; echo "--cdp $(port || die 'not running') $*" ;;
+  stop)   stop ;;
+  *) sed -n '2,20p' "$0" | sed 's/^# \{0,1\}//'; exit 1 ;;
+esac
