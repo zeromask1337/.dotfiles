@@ -1,6 +1,6 @@
 ---
 name: real-profile-browsing
-description: Use when browsing as the user — their real Chrome logins, cookies, sessions, IP. Account-gated pages, paywalls, sites that reject fresh profiles. Covers the agent-browser-profile helper (copy profile → launch real Chrome → attach agent-browser over CDP) and why agent-browser's built-in --profile fails on macOS.
+description: Use when browsing as the user — their real Chrome logins, cookies, sessions, IP. Account-gated pages, paywalls, sites that reject fresh profiles. Covers the agent-browser-profile helper (copy profile → launch real Chrome → attach agent-browser over CDP) and why agent-browser's built-in --profile loses login on follow-up commands (fix: AGENT_BROWSER_CONFIG/AGENT_BROWSER_PROFILE).
 ---
 
 # Real-profile browsing (macOS)
@@ -9,7 +9,25 @@ Driving the user's own Chrome state — cookies, logins, extensions — so accou
 
 ## The one-line reality
 
-`agent-browser --profile Default` is **broken on macOS**: it copies the profile and launches on the copy, but the copied Cookies DB cannot be decrypted (Chrome Safe Storage / keychain binding). Result: logged out, zero cookies visible to CDP even though the DB has hundreds. Do not use it; do not debug it.
+`agent-browser --profile Default` **works** (copies profile, launches real Chrome from `~/.agent-browser/config.json` `executablePath`, omits `--use-mock-keychain` → cookies decrypt). The trap: launch options are **per invocation**. A follow-up command without `--profile` makes the daemon relaunch a clean Chrome (temp dir + `--use-mock-keychain` + `--password-store=basic`) → logged out, `about:blank`, 0 cookies.
+
+Trap fixed by export in `.zprofile`:
+
+```bash
+export AGENT_BROWSER_CONFIG=$HOME/.config/agent-browser/real-profile.json   # {"profile":"Default", executablePath, idleTimeout}
+```
+
+Already exported for login shells (Terminal/Ghostty). So:
+
+```bash
+agent-browser --session me open https://mail.google.com
+agent-browser --session me snapshot -i
+agent-browser --session me close
+```
+
+Opt out per command with `env -u AGENT_BROWSER_CONFIG agent-browser ...` for anonymous/isolated browsing (`AGENT_BROWSER_CONFIG=` errors). Needed for tests that must not see real logins. Each profiled launch costs a real-profile copy (~240MB, temp dir), so keep sessions short-lived.
+
+Alt (below): helper script, headed real Chrome on full copy + `--cdp`.
 
 The working mechanism is Hermes' one: **copy the profile directory, launch the real Chrome binary on the copy with `--remote-debugging-port=0`, attach agent-browser via `--cdp`**. Same binary ⇒ same keychain key ⇒ cookies decrypt.
 

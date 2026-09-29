@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 # Purpose: hover the user's real Chrome login state for agent-browser on macOS.
 #
-# Why not `agent-browser --profile Default`: that copies the profile and launches
-# Chrome for Testing on the copy. On macOS the copied Cookies DB cannot be
-# decrypted (Chrome's Safe Storage / keychain binding), so every page is logged
-# out. Launching the *real* Chrome binary on a copied directory keeps cookie
-# decryption and the login state alive; agent-browser then attaches over CDP.
+# Alternative to `AGENT_BROWSER_PROFILE=Default agent-browser ...` (which also
+# works if set for *every* command; without it the daemon relaunches a clean
+# Chrome with --use-mock-keychain). This one runs headed real Chrome on a full
+# profile copy; agent-browser attaches over CDP.
 #
 # Usage:
 #   agent-browser-profile start    # copy profile, launch Chrome, print port
@@ -42,7 +41,8 @@ start() {
   # -c clones (APFS copy-on-write); skip caches to keep the copy small
   /bin/cp -c -R "${REAL}" "${COPY}" 2>/dev/null || /bin/cp -R "${REAL}" "${COPY}"
   rm -rf "${COPY}"/Default/{Cache,Code Cache,GPUCache,DawnGraphiteCache,DawnWebGPUCache,GPUPersistentCache,Media Cache} \
-         "${COPY}"/{Crashpad,component_crx_cache,extensions_crx_cache}
+         "${COPY}"/{Crashpad,component_crx_cache,extensions_crx_cache} \
+         "${COPY}"/{SingletonLock,SingletonSocket,SingletonCookie,DevToolsActivePort,RunningChromeVersion}
 
   "${CHROME}" --user-data-dir="${COPY}" --remote-debugging-port=0 \
     --no-first-run --no-default-browser-check --disable-background-networking \

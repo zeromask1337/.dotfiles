@@ -15,6 +15,10 @@ export HOMEBREW_NO_ENV_HINTS=1
 
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
 
+# agent-browser: real Chrome profile (cookies/logins) for every session.
+# Drop AGENT_BROWSER_PROFILE/AGENT_BROWSER_CONFIG per command to use an isolated browser.
+export AGENT_BROWSER_CONFIG=$HOME/.config/agent-browser/real-profile.json
+
 source "$HOME/.cargo/env"
 
 # Added by Obsidian
