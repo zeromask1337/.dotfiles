@@ -196,5 +196,15 @@ else
   echo "SKIP lefthook install (lefthook not found)"
 fi
 
+# === Install crontab entries managed in the dotfiles repo ===
+# .config/cron/crontab is the source of truth; install.sh replaces the
+# crontab only when it differs and backs up the previous one. Skipped on
+# machines without a crontab command.
+if [ -f "$HOME/.dotfiles/.config/cron/install.sh" ]; then
+  sh "$HOME/.dotfiles/.config/cron/install.sh" || echo "WARN crontab install failed (continuing)"
+else
+  echo "SKIP crontab install (install.sh not found)"
+fi
+
 echo TAP_PACKAGES_HOOK_DONE
 """

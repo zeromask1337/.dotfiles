@@ -1,0 +1,22 @@
+# Crontab managed in ~/.dotfiles/.config/cron/crontab
+#
+# This file is the source of truth for this machine's crontab. It is installed
+# by `.config/cron/install.sh`, which the mise bootstrap post-packages hook
+# runs after stowing the dotfiles:
+#
+#   mise bootstrap                       # full machine apply
+#   ~/.dotfiles/.config/cron/install.sh  # crontab only
+#
+# Add jobs here (not with `crontab -e`): the next install replaces the whole
+# crontab with this file, backing up whatever was there before.
+#
+# Fields:  minute hour day-of-month month day-of-week  command
+#          (cron sets $HOME and runs the command with /bin/sh)
+
+# Homebrew is not on cron's default PATH.
+PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# Nightly maintenance at 03:00 local time. Output goes to
+# ~/.local/state/cron/<name>.log, so an empty log means nothing failed.
+0 3 * * * mkdir -p "$HOME/.local/state/cron" && "$HOME/.hermes/hermes-agent/.hermes/bin/hermes" update --yes >> "$HOME/.local/state/cron/hermes-update.log" 2>&1
+0 3 * * * mkdir -p "$HOME/.local/state/cron" && brew update >> "$HOME/.local/state/cron/brew-update.log" 2>&1
