@@ -521,7 +521,7 @@ Use comma-separated origins only when each is a trusted dashboard URL. Every ori
 
 ## This machine (macOS, OpenCode)
 
-- Global CLI: `agent-browser` (pnpm global). `~/.agent-browser/config.json` pins `executablePath` to `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` and `idleTimeout: 120000`, so plain `agent-browser` commands launch the **real Google Chrome binary**.
+- Global CLI: `agent-browser` (pnpm global). `~/.agent-browser/config.json` pins `executablePath` to `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` and `idleTimeout: "2m"`, so plain `agent-browser` commands launch the **real Google Chrome binary**.
 - **Real-profile logins**: add `--profile Default` (or `AGENT_BROWSER_PROFILE=Default`) to reuse the user's Chrome cookies/logins. That copies the profile to a temp dir (read-only), launches the real Chrome binary on the copy, and leaves the user's running Chrome untouched. Check `agent-browser profiles` first — it fails with "No Chrome profiles found" when the profile dir is unreadable.
 - **Full Disk Access blocks this.** Without FDA for the app hosting OpenCode (Ghostty/Terminal/iTerm), listing `~/Library/Application Support/Google/Chrome` returns `Operation not permitted` and every launch dies with `No Chrome profiles found in …/Google/Chrome`. Grant under System Settings → Privacy & Security → Full Disk Access, then retry. Do not loop on it: report the exact missing grant instead.
 - `--auto-connect` (attach to an already-running Chrome) needs that Chrome started with `--remote-debugging-port`; the user's normal Chrome does not have it.
