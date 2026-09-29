@@ -9,10 +9,26 @@
   "diffs": {
     "wrap": "word"
   },
+  "tabs": {
+    "layout": "vertical",
+    "indicators": "status",
+    "scope": "cwd",
+    "mode": "on"
+  },
   "session": {
     "sidebar": "auto",
     "scrollbar": false,
-    "thinking": "hide"
+    "thinking": "hide",
+    "grouping": "auto",
+    "markdown": "rendered",
+    "image_preview": true,
+    "new_location": "launch",
+    "permissions": "prompt"
   },
-  "animations": true
+  "animations": true,
+  "attention": {
+    "notifications": true,
+    "sound": true,
+    "volume": 0.30000000000000016
+  }
 }
