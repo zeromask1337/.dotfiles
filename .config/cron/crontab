@@ -20,3 +20,5 @@ PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin
 # ~/.local/state/cron/<name>.log, so an empty log means nothing failed.
 0 3 * * * mkdir -p "$HOME/.local/state/cron" && "$HOME/.hermes/hermes-agent/.hermes/bin/hermes" update --yes >> "$HOME/.local/state/cron/hermes-update.log" 2>&1
 0 3 * * * mkdir -p "$HOME/.local/state/cron" && brew update >> "$HOME/.local/state/cron/brew-update.log" 2>&1
+
+0 3 * * * mkdir -p "$HOME/.local/state/cron" && GIT_SSH_COMMAND="ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new" git -C "$HOME/.dotfiles" push >> "$HOME/.local/state/cron/dotfiles-push.log" 2>&1
