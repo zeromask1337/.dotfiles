@@ -57,10 +57,6 @@ source /opt/homebrew/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autos
 # bindings
 bindkey '^k' autosuggest-accept
 
-# OpenClaw Completion
-[ -f "/Users/flippy/.openclaw/completions/openclaw.zsh" ] && source "/Users/flippy/.openclaw/completions/openclaw.zsh"
-source <(mise completion zsh)
-
 # Hermes Agent — ensure ~/.local/bin is on PATH
 export PATH="$HOME/.local/bin:$PATH"
 
