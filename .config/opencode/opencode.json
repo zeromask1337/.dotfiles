@@ -12,6 +12,11 @@
       "action": "external_directory",
       "resource": "/private/tmp/*",
       "effect": "allow"
+    },
+    {
+      "action": "external_directory",
+      "resource": "/Users/flippy/.config/opencode/**",
+      "effect": "allow"
     }
   ],
   "provider": {
