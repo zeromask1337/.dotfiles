@@ -20,6 +20,7 @@ tests/docker/*.log
 tests/docker/.tmp/
 
 .config/opencode/libraries/
+.config/opencode/service.json
 .config/uv/uv-receipt.json
 
 *.local
