@@ -92,7 +92,7 @@ set -e
 # macOS-only tap formulae: only run on Darwin; skipped on other platforms.
 MACOS_ONLY_TAPS="sichengchen/tap/apple-calendar-cli steipete/tap/imsg steipete/tap/peekaboo steipete/tap/remindctl cirruslabs/cli/tart"
 # Cross-platform tap formulae: run on all platforms.
-ALL_OS_TAPS="steipete/tap/gifgrep gittower/tap/git-flow-next antoniorodr/memo/memo anomalyco/tap/opencode"
+ALL_OS_TAPS="steipete/tap/gifgrep gittower/tap/git-flow-next antoniorodr/memo/memo anomalyco/tap/opencode-v2"
 # Helper: install a tap formula WITHOUT aborting the whole hook on failure, so a
 # single broken/flaky tap formula (e.g. memo) can't block oh-my-zsh / dotfiles/stow.
 tap_install() {
@@ -117,6 +117,11 @@ brew tap gittower/tap 2>/dev/null || true
 brew tap antoniorodr/memo 2>/dev/null || true
 brew tap anomalyco/tap 2>/dev/null || true
 brew tap cirruslabs/cli 2>/dev/null || true
+# opencode v2 replaces v1: both install bin/opencode, so v1 must go first.
+if brew list --formula opencode &>/dev/null; then
+  echo "Removing opencode v1 (superseded by opencode-v2)"
+  brew uninstall --formula opencode || echo "WARN failed to uninstall opencode v1 (continuing)"
+fi
 # Install cross-platform tap formulae
 for formula in $ALL_OS_TAPS; do
   tap_install "$formula"
