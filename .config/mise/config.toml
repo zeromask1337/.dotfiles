@@ -61,6 +61,7 @@ usage = { version = "latest", auto_update = true }
 "brew:fd" = "latest"
 "brew:ffmpeg" = "latest"
 "brew:fzf" = "latest"
+"brew:fzf-tab" = "latest"
 "brew:gdu" = "latest"
 "brew:gh" = "latest"
 "brew:git-delta" = "latest"
@@ -99,6 +100,7 @@ usage = { version = "latest", auto_update = true }
 "brew:yq" = "latest"
 "brew:yt-dlp" = "latest"
 "brew:zsh-autosuggestions" = "latest"
+"brew:zsh-completions" = "latest"
 "brew:zsh-fast-syntax-highlighting" = "latest"
 
 # Tap formulae still need Homebrew: they publish no api/formula metadata and
@@ -108,6 +110,10 @@ usage = { version = "latest", auto_update = true }
 [bootstrap.hooks.post-packages]
 run = """
 set -e
+# oh-my-zsh refuses completions from group-writable Homebrew dirs
+if [ -d /opt/homebrew/share ]; then
+  chmod g-w,o-w /opt/homebrew/share 2>/dev/null || true
+fi
 TAPS="anomalyco/tap steipete/tap gittower/tap antoniorodr/memo cirruslabs/cli"
 ALL_OS_TAPS="steipete/tap/gifgrep gittower/tap/git-flow-next antoniorodr/memo/memo anomalyco/tap/opencode-v2"
 MACOS_ONLY_TAPS="steipete/tap/imsg steipete/tap/peekaboo steipete/tap/remindctl cirruslabs/cli/tart"

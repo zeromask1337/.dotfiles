@@ -3,9 +3,24 @@ zstyle ':omz:update' mode auto
 zstyle ':omz:update' frequency 13
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' menu no
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -1 $realpath'
+zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # zsh setup
-fpath=(~/.zsh/completions $fpath)
+# completions must be on fpath before oh-my-zsh runs compinit
+fpath=(
+  ~/.zfunc
+  ~/.zsh/completions
+  /opt/homebrew/share/zsh-completions
+  /opt/homebrew/share/zsh/site-functions
+  $fpath
+)
+
+# generate completions for tools that don't ship them (cached in ~/.zfunc)
+[ -x ~/.config/scripts/gen-zsh-completions ] && ~/.config/scripts/gen-zsh-completions
 
 # exports
 export ZSH=$HOME/.oh-my-zsh
@@ -18,7 +33,8 @@ eval "$(starship init zsh)"
 
 eval "$(mise activate zsh)"
 
-# completions
+# completions (fzf-tab before plugins that wrap widgets)
+source /opt/homebrew/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh
 source <(fzf --zsh)
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
@@ -45,10 +61,6 @@ setopt share_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_verify
-
-# completions setup
-autoload -Uz compinit
-compinit
 
 # zsh plugins (brew)
 source /opt/homebrew/opt/zsh-autosuggestions/share/zsh-autosuggestions/zsh-autosuggestions.zsh
