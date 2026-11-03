@@ -3,7 +3,6 @@ export XDG_CONFIG_HOME=$HOME/.config
 export BUN_INSTALL="$HOME/.bun"
 
 export PATH=$PATH:$BUN_INSTALL/bin
-export PATH=$PATH:$HOME/Library/pnpm
 export PATH=$PATH:/opt/homebrew/bin
 export PATH=$PATH:$HOME/.local/share/bob/nvim-bin
 export PATH=$PATH:$HOME/.local/bin

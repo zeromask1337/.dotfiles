@@ -8,8 +8,8 @@
 # ~/.local/state/dotfiles-cron/crontab.bak before being replaced.
 #
 # Usage:
-#   ~/.dotfiles/.config/cron/install.sh
-#   CRONTAB_SOURCE=/path/to/crontab ~/.dotfiles/.config/cron/install.sh
+#   mise bootstrap                              # full machine apply
+#   ~/.dotfiles/.config/cron/install.sh         # crontab only
 
 set -eu
 

@@ -1,8 +1,7 @@
 # Crontab managed in ~/.dotfiles/.config/cron/crontab
 #
 # This file is the source of truth for this machine's crontab. It is installed
-# by `.config/cron/install.sh`, which the mise bootstrap post-packages hook
-# runs after stowing the dotfiles:
+# by `.config/cron/install.sh`, which the mise bootstrap task runs:
 #
 #   mise bootstrap                       # full machine apply
 #   ~/.dotfiles/.config/cron/install.sh  # crontab only

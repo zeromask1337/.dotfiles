@@ -16,7 +16,6 @@ export FZF_COMPLETION_OPTS="--preview 'bat --style=numbers --color=always --line
 source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
-eval "$(fnm env --use-on-cd --shell zsh)"
 eval "$(mise activate zsh)"
 
 # completions
@@ -59,11 +58,3 @@ bindkey '^k' autosuggest-accept
 
 # Hermes Agent — ensure ~/.local/bin is on PATH
 export PATH="$HOME/.local/bin:$PATH"
-
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME/bin:"*) ;;
-  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end

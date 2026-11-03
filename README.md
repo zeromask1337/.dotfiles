@@ -1,11 +1,29 @@
 # Setup
-Clone this repo into your home folder, cd into it and run `stow .`.
 
-Then install lefthook and activate the hooks:
+Install mise first:
+
 ```sh
-brew install lefthook
-lefthook install
+curl https://mise.run | sh
 ```
+
+Fresh machine:
+
+```sh
+mise bootstrap --from https://github.com/zeromask1337/.dotfiles.git \
+  --from-dir ~/.dotfiles --config-dir .config/mise
+```
+
+This clones the repo, links `~/.config/mise`, applies the managed dotfiles,
+installs packages and tools, then runs the bootstrap task (lefthook hooks and
+crontab). Add `--force-dotfiles` if files already exist and should be replaced.
+
+Existing machine:
+
+```sh
+mise bootstrap --update
+```
+
+Dotfiles are symlinked from `~/.dotfiles` by mise's `[dotfiles]` table.
 
 # QA
 ## What if I need specific folder from `.config`?

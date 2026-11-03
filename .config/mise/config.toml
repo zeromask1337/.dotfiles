@@ -1,22 +1,57 @@
 [tools]
-node = "latest"
-rust = "latest"
-usage = "latest"
+node = { version = "latest", auto_update = true }
+pnpm = "latest"
+rust = { version = "stable", auto_update = "24h" }
+usage = { version = "latest", auto_update = true }
 "cargo:xavier-cli" = "latest"
 
-[bootstrap.brew.taps]
-"anomalyco/tap" = "https://github.com/anomalyco/homebrew-tap.git"
-"antoniorodr/memo" = "https://github.com/antoniorodr/homebrew-memo.git"
-"cirruslabs/cli" = "https://github.com/cirruslabs/homebrew-cli.git"
-"gittower/tap" = "https://github.com/gittower/homebrew-tap.git"
-"sichengchen/tap" = "https://github.com/sichengchen/homebrew-tap.git"
-"steipete/tap" = "https://github.com/steipete/homebrew-tap.git"
+[bootstrap.repos]
+"~/.oh-my-zsh" = { url = "https://github.com/ohmyzsh/ohmyzsh.git" }
+
+[dotfiles]
+"~" = { source = "~/.dotfiles", mode = "symlink-each", manifest = "git", exclude = [
+  ".config/**",
+  "README.md",
+  "LICENSE*",
+  "COPYING",
+  "lefthook.yml",
+  ".lefthook",
+  ".Brewfile",
+  ".gitignore",
+] }
+
+# Link these app dirs as whole directories so symlink-each never walks through
+# a link back into ~/.dotfiles.
+"~/.config/aerospace" = {}
+"~/.config/agent-browser" = {}
+"~/.config/configstore" = {}
+"~/.config/cron" = {}
+"~/.config/gh-dash" = {}
+"~/.config/ghostty" = {}
+"~/.config/kanata" = {}
+"~/.config/karabiner" = {}
+"~/.config/lazydocker" = {}
+"~/.config/lazygit" = {}
+"~/.config/linearmouse" = {}
+"~/.config/neofetch" = {}
+"~/.config/nvim" = {}
+"~/.config/opencode/AGENTS.md" = {}
+"~/.config/opencode/agent" = {}
+"~/.config/opencode/cli.json" = {}
+"~/.config/opencode/opencode.json" = {}
+"~/.config/opencode/package-lock.json" = {}
+"~/.config/opencode/plugins" = {}
+"~/.config/opencode/skill" = {}
+"~/.config/opencode/tui.json" = {}
+"~/.config/opencode/usage-limits.jsonc" = {}
+"~/.config/scripts" = {}
+"~/.config/starship" = {}
+"~/.config/timewarrior" = {}
+"~/.config/tmux" = {}
 
 [bootstrap.packages]
-"brew:ada-url" = "latest"  # ! dependency
 "brew:bat" = "latest"
 "brew:bottom" = "latest"
-"brew:cairo" = "latest"  # ! dependency
 "brew:cloudflared" = "latest"
 "brew:cmake" = "latest"
 "brew:displayplacer" = { version = "latest", os = ["macos"] }
@@ -24,33 +59,28 @@ usage = "latest"
 "brew:docker-compose" = "latest"
 "brew:doppler" = "latest"
 "brew:fd" = "latest"
-"brew:ffmpeg" = "latest"  # ! dependency
-"brew:fnm" = "latest"
+"brew:ffmpeg" = "latest"
 "brew:fzf" = "latest"
 "brew:gdu" = "latest"
-"brew:gettext" = "latest"  # ! dependency
 "brew:gh" = "latest"
 "brew:git-delta" = "latest"
 "brew:git-secrets" = "latest"
-"brew:gnupg" = "latest"  # ! dependency
+"brew:gnupg" = "latest"
 "brew:himalaya" = "latest"
 "brew:kanata" = "latest"
 "brew:lazygit" = "latest"
 "brew:lazysql" = "latest"
 "brew:lefthook" = "latest"
-"brew:libngtcp2" = "latest"  # ! dependency
 "brew:librdkafka" = "latest"
 "brew:llama.cpp" = "latest"
 "brew:lua-language-server" = "latest"
 "brew:mkcert" = "latest"
 "brew:mole" = { version = "latest", os = ["macos"] }
-"brew:fastfetch" = "latest"  # ! was neofetch (removed from homebrew-core)
+"brew:fastfetch" = "latest"
 "brew:neovim" = "latest"
-"brew:node" = "latest"  # ! dependency
 "brew:ollama" = "latest"
 "brew:pandoc" = "latest"
 "brew:parallel" = "latest"
-"brew:pnpm" = "latest"
 "brew:pass" = "latest"
 "brew:pass-import" = "latest"
 "brew:poppler" = "latest"
@@ -58,177 +88,58 @@ usage = "latest"
 "brew:python@3.12" = "latest"
 "brew:redis" = "latest"
 "brew:ripgrep" = "latest"
-"brew:simdjson" = "latest"  # ! dependency
 "brew:sshpass" = "latest"
 "brew:starship" = "latest"
-"brew:stow" = "latest"
 "brew:summarize" = "latest"
-"brew:tesseract" = "latest"  # ! dependency
 "brew:timewarrior" = "latest"
 "brew:tmux" = "latest"
-"brew:tree" = "latest"  # ! dependency
 "brew:tree-sitter-cli" = "latest"
 "brew:typst" = "latest"
 "brew:yazi" = "latest"
 "brew:yq" = "latest"
-"brew:yt-dlp" = "latest"  # ! dependency
+"brew:yt-dlp" = "latest"
 "brew:zsh-autosuggestions" = "latest"
 "brew:zsh-fast-syntax-highlighting" = "latest"
 
-# Tap formulae can't be installed by mise directly: mise fetches bottle metadata
-# from the tap's GitHub raw `api/formula/<name>.json` and never shells out to brew.
-# NONE of the taps below publish that metadata (verified 404 on every formula as of
-# 2026-08), so each one MUST stay here in the hook via real `brew`.
-#
-# MIGRATION when a tap starts publishing metadata:
-#   1. Check:  curl -fsI https://raw.githubusercontent.com/<owner>/<repo>/<branch>/api/formula/<name>.json
-#              -> HTTP 200 means it can now be installed declaratively.
-#   2. If 200: move the formula into [bootstrap.packages] as
-#                 "brew:<owner>/<tap>/<formula>" = "latest"
-#              and DELETE its `brew list ... || brew install ...` line here.
-#   3. Keep the `brew trust`/`brew tap` lines only while any formula still needs them.
+# Tap formulae still need Homebrew: they publish no api/formula metadata and
+# several use Homebrew DSL that mise's evaluator does not implement (memo uses
+# virtualenv_install_with_resources). Keep this hook until upstream publishes
+# metadata or mise supports those formula features.
 [bootstrap.hooks.post-packages]
 run = """
 set -e
-# macOS-only tap formulae: only run on Darwin; skipped on other platforms.
-MACOS_ONLY_TAPS="sichengchen/tap/apple-calendar-cli steipete/tap/imsg steipete/tap/peekaboo steipete/tap/remindctl cirruslabs/cli/tart"
-# Cross-platform tap formulae: run on all platforms.
+TAPS="anomalyco/tap steipete/tap gittower/tap antoniorodr/memo cirruslabs/cli"
 ALL_OS_TAPS="steipete/tap/gifgrep gittower/tap/git-flow-next antoniorodr/memo/memo anomalyco/tap/opencode-v2"
-# Helper: install a tap formula WITHOUT aborting the whole hook on failure, so a
-# single broken/flaky tap formula (e.g. memo) can't block oh-my-zsh / dotfiles/stow.
+MACOS_ONLY_TAPS="steipete/tap/imsg steipete/tap/peekaboo steipete/tap/remindctl cirruslabs/cli/tart"
+for tap in $TAPS; do
+  brew tap "$tap" 2>/dev/null || true
+done
+brew trust $TAPS 2>/dev/null || true
 tap_install() {
-  local formula="$1"
-  if brew list "$formula" &>/dev/null; then
-    echo "TAP present: $formula"
-    return 0
-  fi
-  if brew install "$formula"; then
-    echo "TAP installed: $formula"
+  if brew list "$1" &>/dev/null; then
+    echo "TAP present: $1"
+  elif brew install "$1"; then
+    echo "TAP installed: $1"
   else
-    echo "TAP FAILED (continuing): $formula"
-    return 0
+    echo "TAP FAILED (continuing): $1"
   fi
 }
-# Trust third-party taps (brew 6.x tap-trust requirement)
-brew trust sichengchen/tap steipete/tap gittower/tap antoniorodr/memo anomalyco/tap cirruslabs/cli 2>/dev/null || true
-# Ensure taps are present
-brew tap sichengchen/tap 2>/dev/null || true
-brew tap steipete/tap 2>/dev/null || true
-brew tap gittower/tap 2>/dev/null || true
-brew tap antoniorodr/memo 2>/dev/null || true
-brew tap anomalyco/tap 2>/dev/null || true
-brew tap cirruslabs/cli 2>/dev/null || true
-# opencode v2 replaces v1: both install bin/opencode, so v1 must go first.
-if brew list --formula opencode &>/dev/null; then
-  echo "Removing opencode v1 (superseded by opencode-v2)"
-  brew uninstall --formula opencode || echo "WARN failed to uninstall opencode v1 (continuing)"
-fi
-# Install cross-platform tap formulae
-for formula in $ALL_OS_TAPS; do
-  tap_install "$formula"
-done
-# Install macOS-only tap formulae (skip non-macOS platforms; skip ones needing full Xcode.app when absent)
+for formula in $ALL_OS_TAPS; do tap_install "$formula"; done
 if [ "$(uname)" = "Darwin" ]; then
-  tap_install sichengchen/tap/apple-calendar-cli || { [ -d /Applications/Xcode.app ] && tap_install sichengchen/tap/apple-calendar-cli || echo "SKIP apple-calendar-cli (needs Xcode.app)"; }
-  for formula in steipete/tap/imsg steipete/tap/peekaboo steipete/tap/remindctl cirruslabs/cli/tart; do
-    tap_install "$formula"
-  done
+  for formula in $MACOS_ONLY_TAPS; do tap_install "$formula"; done
 else
   echo "SKIP macOS-only tap formulae (on Linux)"
 fi
-
-# Install Oh My Zsh via the official installer — OS-specific download tool
-# (curl on macOS, wget on Linux). Idempotent: skip if already installed.
-if [ ! -d "${ZSH:-$HOME/.oh-my-zsh}" ]; then
-  OHMYZSH_URL="https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh"
-  if [ "$(uname)" = "Darwin" ]; then
-    sh -c "$(curl -fsSL "$OHMYZSH_URL")" "" --keep-zshrc --unattended
-  else
-    sh -c "$(wget "$OHMYZSH_URL" -O -)" "" --keep-zshrc --unattended
-  fi
-else
-  echo "oh-my-zsh already installed (skipping)"
-fi
-
-# === Deploy dotfiles repo via stow (overwrites autogenerated configs) ===
-# Clone the public dotfiles repo over HTTPS (no SSH keys needed on a fresh
-# machine), then `stow .` to symlink every managed file into $HOME. Any plain,
-# non-symlink target that conflicts is DELETED first so the managed symlink wins
-# ("my dotfiles override autogenerated defaults"). Conflict targets are parsed
-# from stow's own conflict report, so nested conflicts (.config/*, .local/*) are
-# caught too — not just top-level files.
-# After cloning, the remote is switched to SSH so future `git push` uses the key
-# in ~/.ssh instead of prompting for HTTPS credentials.
-DOTFILES_REPO_URL="https://github.com/zeromask1337/.dotfiles.git"
-DOTFILES_SSH_URL="git@github.com:zeromask1337/.dotfiles.git"
-if [ ! -d "$HOME/.dotfiles/.git" ]; then
-  git clone "$DOTFILES_REPO_URL" "$HOME/.dotfiles"
-else
-  git -C "$HOME/.dotfiles" fetch --unshallow origin master && git -C "$HOME/.dotfiles" reset --hard origin/master
-fi
-git -C "$HOME/.dotfiles" remote set-url origin "$DOTFILES_SSH_URL"
-# Alert if there are no SSH keys yet: pushes will fail until one is generated
-# and added to GitHub (e.g. `ssh-keygen -t ed25519 -f ~/.ssh/github`).
-if [ ! -f "$HOME/.ssh/github" ] && [ -z "$(ls -A "$HOME/.ssh" 2>/dev/null)" ]; then
-  echo "WARN: ~/.ssh is empty - generate a key and add it to GitHub: ssh-keygen -t ed25519 -f ~/.ssh/github && gh ssh-key add ~/.ssh/github.pub"
-fi
-cd "$HOME/.dotfiles"
-if stow . 2>/tmp/stow.err; then
-  echo "stow: all dotfiles linked (no conflicts)"
-else
-  echo "stow had conflicts; removing plain files that block managed symlinks, then retrying..."
-  grep -o 'over existing target [^ ]*' /tmp/stow.err | sed 's/over existing target //' | sort -u | while read -r rel; do
-    target="$HOME/$rel"
-    if [ -e "$target" ] && [ ! -L "$target" ]; then
-      echo "  removing autogenerated: $target"
-      rm -rf "$target"
-    fi
-  done
-  stow . || echo "WARN stow still reported failures after conflict removal"
-fi
-rm -f /tmp/stow.err
-
-# === Install lefthook git hooks for the dotfiles repo ===
-# lefthook.yml lives in the dotfiles repo; `lefthook install` wires its hooks
-# (e.g. commit-msg inject-scope) into .git/hooks. Idempotent and non-fatal.
-if command -v lefthook >/dev/null 2>&1; then
-  if (cd "$HOME/.dotfiles" && lefthook install 2>/tmp/lefthook.err); then
-    echo "lefthook: hooks installed"
-  else
-    echo "WARN lefthook install failed (continuing): $(cat /tmp/lefthook.err)"
-  fi
-  rm -f /tmp/lefthook.err
-else
-  echo "SKIP lefthook install (lefthook not found)"
-fi
-
-# === Install crontab entries managed in the dotfiles repo ===
-# .config/cron/crontab is the source of truth; install.sh replaces the
-# crontab only when it differs and backs up the previous one. Skipped on
-# machines without a crontab command.
-if [ -f "$HOME/.dotfiles/.config/cron/install.sh" ]; then
-  sh "$HOME/.dotfiles/.config/cron/install.sh" || echo "WARN crontab install failed (continuing)"
-else
-  echo "SKIP crontab install (install.sh not found)"
-fi
-
-echo TAP_PACKAGES_HOOK_DONE
 """
 
-# === opencode server (auto-start at login) ===
-# Runs `opencode serve` under Doppler so it has OPENCODE_API_KEY, FIRECRAWL_API_KEY,
-# etc. without a shell. mise writes a user LaunchAgent
-# (~/Library/LaunchAgents/dev.mise.opencode-server.plist) that starts at login and
-# restarts it if it dies.
-#
-#   mise bootstrap services apply opencode-server   # install / refresh
-#   mise bootstrap services status                  # check
-#   launchctl print gui/$(id -u)/dev.mise.opencode-server   # runtime state / last exit
-#
-# working_directory = "~" matters: Doppler resolves its project/config from the
-# scope stored for /Users/flippy (~/.doppler/.doppler.yaml -> dotfiles/dev_personal).
-# OpenCode listens on 127.0.0.1:4096 by default; keep the port explicit so the
-# TUI and any clients agree on it.
+[tasks.bootstrap]
+dir = "~/.dotfiles"
+run = [
+  "git remote get-url origin | grep -qx 'git@github.com:zeromask1337/.dotfiles.git' || git remote set-url origin git@github.com:zeromask1337/.dotfiles.git",
+  "lefthook install || echo 'WARN lefthook install failed (continuing)'",
+  "sh .config/cron/install.sh || echo 'WARN crontab install failed (continuing)'",
+]
+
 [bootstrap.services.opencode-server]
 scope = "user"
 command = "/opt/homebrew/bin/doppler run -- /opt/homebrew/bin/opencode serve --hostname 127.0.0.1 --port 4096"
