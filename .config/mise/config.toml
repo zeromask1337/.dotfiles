@@ -2,11 +2,18 @@
 node = { version = "latest", auto_update = true }
 pnpm = "latest"
 rust = { version = "stable", auto_update = "24h" }
+ruby = "3"
 usage = { version = "latest", auto_update = true }
 "cargo:xavier-cli" = "latest"
 
+[settings.github]
+credential_command = 'gh auth token --hostname "$MISE_CREDENTIAL_HOST"'
+
 [bootstrap.repos]
 "~/.oh-my-zsh" = { url = "https://github.com/ohmyzsh/ohmyzsh.git" }
+
+[bootstrap.brew.taps]
+"nikitabobko/tap" = "https://github.com/nikitabobko/homebrew-tap.git"
 
 [dotfiles]
 "~" = { source = "~/.dotfiles", mode = "symlink-each", manifest = "git", exclude = [
@@ -16,7 +23,6 @@ usage = { version = "latest", auto_update = true }
   "COPYING",
   "lefthook.yml",
   ".lefthook",
-  ".Brewfile",
   ".gitignore",
 ] }
 
@@ -26,23 +32,17 @@ usage = { version = "latest", auto_update = true }
 "~/.config/agent-browser" = {}
 "~/.config/configstore" = {}
 "~/.config/cron" = {}
-"~/.config/gh-dash" = {}
 "~/.config/ghostty" = {}
 "~/.config/kanata" = {}
-"~/.config/karabiner" = {}
-"~/.config/lazydocker" = {}
 "~/.config/lazygit" = {}
 "~/.config/linearmouse" = {}
-"~/.config/neofetch" = {}
 "~/.config/nvim" = {}
 "~/.config/opencode/AGENTS.md" = {}
 "~/.config/opencode/agent" = {}
 "~/.config/opencode/cli.json" = {}
 "~/.config/opencode/opencode.json" = {}
-"~/.config/opencode/package-lock.json" = {}
 "~/.config/opencode/plugins" = {}
 "~/.config/opencode/skill" = {}
-"~/.config/opencode/tui.json" = {}
 "~/.config/opencode/usage-limits.jsonc" = {}
 "~/.config/scripts" = {}
 "~/.config/starship" = {}
@@ -85,7 +85,6 @@ usage = { version = "latest", auto_update = true }
 "brew:pass" = "latest"
 "brew:pass-import" = "latest"
 "brew:poppler" = "latest"
-"brew:powerlevel10k" = "latest"
 "brew:python@3.12" = "latest"
 "brew:redis" = "latest"
 "brew:ripgrep" = "latest"
@@ -103,6 +102,10 @@ usage = { version = "latest", auto_update = true }
 "brew:zsh-completions" = "latest"
 "brew:zsh-fast-syntax-highlighting" = "latest"
 
+# GUI apps; adopt existing manual installs when identical
+"brew-cask:nikitabobko/tap/aerospace" = { version = "latest", os = ["macos"], adopt = true }
+"brew-cask:ghostty" = { version = "latest", os = ["macos"], adopt = true }
+
 # Tap formulae still need Homebrew: they publish no api/formula metadata and
 # several use Homebrew DSL that mise's evaluator does not implement (memo uses
 # virtualenv_install_with_resources). Keep this hook until upstream publishes
@@ -114,7 +117,7 @@ set -e
 if [ -d /opt/homebrew/share ]; then
   chmod g-w,o-w /opt/homebrew/share 2>/dev/null || true
 fi
-TAPS="anomalyco/tap steipete/tap gittower/tap antoniorodr/memo cirruslabs/cli"
+TAPS="anomalyco/tap steipete/tap gittower/tap antoniorodr/memo cirruslabs/cli nikitabobko/tap"
 ALL_OS_TAPS="steipete/tap/gifgrep gittower/tap/git-flow-next antoniorodr/memo/memo anomalyco/tap/opencode-v2"
 MACOS_ONLY_TAPS="steipete/tap/imsg steipete/tap/peekaboo steipete/tap/remindctl cirruslabs/cli/tart"
 for tap in $TAPS; do

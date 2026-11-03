@@ -8,8 +8,6 @@ export PATH=$PATH:$HOME/.local/share/bob/nvim-bin
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.dotfiles/.config/scripts
 
-export HOMEBREW_BUNDLE_DUMP_NO_VSCODE=1
-export HOMEBREW_BUNDLE_DUMP_NO_CARGO=1
 export HOMEBREW_NO_ENV_HINTS=1
 
 export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
