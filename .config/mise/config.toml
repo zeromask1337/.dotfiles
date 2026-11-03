@@ -213,3 +213,25 @@ fi
 
 echo TAP_PACKAGES_HOOK_DONE
 """
+
+# === opencode server (auto-start at login) ===
+# Runs `opencode serve` under Doppler so it has OPENCODE_API_KEY, FIRECRAWL_API_KEY,
+# etc. without a shell. mise writes a user LaunchAgent
+# (~/Library/LaunchAgents/dev.mise.opencode-server.plist) that starts at login and
+# restarts it if it dies.
+#
+#   mise bootstrap services apply opencode-server   # install / refresh
+#   mise bootstrap services status                  # check
+#   launchctl print gui/$(id -u)/dev.mise.opencode-server   # runtime state / last exit
+#
+# working_directory = "~" matters: Doppler resolves its project/config from the
+# scope stored for /Users/flippy (~/.doppler/.doppler.yaml -> dotfiles/dev_personal).
+# OpenCode listens on 127.0.0.1:4096 by default; keep the port explicit so the
+# TUI and any clients agree on it.
+[bootstrap.services.opencode-server]
+scope = "user"
+command = "/opt/homebrew/bin/doppler run -- /opt/homebrew/bin/opencode serve --hostname 127.0.0.1 --port 4096"
+working_directory = "~"
+environment = { PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" }
+restart = "on-failure"
+requires_tools = true
