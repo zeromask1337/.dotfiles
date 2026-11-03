@@ -2,6 +2,7 @@
 node = "latest"
 rust = "latest"
 usage = "latest"
+"cargo:xavier-cli" = "latest"
 
 [bootstrap.brew.taps]
 "anomalyco/tap" = "https://github.com/anomalyco/homebrew-tap.git"
