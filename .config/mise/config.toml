@@ -103,13 +103,12 @@ credential_command = 'gh auth token --hostname "$MISE_CREDENTIAL_HOST"'
 "brew:zsh-fast-syntax-highlighting" = "latest"
 
 # GUI apps; adopt existing manual installs when identical
-"brew-cask:nikitabobko/tap/aerospace" = { version = "latest", os = ["macos"], adopt = true }
 "brew-cask:ghostty" = { version = "latest", os = ["macos"], adopt = true }
 
-# Tap formulae still need Homebrew: they publish no api/formula metadata and
-# several use Homebrew DSL that mise's evaluator does not implement (memo uses
-# virtualenv_install_with_resources). Keep this hook until upstream publishes
-# metadata or mise supports those formula features.
+# Tap formulae and casks still need Homebrew: they publish no api/formula
+# metadata and several use Homebrew DSL that mise's evaluator does not implement
+# (memo uses virtualenv_install_with_resources). Keep this hook until upstream
+# publishes metadata or mise supports those formula features.
 [bootstrap.hooks.post-packages]
 run = """
 set -e
@@ -134,8 +133,18 @@ tap_install() {
   fi
 }
 for formula in $ALL_OS_TAPS; do tap_install "$formula"; done
+tap_cask_install() {
+  if brew list --cask "$1" &>/dev/null; then
+    echo "TAP present (cask): $1"
+  elif brew install --cask "$1"; then
+    echo "TAP installed (cask): $1"
+  else
+    echo "TAP FAILED (continuing) (cask): $1"
+  fi
+}
 if [ "$(uname)" = "Darwin" ]; then
   for formula in $MACOS_ONLY_TAPS; do tap_install "$formula"; done
+  tap_cask_install "nikitabobko/tap/aerospace"
 else
   echo "SKIP macOS-only tap formulae (on Linux)"
 fi
