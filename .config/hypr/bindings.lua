@@ -106,6 +106,13 @@ o.bind("SUPER + SHIFT + 3", "Screenshot (full screen)", "omarchy capture screens
 o.bind("SUPER + SHIFT + 4", "Screenshot (region)", "omarchy capture screenshot region")
 o.bind("SUPER + SHIFT + 5", "Screen recording", "omarchy capture screenrecording --stop-recording || omarchy capture screenrecording")
 
+-- Alt + number switches workspaces. Bound here because the window-management
+-- cleanup left Alt + 1..9 free for apps, and Zen claims them for its own tabs.
+for slot = 1, 9 do
+  o.bind("ALT + " .. slot, "Switch to workspace " .. slot, o.workspaces.focus(slot))
+end
+o.bind("ALT + 0", "Switch to workspace 10", o.workspaces.focus(10))
+
 -- macOS-style editing and tab shortcuts (Cmd -> Super).
 -- SUPER + W was Omarchy's "Close window"; Ctrl + W is forwarded instead.
 hl.unbind("SUPER + W")
