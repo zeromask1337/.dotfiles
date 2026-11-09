@@ -106,6 +106,45 @@ o.bind("SUPER + SHIFT + 3", "Screenshot (full screen)", "omarchy capture screens
 o.bind("SUPER + SHIFT + 4", "Screenshot (region)", "omarchy capture screenshot region")
 o.bind("SUPER + SHIFT + 5", "Screen recording", "omarchy capture screenrecording --stop-recording || omarchy capture screenrecording")
 
+-- Layout-safe clipboard. Omarchy's universal copy/paste resolves keysyms in the
+-- active keymap, so with a non-Latin layout (e.g. Russian) Ctrl + V fails with
+-- "send_key_state: key not found". XKB keycodes bypass the lookup:
+-- 38=A 54=C 55=V 53=X.
+local function send_key(mods, key)
+  hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
+  hl.timer(function()
+    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
+  end, { timeout = 50, type = "oneshot" })
+end
+
+local function active_window_is_terminal()
+  local window = hl.get_active_window()
+  if not window then
+    return false
+  end
+  for _, tag in ipairs(window.tags or {}) do
+    if tag:gsub("%*$", "") == "terminal" then
+      return true
+    end
+  end
+  return false
+end
+
+local function clipboard_chord(default_mods, default_key, terminal_mods, terminal_key)
+  return function()
+    if active_window_is_terminal() then
+      send_key(terminal_mods, terminal_key)
+    else
+      send_key(default_mods, default_key)
+    end
+  end
+end
+
+o.rebind("SUPER + A", "Select all", function() send_key("CTRL", "code:38") end)
+o.rebind("SUPER + C", "Universal copy", clipboard_chord("CTRL", "code:54", "CTRL SHIFT", "code:54"))
+o.rebind("SUPER + V", "Universal paste", clipboard_chord("CTRL", "code:55", "CTRL SHIFT", "code:55"))
+o.rebind("SUPER + X", "Universal cut", function() send_key("CTRL", "code:53") end)
+
 -- Alt + number switches workspaces. Bound here because the window-management
 -- cleanup left Alt + 1..9 free for apps, and Zen claims them for its own tabs.
 for slot = 1, 9 do
@@ -118,11 +157,11 @@ o.bind("ALT + 0", "Switch to workspace 10", o.workspaces.focus(10))
 hl.unbind("SUPER + W")
 
 -- Undo.
-o.bind("SUPER + z", "Undo", hl.dsp.send_shortcut({ mods = "CTRL", key = "z" }))
+o.bind("SUPER + z", "Undo", hl.dsp.send_shortcut({ mods = "CTRL", key = "code:52" }))
 
 -- Tabs.
-o.bind("SUPER + t", "New tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "t" }))
-o.bind("SUPER + w", "Close tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "w" }))
+o.bind("SUPER + t", "New tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "code:28" }))
+o.bind("SUPER + w", "Close tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "code:25" }))
 
 -- Cursor navigation in text fields: line start/end on Left/Right,
 -- document start/end on Up/Down.
