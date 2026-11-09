@@ -10,7 +10,7 @@ export PATH=$PATH:$HOME/.dotfiles/.config/scripts
 
 export HOMEBREW_NO_ENV_HINTS=1
 
-export STARSHIP_CONFIG=$HOME/.config/starship/starship.toml
+export STARSHIP_CONFIG=$HOME/.config/starship.toml
 
 # agent-browser: real Chrome profile (cookies/logins) for every session.
 # Drop AGENT_BROWSER_PROFILE/AGENT_BROWSER_CONFIG per command to use an isolated browser.
