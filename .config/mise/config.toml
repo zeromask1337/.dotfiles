@@ -174,3 +174,13 @@ remain_after_exit = true
 exec_start = "~/.dotfiles/.config/scripts/opencode-service-restart"
 timeout_start_sec = "300"
 wanted_by = ["default.target"]
+
+# Push ~/.dotfiles at session logout/shutdown, even when no shell is open.
+# A oneshot stays active until the user manager stops; ExecStop runs then.
+[bootstrap.linux.systemd.units.dotfiles-push]
+type = "oneshot"
+remain_after_exit = true
+exec_start = "/bin/true"
+exec_stop = "~/.dotfiles/.config/scripts/dotfiles-push"
+timeout_stop_sec = "30"
+wanted_by = ["default.target"]
