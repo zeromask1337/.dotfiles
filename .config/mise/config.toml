@@ -46,6 +46,7 @@ credential_command = 'gh auth token --hostname "$MISE_CREDENTIAL_HOST"'
 "~/.config/opencode/skill" = {}
 "~/.config/opencode/usage-limits.jsonc" = {}
 "~/.config/scripts" = {}
+"~/.config/starship.toml" = {}
 "~/.config/systemd" = {}
 "~/.config/timewarrior" = {}
 "~/.config/tmux" = {}
