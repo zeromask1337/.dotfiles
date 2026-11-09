@@ -21,3 +21,8 @@ PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin
 0 3 * * * mkdir -p "$HOME/.local/state/cron" && brew update >> "$HOME/.local/state/cron/brew-update.log" 2>&1
 
 0 3 * * * mkdir -p "$HOME/.local/state/cron" && GIT_SSH_COMMAND="ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new" git -C "$HOME/.dotfiles" push >> "$HOME/.local/state/cron/dotfiles-push.log" 2>&1
+
+# At boot, restart the OpenCode background server with Doppler-injected env.
+# macOS cron supports @reboot; the wrapper retries until the network is up.
+# Log: ~/.local/state/cron/opencode-service-restart.log
+@reboot sleep 20; "$HOME/.dotfiles/.config/scripts/opencode-service-restart"
