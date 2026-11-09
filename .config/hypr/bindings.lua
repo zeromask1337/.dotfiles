@@ -98,6 +98,14 @@ for _, modifiers in ipairs({
   hl.unbind(modifiers .. " + code:21")
 end
 
+-- macOS-style capture keys.
+-- SUPER + SHIFT + 3: full desktop (focused monitor), saved and copied.
+-- SUPER + SHIFT + 4: region with the pointer, saved and copied.
+-- SUPER + SHIFT + 5: start/stop a screen recording (region picker on start).
+o.bind("SUPER + SHIFT + 3", "Screenshot (full screen)", "omarchy capture screenshot fullscreen")
+o.bind("SUPER + SHIFT + 4", "Screenshot (region)", "omarchy capture screenshot region")
+o.bind("SUPER + SHIFT + 5", "Screen recording", "omarchy capture screenrecording --stop-recording || omarchy capture screenrecording")
+
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
 if o.dictation_installed and o.dictation_installed() then
