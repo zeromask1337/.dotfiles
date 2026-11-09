@@ -135,6 +135,10 @@ o.bind("SUPER + DOWN", "Document end", hl.dsp.send_shortcut({ mods = "CTRL", key
 o.bind("ALT + LEFT", "Word left", hl.dsp.send_shortcut({ mods = "CTRL", key = "Left" }))
 o.bind("ALT + RIGHT", "Word right", hl.dsp.send_shortcut({ mods = "CTRL", key = "Right" }))
 
+-- Word deletion (macOS Option + Backspace/Delete): forward Ctrl + Backspace/Delete.
+o.bind("ALT + BACKSPACE", "Delete word left", hl.dsp.send_shortcut({ mods = "CTRL", key = "BackSpace" }))
+o.bind("ALT + Delete", "Delete word right", hl.dsp.send_shortcut({ mods = "CTRL", key = "Delete" }))
+
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
 if o.dictation_installed and o.dictation_installed() then
