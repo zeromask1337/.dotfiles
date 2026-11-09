@@ -151,9 +151,10 @@ run = [
 
 [bootstrap.services.opencode-server]
 scope = "user"
-command = "/opt/homebrew/bin/doppler run -- /opt/homebrew/bin/opencode serve --hostname 127.0.0.1 --port 4096"
+# Cross-platform wrapper: sets PATH for user bins, mise shims and Linuxbrew.
+command = "~/.dotfiles/.config/scripts/opencode-serve"
 working_directory = "~"
-environment = { PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" }
+environment = { PATH = "/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" }
 restart = "on-failure"
 requires_tools = true
 

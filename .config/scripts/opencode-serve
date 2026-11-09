@@ -1,0 +1,13 @@
+#!/bin/sh
+# Run the OpenCode background server with Doppler-injected env.
+#
+# Used by the mise user service on Linux and macOS. Service managers start with
+# a minimal PATH, so include the user bins, mise shims and both Homebrew prefixes.
+set -eu
+
+PATH="$HOME/.local/bin:$HOME/.local/share/mise/shims:/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH
+
+cd "$HOME"
+
+exec doppler run -- opencode serve --hostname 127.0.0.1 --port 4096
