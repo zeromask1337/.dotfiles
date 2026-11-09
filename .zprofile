@@ -1,22 +1,21 @@
 export XDG_CONFIG_HOME=$HOME/.config
-
 export BUN_INSTALL="$HOME/.bun"
-
-export PATH=$PATH:$BUN_INSTALL/bin
-export PATH=$PATH:/opt/homebrew/bin
-export PATH=$PATH:$HOME/.local/share/bob/nvim-bin
-export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:$HOME/.dotfiles/.config/scripts
-
-export HOMEBREW_NO_ENV_HINTS=1
-
 export STARSHIP_CONFIG=$HOME/.config/starship.toml
 
-# agent-browser: real Chrome profile (cookies/logins) for every session.
-# Drop AGENT_BROWSER_PROFILE/AGENT_BROWSER_CONFIG per command to use an isolated browser.
-export AGENT_BROWSER_CONFIG=$HOME/.config/agent-browser/real-profile.json
+if [[ "$OSTYPE" == darwin* ]]; then
+  export PATH=$PATH:/opt/homebrew/bin
+  export PATH=$PATH:/Applications/Obsidian.app/Contents/MacOS
+  export HOMEBREW_NO_ENV_HINTS=1
 
-source "$HOME/.cargo/env"
+  # agent-browser: real Chrome profile (cookies/logins) for every session.
+  # Drop AGENT_BROWSER_PROFILE/AGENT_BROWSER_CONFIG per command to use an isolated browser.
+  export AGENT_BROWSER_CONFIG=$HOME/.config/agent-browser/real-profile.json
 
-# Added by Obsidian
-export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
+  [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+else
+  # Linuxbrew binaries (formulae live here; brew itself is not installed)
+  case ":$PATH:" in
+    *":/home/linuxbrew/.linuxbrew/bin:"*) ;;
+    *) export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin" ;;
+  esac
+fi

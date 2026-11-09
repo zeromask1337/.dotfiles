@@ -5,6 +5,7 @@ rust = { version = "stable", auto_update = "24h" }
 ruby = "3"
 usage = { version = "latest", auto_update = true }
 "cargo:xavier-cli" = "latest"
+doppler = "latest"
 
 [settings.github]
 credential_command = 'gh auth token --hostname "$MISE_CREDENTIAL_HOST"'
@@ -57,7 +58,6 @@ credential_command = 'gh auth token --hostname "$MISE_CREDENTIAL_HOST"'
 "brew:displayplacer" = { version = "latest", os = ["macos"] }
 "brew:docker" = "latest"
 "brew:docker-compose" = "latest"
-"brew:doppler" = "latest"
 "brew:fd" = "latest"
 "brew:ffmpeg" = "latest"
 "brew:fzf" = "latest"
