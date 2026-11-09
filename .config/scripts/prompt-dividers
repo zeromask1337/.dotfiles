@@ -1,0 +1,53 @@
+#!/bin/sh
+# Preview candidate prompt dividers in your real terminal font.
+# Usage: prompt-dividers
+black=$(printf '\033[90m')
+dim=$(printf '\033[2m')
+reset=$(printf '\033[0m')
+pre=$(printf '\033[1;36m.dotfiles\033[0m on \033[1;35m master\033[0m \033[1;32m+31\033[0m \033[1;31m-1\033[0m')
+post=$(printf '\033[1;31m⇡2\033[0m')
+
+show() {
+  printf '  %-14s %s %s %s  %s\n' "$1" "$pre" "$black$2$reset" "$post" "$(printf '%s%s%s' "$dim" "$3" "$reset")"
+}
+
+echo
+echo "Prompt divider candidates (context: branch + metrics <divider> ahead/behind)"
+echo
+echo "line family"
+show '│ light'      '│' 'U+2502'
+show '┃ heavy'      '┃' 'U+2503'
+show '┆ dashed'     '┆' 'U+2506'
+show '┊ dashed2'    '┊' 'U+250A'
+show '▏ half block' '▏' 'U+258F'
+show '⎪ bracket'    '⎪' 'U+23AA'
+show '║ double box' '║' 'U+2551'
+show '‖ double'     '‖' 'U+2016'
+echo
+echo "dots"
+show '· middle'     '·' 'U+00B7'
+show '• bullet'     '•' 'U+2022'
+show '∙ operator'   '∙' 'U+2219'
+echo
+echo "arrows / chevrons"
+show '› rangle'     '›' 'U+203A'
+show '» guillemet'  '»' 'U+00BB'
+show '⟩ math'       '⟩' 'U+27E9'
+show '❯ heavy'      '❯' 'U+276F'
+show '→ right'      '→' 'U+2192'
+show '╱ slash'      '╱' 'U+2571'
+echo
+echo "diamonds"
+show '◆ filled'     '◆' 'U+25C6'
+show '◇ outline'    '◇' 'U+25C7'
+echo
+echo "nerd font (needs a Nerd Font as the terminal font)"
+pl_solid=$(printf '\356\202\260')   # U+E0B0
+pl_thin=$(printf '\356\202\261')    # U+E0B1
+nf_angle=$(printf '\357\204\205')   # U+F105
+nf_branch=$(printf '\356\202\240')  # U+E0A0
+show ' solid'       "$pl_solid" 'U+E0B0'
+show ' thin'        "$pl_thin" 'U+E0B1'
+show ' angle'       "$nf_angle" 'U+F105'
+show ' branch'      "$nf_branch" 'U+E0A0'
+echo
