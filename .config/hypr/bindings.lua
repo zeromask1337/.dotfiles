@@ -131,6 +131,10 @@ o.bind("SUPER + RIGHT", "Line end", hl.dsp.send_shortcut({ mods = "", key = "End
 o.bind("SUPER + UP", "Document start", hl.dsp.send_shortcut({ mods = "CTRL", key = "Home" }))
 o.bind("SUPER + DOWN", "Document end", hl.dsp.send_shortcut({ mods = "CTRL", key = "End" }))
 
+-- Word navigation in text fields (macOS Option + arrow): forward Ctrl + arrow.
+o.bind("ALT + LEFT", "Word left", hl.dsp.send_shortcut({ mods = "CTRL", key = "Left" }))
+o.bind("ALT + RIGHT", "Word right", hl.dsp.send_shortcut({ mods = "CTRL", key = "Right" }))
+
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
 if o.dictation_installed and o.dictation_installed() then
