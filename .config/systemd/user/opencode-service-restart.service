@@ -1,0 +1,15 @@
+[Unit]
+Description=Restart OpenCode background server with Doppler-injected env
+Documentation=https://github.com/zeromask1337/.dotfiles
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=%h/.dotfiles
+Environment=PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=%h/.dotfiles/.config/scripts/opencode-service-restart
+# The wrapper retries for up to ~2.5 minutes while the network comes up.
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target
