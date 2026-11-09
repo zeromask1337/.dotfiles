@@ -1,14 +1,21 @@
 #!/bin/sh
 # Restart the OpenCode background server with Doppler-injected env.
 #
-# Run at boot by the @reboot entry in .config/cron/crontab. `doppler run` needs
-# the project/config scope stored under ~/.dotfiles, so we cd there first. The
-# boot network may not be up yet, hence the retries.
+# Triggered at boot/login by:
+#   macOS  - @reboot entry in .config/cron/crontab
+#   Linux  - systemd user unit (opencode-service-restart.service)
+#
+# `doppler run` needs the project/config scope stored under ~/.dotfiles, so we
+# cd there first. The boot network may not be up yet, hence the retries.
 #
 # Manual run (also restarts the server serving the current session):
 #   ~/.dotfiles/.config/scripts/opencode-service-restart
 
 set -eu
+
+# cron, launchd and systemd can all start with a minimal PATH.
+PATH="/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH
 
 cd "$HOME/.dotfiles"
 
