@@ -106,6 +106,13 @@ o.bind("SUPER + SHIFT + 3", "Screenshot (full screen)", "omarchy capture screens
 o.bind("SUPER + SHIFT + 4", "Screenshot (region)", "omarchy capture screenshot region")
 o.bind("SUPER + SHIFT + 5", "Screen recording", "omarchy capture screenrecording --stop-recording || omarchy capture screenrecording")
 
+-- macOS-style editing and tab shortcuts (Cmd -> Super).
+-- SUPER + W was Omarchy's "Close window"; Ctrl + W is forwarded instead.
+hl.unbind("SUPER + W")
+
+-- Undo.
+o.bind("SUPER + z", "Undo", hl.dsp.send_shortcut({ mods = "CTRL", key = "z" }))
+
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
 if o.dictation_installed and o.dictation_installed() then
