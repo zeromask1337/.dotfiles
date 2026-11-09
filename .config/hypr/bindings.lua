@@ -117,6 +117,13 @@ o.bind("SUPER + z", "Undo", hl.dsp.send_shortcut({ mods = "CTRL", key = "z" }))
 o.bind("SUPER + t", "New tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "t" }))
 o.bind("SUPER + w", "Close tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "w" }))
 
+-- Cursor navigation in text fields: line start/end on Left/Right,
+-- document start/end on Up/Down.
+o.bind("SUPER + LEFT", "Line start", hl.dsp.send_shortcut({ mods = "", key = "Home" }))
+o.bind("SUPER + RIGHT", "Line end", hl.dsp.send_shortcut({ mods = "", key = "End" }))
+o.bind("SUPER + UP", "Document start", hl.dsp.send_shortcut({ mods = "CTRL", key = "Home" }))
+o.bind("SUPER + DOWN", "Document end", hl.dsp.send_shortcut({ mods = "CTRL", key = "End" }))
+
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
 if o.dictation_installed and o.dictation_installed() then
