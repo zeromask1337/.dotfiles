@@ -1,0 +1,48 @@
+#!/bin/sh
+# Push ~/.dotfiles when a shell exits, if the branch has unpushed commits.
+#
+# Called from the zshexit hook in .zshrc, so it fires on `exit`, `logout` and
+# closing a terminal. Throttled and locked: closing several shells at once
+# pushes once, and a shell with nothing to push costs two local git calls.
+#
+# Log: ~/.local/state/dotfiles-push/log
+
+set -u
+
+repo="${DOTFILES_REPO:-$HOME/.dotfiles}"
+[ -d "$repo/.git" ] || exit 0
+
+cd "$repo" || exit 0
+
+# No upstream or nothing ahead of it: nothing to push.
+git rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1 || exit 0
+ahead=$(git rev-list --count '@{u}..HEAD' 2>/dev/null) || exit 0
+[ "${ahead:-0}" -gt 0 ] || exit 0
+
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles-push"
+mkdir -p "$state_dir"
+
+now=$(date +%s)
+
+# Throttle: at most one push per minute, however many shells exit.
+last=0
+[ -f "$state_dir/last" ] && last=$(cat "$state_dir/last" 2>/dev/null || echo 0)
+[ $((now - ${last:-0})) -ge 60 ] || exit 0
+printf '%s\n' "$now" >"$state_dir/last"
+
+mtime() {
+  stat -f %m "$1" 2>/dev/null || stat -c %Y "$1" 2>/dev/null || echo 0
+}
+
+lock="$state_dir/lock"
+if ! mkdir "$lock" 2>/dev/null; then
+  # A push is already running. Unless its lock is stale (10 min), skip.
+  [ $((now - $(mtime "$lock"))) -ge 600 ] || exit 0
+  rmdir "$lock" 2>/dev/null || exit 0
+  mkdir "$lock" 2>/dev/null || exit 0
+fi
+trap 'rmdir "$lock" 2>/dev/null || true' EXIT INT TERM
+
+GIT_TERMINAL_PROMPT=0 \
+GIT_SSH_COMMAND='ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new' \
+  git push >>"$state_dir/log" 2>&1 || true
