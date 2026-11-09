@@ -34,6 +34,7 @@ credential_command = 'gh auth token --hostname "$MISE_CREDENTIAL_HOST"'
 "~/.config/configstore" = {}
 "~/.config/cron" = {}
 "~/.config/ghostty" = {}
+"~/.config/hypr/bindings.lua" = {}
 "~/.config/kanata" = {}
 "~/.config/lazygit" = {}
 "~/.config/linearmouse" = {}
