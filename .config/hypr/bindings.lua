@@ -174,9 +174,19 @@ o.bind("SUPER + RIGHT", "Line end", hl.dsp.send_shortcut({ mods = "", key = "End
 o.bind("SUPER + UP", "Document start", hl.dsp.send_shortcut({ mods = "CTRL", key = "Home" }))
 o.bind("SUPER + DOWN", "Document end", hl.dsp.send_shortcut({ mods = "CTRL", key = "End" }))
 
+-- Mark text to the line start/end and document start/end (macOS Cmd + Shift).
+o.bind("SUPER + SHIFT + LEFT", "Mark to line start", hl.dsp.send_shortcut({ mods = "SHIFT", key = "Home" }))
+o.bind("SUPER + SHIFT + RIGHT", "Mark to line end", hl.dsp.send_shortcut({ mods = "SHIFT", key = "End" }))
+o.bind("SUPER + SHIFT + UP", "Mark to document start", hl.dsp.send_shortcut({ mods = "CTRL SHIFT", key = "Home" }))
+o.bind("SUPER + SHIFT + DOWN", "Mark to document end", hl.dsp.send_shortcut({ mods = "CTRL SHIFT", key = "End" }))
+
 -- Word navigation in text fields (macOS Option + arrow): forward Ctrl + arrow.
 o.bind("ALT + LEFT", "Word left", hl.dsp.send_shortcut({ mods = "CTRL", key = "Left" }))
 o.bind("ALT + RIGHT", "Word right", hl.dsp.send_shortcut({ mods = "CTRL", key = "Right" }))
+
+-- Mark a word left/right (macOS Option + Shift + arrow): forward Ctrl + Shift + arrow.
+o.bind("ALT + SHIFT + LEFT", "Mark word left", hl.dsp.send_shortcut({ mods = "CTRL SHIFT", key = "Left" }))
+o.bind("ALT + SHIFT + RIGHT", "Mark word right", hl.dsp.send_shortcut({ mods = "CTRL SHIFT", key = "Right" }))
 
 -- Word deletion (macOS Option + Backspace/Delete): forward Ctrl + Backspace/Delete.
 o.bind("ALT + BACKSPACE", "Delete word left", hl.dsp.send_shortcut({ mods = "CTRL", key = "BackSpace" }))
