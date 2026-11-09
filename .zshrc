@@ -70,3 +70,11 @@ bindkey '^k' autosuggest-accept
 
 # Hermes Agent — ensure ~/.local/bin is on PATH
 export PATH="$HOME/.local/bin:$PATH"
+
+# Push ~/.dotfiles when a shell exits (logout, exit, closed terminal).
+# Throttled and locked inside the script, so multiple shells push once.
+if [ -x "$HOME/.config/scripts/dotfiles-push" ]; then
+  dotfiles_push_on_exit() { "$HOME/.config/scripts/dotfiles-push" >/dev/null 2>&1 || true }
+  autoload -Uz add-zsh-hook
+  add-zsh-hook zshexit dotfiles_push_on_exit
+fi
