@@ -235,3 +235,7 @@ run = "move-node-to-workspace R"
 [[on-window-detected]]
 if.app-id="app.zen-browser.zen"
 run = 'move-node-to-workspace B'
+
+[[on-window-detected]]
+if.app-id="com.t3tools.t3code"
+run = 'move-node-to-workspace B'
