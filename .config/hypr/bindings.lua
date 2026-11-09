@@ -113,6 +113,10 @@ hl.unbind("SUPER + W")
 -- Undo.
 o.bind("SUPER + z", "Undo", hl.dsp.send_shortcut({ mods = "CTRL", key = "z" }))
 
+-- Tabs.
+o.bind("SUPER + t", "New tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "t" }))
+o.bind("SUPER + w", "Close tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "w" }))
+
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
 if o.dictation_installed and o.dictation_installed() then
