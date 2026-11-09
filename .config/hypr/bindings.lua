@@ -104,6 +104,10 @@ end
 -- SUPER + SHIFT + 5: start/stop a screen recording (region picker on start).
 o.bind("SUPER + SHIFT + 3", "Screenshot (full screen)", "omarchy capture screenshot fullscreen")
 o.bind("SUPER + SHIFT + 4", "Screenshot (region)", "omarchy capture screenshot region")
+-- SUPER + SHIFT + E: same region capture, clipboard only (no file on disk).
+-- Freed from the stock "Email" (Hey) bind, which had this combination.
+hl.unbind("SUPER + SHIFT + E")
+o.bind("SUPER + SHIFT + E", "Screenshot (region, clipboard only)", "omarchy capture screenshot region copy")
 o.bind("SUPER + SHIFT + 5", "Screen recording", "omarchy capture screenrecording --stop-recording || omarchy capture screenrecording")
 
 -- Layout-safe clipboard. Omarchy's universal copy/paste resolves keysyms in the
