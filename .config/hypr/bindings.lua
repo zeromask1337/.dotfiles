@@ -139,6 +139,18 @@ o.bind("ALT + RIGHT", "Word right", hl.dsp.send_shortcut({ mods = "CTRL", key = 
 o.bind("ALT + BACKSPACE", "Delete word left", hl.dsp.send_shortcut({ mods = "CTRL", key = "BackSpace" }))
 o.bind("ALT + Delete", "Delete word right", hl.dsp.send_shortcut({ mods = "CTRL", key = "Delete" }))
 
+-- Delete to line start/end (macOS Cmd + Backspace/Delete): select to the edge,
+-- then delete. SUPER + BACKSPACE was Omarchy's "Toggle transparency on a window".
+hl.unbind("SUPER + BACKSPACE")
+o.bind("SUPER + BACKSPACE", "Delete to line start", function()
+  hl.dispatch(hl.dsp.send_shortcut({ mods = "SHIFT", key = "Home" }))
+  hl.dispatch(hl.dsp.send_shortcut({ mods = "", key = "BackSpace" }))
+end)
+o.bind("SUPER + Delete", "Delete to line end", function()
+  hl.dispatch(hl.dsp.send_shortcut({ mods = "SHIFT", key = "End" }))
+  hl.dispatch(hl.dsp.send_shortcut({ mods = "", key = "Delete" }))
+end)
+
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
 if o.dictation_installed and o.dictation_installed() then
