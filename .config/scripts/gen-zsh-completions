@@ -30,3 +30,4 @@ gen mise mise completion zsh
 gen opencode opencode --completions zsh
 gen kubectl kubectl completion zsh
 gen just just --completions zsh
+gen bun bun completions
