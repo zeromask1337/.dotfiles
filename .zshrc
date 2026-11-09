@@ -76,5 +76,7 @@ export PATH="$HOME/.local/bin:$PATH"
 if [ -x "$HOME/.config/scripts/dotfiles-push" ]; then
   dotfiles_push_on_exit() { "$HOME/.config/scripts/dotfiles-push" >/dev/null 2>&1 || true }
   autoload -Uz add-zsh-hook
+  # zsh runs zshexit on SIGHUP (terminal closed) but not on SIGTERM (logout).
   add-zsh-hook zshexit dotfiles_push_on_exit
+  TRAPTERM() { dotfiles_push_on_exit; exit 143 }
 fi
