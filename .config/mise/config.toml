@@ -147,7 +147,6 @@ run = [
   "git remote get-url origin | grep -qx 'git@github.com:zeromask1337/.dotfiles.git' || git remote set-url origin git@github.com:zeromask1337/.dotfiles.git",
   "lefthook install || echo 'WARN lefthook install failed (continuing)'",
   "sh .config/cron/install.sh || echo 'WARN crontab install failed (continuing)'",
-  "sh .config/systemd/install.sh || echo 'WARN systemd unit install failed (continuing)'",
 ]
 
 [bootstrap.services.opencode-server]
@@ -157,3 +156,21 @@ working_directory = "~"
 environment = { PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" }
 restart = "on-failure"
 requires_tools = true
+
+# Restart the opencode background server with fresh Doppler env at boot/login.
+# One-shot, so platform-specific sections are used instead of a user service
+# (a user service is for programs that keep running and restart on failure).
+# The wrapper handles PATH, the ~/.dotfiles cwd (doppler scope) and retries.
+[bootstrap.macos.launchd.agents.opencode-service-restart]
+program = "~/.dotfiles/.config/scripts/opencode-service-restart"
+run_at_load = true
+environment = { PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
+stdout_path = "~/Library/Logs/opencode-service-restart.log"
+stderr_path = "~/Library/Logs/opencode-service-restart.err.log"
+
+[bootstrap.linux.systemd.units.opencode-service-restart]
+type = "oneshot"
+remain_after_exit = true
+exec_start = "~/.dotfiles/.config/scripts/opencode-service-restart"
+timeout_start_sec = "300"
+wanted_by = ["default.target"]
