@@ -11,7 +11,7 @@
 --
 --   require("hypr.game-mode")
 --
--- Escape hatch: SUPER + SHIFT + Insert (layout-independent, unused elsewhere).
+-- Escape hatch: bare Insert (layout-independent, unused elsewhere).
 -- If you ever get stuck: hyprctl dispatch 'hl.dsp.submap("reset")'
 
 local SUBMAP = "game"
@@ -61,7 +61,7 @@ local function enter()
   end
 
   hl.dispatch(hl.dsp.submap(SUBMAP))
-  hl.exec_cmd("notify-send -a 'Game mode' 'Game mode on' 'Window keybinds are off. SUPER + SHIFT + Insert to leave.'")
+  hl.exec_cmd("notify-send -a 'Game mode' 'Game mode on' 'Window keybinds are off. Insert to leave.'")
 end
 
 local function leave()
@@ -92,7 +92,7 @@ end
 
 hl.define_submap(SUBMAP, function()
   -- The only way out while the submap is active.
-  hl.bind("SUPER + SHIFT + Insert", exit_game_mode)
+  hl.bind("Insert", exit_game_mode)
 
   -- Keep the hardware keys alive: they are ordinary binds too, so the submap
   -- would otherwise swallow volume and brightness during play.
@@ -104,7 +104,7 @@ hl.define_submap(SUBMAP, function()
 end)
 
 -- Manual toggle, for games that run borderless and never become fullscreen.
-hl.bind("SUPER + SHIFT + Insert", function()
+hl.bind("Insert", function()
   if hl.get_current_submap() == SUBMAP then
     forced, suppressed = false, true
     leave()
