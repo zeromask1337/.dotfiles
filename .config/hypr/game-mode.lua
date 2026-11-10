@@ -11,8 +11,9 @@
 --
 --   require("hypr.game-mode")
 --
--- Escape hatch: SUPER + SHIFT + F13, bound by XKB keycode 191 so the layout
--- does not matter (F13 is unused by games and desktop apps).
+-- Escape hatch: SUPER + SHIFT + S, bound by XKB keycode 39 so it still works
+-- on the Russian layout. The Google Maps bind that used to own this chord is
+-- unbound in bindings.lua.
 -- If you ever get stuck: hyprctl dispatch 'hl.dsp.submap("reset")'
 
 local SUBMAP = "game"
@@ -62,7 +63,7 @@ local function enter()
   end
 
   hl.dispatch(hl.dsp.submap(SUBMAP))
-  hl.exec_cmd("notify-send -a 'Game mode' 'Game mode on' 'Window keybinds are off. SUPER + SHIFT + F13 to leave.'")
+  hl.exec_cmd("notify-send -a 'Game mode' 'Game mode on' 'Window keybinds are off. SUPER + SHIFT + S to leave.'")
 end
 
 local function leave()
@@ -92,8 +93,8 @@ local function exit_game_mode()
 end
 
 hl.define_submap(SUBMAP, function()
-  -- The only way out while the submap is active. code:191 is XKB F13.
-  hl.bind("SUPER + SHIFT + code:191", exit_game_mode)
+  -- The only way out while the submap is active. code:39 is XKB S.
+  hl.bind("SUPER + SHIFT + code:39", exit_game_mode)
 
   -- Keep the hardware keys alive: they are ordinary binds too, so the submap
   -- would otherwise swallow volume and brightness during play.
@@ -105,7 +106,7 @@ hl.define_submap(SUBMAP, function()
 end)
 
 -- Manual toggle, for games that run borderless and never become fullscreen.
-hl.bind("SUPER + SHIFT + code:191", function()
+hl.bind("SUPER + SHIFT + code:39", function()
   if hl.get_current_submap() == SUBMAP then
     forced, suppressed = false, true
     leave()
