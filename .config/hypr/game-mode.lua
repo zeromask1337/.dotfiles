@@ -126,8 +126,9 @@ hl.on("hyprland.start", sync)
 
 -- Screensaver fix for games, including borderless ones. Omarchy's stock rule
 -- only matches the Steam client (class "steam"), not steam_app_* or gamescope.
-o.window("steam_app_.*", { idle_inhibit = "focus" })
-o.window("gamescope", { idle_inhibit = "focus" })
+-- Every Steam/Proton game also opens on workspace 3 and brings you there.
+o.window("steam_app_.*", { workspace = "3", idle_inhibit = "focus" })
+o.window("gamescope", { workspace = "3", idle_inhibit = "focus" })
 
 -- Optional: let the compositor hand fullscreen games straight to the display.
 -- Upstream Omarchy has this in review; disable it if a game shows glitches.
