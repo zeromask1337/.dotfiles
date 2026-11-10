@@ -210,3 +210,8 @@ if o.dictation_installed and o.dictation_installed() then
   o.bind("SUPER + CTRL + X", "Toggle dictation", "omarchy-dictation toggle")
   o.bind_hold("F9", "Start dictation (push-to-talk)", "omarchy-dictation start", "Stop dictation (push-to-talk)", "omarchy-dictation stop")
 end
+
+-- Game mode: a fullscreen game turns every window bind off (Hyprland submap),
+-- with SUPER + SHIFT + S (keycode 39, layout-proof) as the escape hatch.
+-- Loaded from here because hyprland.lua is stock and can be refreshed.
+require("hypr.game-mode")
