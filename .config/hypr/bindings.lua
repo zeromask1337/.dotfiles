@@ -25,6 +25,9 @@ for code = 10, 19 do
   hl.unbind("SUPER + SHIFT + code:" .. code)
 end
 
+-- Free SUPER + SHIFT + S from the Google Maps web app. S is a normal key again.
+hl.unbind("SUPER + SHIFT + S")
+
 -- Window and workspace cycling.
 hl.unbind("SUPER + TAB")
 hl.unbind("SUPER + SHIFT + TAB")
