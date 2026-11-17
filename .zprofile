@@ -14,6 +14,10 @@ if [[ "$OSTYPE" == darwin* ]]; then
   [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 else
   # Linuxbrew binaries (formulae live here; brew itself is not installed)
+  # agent-browser: real Chromium profile (cookies/logins) for every session.
+  # Drop AGENT_BROWSER_CONFIG per command to use an isolated browser.
+  export AGENT_BROWSER_CONFIG=$HOME/.config/agent-browser/real-profile.linux.json
+
   case ":$PATH:" in
     *":/home/linuxbrew/.linuxbrew/bin:"*) ;;
     *) export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin" ;;

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-browser.dev/schema.json",
+  "executablePath": "/usr/bin/chromium",
+  "profile": "Default",
+  "idleTimeout": "2m"
+}

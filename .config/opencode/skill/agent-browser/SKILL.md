@@ -519,12 +519,13 @@ Use comma-separated origins only when each is a trusted dashboard URL. Every ori
 
 ## Full reference
 
-## This machine (macOS, OpenCode)
+## This machine (macOS + Linux, OpenCode)
 
-- Global CLI: `agent-browser` (pnpm global). `~/.agent-browser/config.json` pins `executablePath` to `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` and `idleTimeout: "2m"`, so plain `agent-browser` commands launch the **real Google Chrome binary**.
-- **Real-profile logins**: built-in `--profile Default` is **broken on this macOS setup** — it copies the profile and launches on the copy, but the copied Cookies DB cannot be decrypted (Chrome Safe Storage/keychain binding), so every page comes up logged out and cookies are invisible to CDP. Verified: copy holds all 298 cookies, browser sees 0.
+- Global CLI: `agent-browser` — pnpm global on macOS (`~/Library/pnpm/bin`, v0.37.1), npm global on Linux (mise node, v0.43.0). `~/.agent-browser/config.json` pins `executablePath` and `idleTimeout: "2m"`, so plain `agent-browser` commands launch the **real browser binary**: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` (macOS) or `/usr/bin/chromium` (Linux, profile `~/.config/chromium`).
+- **Real-profile logins (Linux)**: `AGENT_BROWSER_CONFIG=$HOME/.config/agent-browser/real-profile.linux.json` (`profile: "Default"`) works — profile copied to `/tmp/agent-browser-profile-<uuid>`, headless, `--password-store=gnome-libsecret`; verified 96 cookies visible over CDP. Each launch pays a ~190 MB profile copy, so close sessions.
+- **Real-profile logins (macOS)**: built-in `--profile Default` is **broken on this macOS setup** — it copies the profile and launches on the copy, but the copied Cookies DB cannot be decrypted (Chrome Safe Storage/keychain binding), so every page comes up logged out and cookies are invisible to CDP. Verified: copy holds all 298 cookies, browser sees 0.
 - Working route (same mechanism Hermes uses): copy the profile directory, launch the **real** Chrome binary on the copy with `--remote-debugging-port=0`, attach agent-browser via `--cdp`. The `agent-browser-profile` helper in `~/.config/scripts/` does this: `start` / `port` / `stop`. Verified: 244 cookies decrypted, GitHub `logged_in`+`_octo` present.
-- Full Disk Access is required for the profile copy: without it, listing `~/Library/Application Support/Google/Chrome` fails with `Operation not permitted`. It was granted for this setup; if a future `start` reports a missing profile, re-grant under System Settings → Privacy & Security → Full Disk Access.
+- Full Disk Access is required for the profile copy on macOS: without it, listing `~/Library/Application Support/Google/Chrome` fails with `Operation not permitted`. It was granted for this setup; if a future `start` reports a missing profile, re-grant under System Settings → Privacy & Security → Full Disk Access.
 - `--auto-connect` (attach to an already-running Chrome) needs that Chrome started with `--remote-debugging-port`; the user's normal Chrome does not have it.
 - `--headed` on macOS has no equivalent of Hermes' Chrome-for-Testing keychain problem here: the pinned executable is the real Chrome. Screenshots and `--annotate` work without a window.
 - Refresh this skill after a global agent-browser upgrade with:
