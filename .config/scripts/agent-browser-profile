@@ -3,8 +3,9 @@
 #
 # Alternative to `AGENT_BROWSER_CONFIG=<real-profile>.json agent-browser ...`
 # (which also works if set for *every* command; without it the daemon relaunches
-# a clean browser). This one runs headed real Chrome on a full profile copy;
-# agent-browser attaches over CDP.
+# a clean browser). This one runs the real browser binary on a full profile copy
+# (headless on Linux, headed on macOS; override with
+# AGENT_BROWSER_PROFILE_HEADED=1|0); agent-browser attaches over CDP.
 #
 # Usage:
 #   agent-browser-profile start    # copy profile, launch Chrome, print port
@@ -55,7 +56,17 @@ start() {
          "${COPY}"/{Crashpad,crashpad,component_crx_cache,extensions_crx_cache} \
          "${COPY}"/{SingletonLock,SingletonSocket,SingletonCookie,DevToolsActivePort,RunningChromeVersion}
 
+  local -a mode=()
+  # Headed by default on macOS (matches the original helper), headless on Linux.
+  # Override either way with AGENT_BROWSER_PROFILE_HEADED=1|0.
+  if [[ "${AGENT_BROWSER_PROFILE_HEADED:-${CLONE}}" == 1 ]]; then
+    mode=()
+  else
+    mode=(--headless=new)
+  fi
+
   "${CHROME}" --user-data-dir="${COPY}" --remote-debugging-port=0 \
+    "${mode[@]}" \
     --no-first-run --no-default-browser-check --disable-background-networking \
     --disable-component-update --disable-default-apps --disable-popup-blocking \
     --disable-prompt-on-repost --homepage=about:blank \

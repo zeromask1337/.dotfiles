@@ -59,7 +59,7 @@ agent-browser-profile stop
 
 ## Pitfalls
 
-- **Headed.** Chrome on the copy opens visible windows. That is expected; the user's own Chrome stays untouched (it can run at the same time).
+- **Headed vs headless.** The helper is headless on Linux and headed on macOS; override with `AGENT_BROWSER_PROFILE_HEADED=1|0`. Plain `agent-browser` (incl. the `AGENT_BROWSER_CONFIG` profile copy) is always `--headless=new`, so no window appears. Either way the user's own browser stays untouched and can run at the same time.
 - **Full Disk Access (macOS).** Copying the profile needs FDA on the app hosting the agent (Ghostty/Terminal/iTerm). Without it: `Operation not permitted` on `~/Library/Application Support/Google/Chrome`. Fix in System Settings → Privacy & Security → Full Disk Access. Do not loop on the error — report the missing grant.
 - **CDP attach needs an explicit tab when a session existed before attach.** After `--cdp PORT`, list tabs first (`agent-browser --cdp PORT tab list`) and switch with `tab tN` before evaluating, or evaluations land on `about:blank`.
 - **Session hygiene.** Give attached work a named session (`--session <name>`); do not touch the anonymous default session.
