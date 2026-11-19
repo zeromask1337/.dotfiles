@@ -5,6 +5,7 @@ rust = { version = "stable", auto_update = "24h" }
 ruby = "3"
 usage = { version = "latest", auto_update = true }
 "cargo:xavier-cli" = "latest"
+"cargo:firecrawl-local" = "latest"
 doppler = "latest"
 
 [settings.github]
