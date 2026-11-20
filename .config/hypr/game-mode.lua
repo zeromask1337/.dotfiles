@@ -128,4 +128,4 @@ o.window("gamescope", { workspace = "3", idle_inhibit = "focus" })
 
 -- Optional: let the compositor hand fullscreen games straight to the display.
 -- Upstream Omarchy has this in review; disable it if a game shows glitches.
-hl.config({ render = { direct_scanout = 2 } })
+hl.config({ render = { direct_scanout = 0 } })
