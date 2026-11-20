@@ -1,12 +1,14 @@
 -- Keep only your personal input overrides here. Uncommented settings below
 -- replace Omarchy's defaults.
 
--- Switch keyboard layouts with Caps Lock instead of Omarchy's default
--- Left Alt + Right Alt. Caps Lock cycles to the next layout; Shift + Caps Lock
--- still toggles Caps Lock. Replaces Omarchy's Shift + Caps Lock compose key.
+-- Caps Lock is handled by keyd (/etc/keyd/default.conf): tap sends F13, hold
+-- ~0.5s toggles Caps Lock. CAPS must stay Caps_Lock in XKB so the hold event
+-- actually locks; ~/.config/xkb maps F13 to ISO_Next_Group, so the tap switches
+-- the layout in the keymap itself and keeps working inside Hyprland submaps.
+-- Left Alt + Right Alt stays as a backup layout switch.
 hl.config({
   input = {
-    kb_options = "grp:caps_toggle",
+    kb_options = "grp:alts_toggle,localkeys:extra",
     natural_scroll = true,
     touchpad = {
       natural_scroll = true,
