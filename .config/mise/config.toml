@@ -161,6 +161,17 @@ environment = { PATH = "/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:/usr/lo
 restart = "on-failure"
 requires_tools = true
 
+# `t3 serve` is the same server `t3 service install` would supervise, just
+# started by launchd/systemd. It reuses the T3 Connect login under ~/.t3.
+[bootstrap.services.t3-server]
+scope = "user"
+description = "T3 Code server"
+command = "~/.dotfiles/.config/scripts/t3-serve"
+working_directory = "~"
+environment = { PATH = "/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" }
+restart = "on-failure"
+requires_tools = true
+
 # Restart the opencode background server with fresh Doppler env at boot/login.
 # One-shot, so platform-specific sections are used instead of a user service
 # (a user service is for programs that keep running and restart on failure).

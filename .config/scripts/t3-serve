@@ -1,0 +1,21 @@
+#!/bin/sh
+# Run the T3 Code server as a mise user service at login.
+#
+# `t3 serve` is the same server `t3 service install` supervises; this wrapper
+# only fixes PATH for launchd/systemd, which start with a minimal environment.
+# It reuses the T3 Connect login and projects under ~/.t3.
+set -eu
+
+# Reuse the optional env file T3's own service reads.
+if [ -f "$HOME/.t3/service.env" ]; then
+  set -a
+  . "$HOME/.t3/service.env"
+  set +a
+fi
+
+PATH="$HOME/.t3/bin:$HOME/.local/bin:$HOME/.local/share/mise/shims:/opt/homebrew/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH
+
+cd "$HOME"
+
+exec t3 serve
