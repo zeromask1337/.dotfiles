@@ -159,6 +159,14 @@ for slot = 1, 9 do
 end
 o.bind("ALT + 0", "Switch to workspace 10", o.workspaces.focus(10))
 
+-- Alt + Shift + number sends the active window to that workspace and follows it.
+-- o.workspaces.move_window keeps the move inside the monitor's own 1-10 block,
+-- which a raw workspace id would not.
+for slot = 1, 9 do
+  o.bind("ALT + SHIFT + " .. slot, "Move window to workspace " .. slot, o.workspaces.move_window(slot))
+end
+o.bind("ALT + SHIFT + 0", "Move window to workspace 10", o.workspaces.move_window(10))
+
 -- macOS-style editing and tab shortcuts (Cmd -> Super).
 -- SUPER + W was Omarchy's "Close window"; Ctrl + W is forwarded instead.
 hl.unbind("SUPER + W")
