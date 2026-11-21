@@ -1,3 +1,9 @@
+[settings]
+fetch_remote_versions_timeout = "2m"
+
+[settings.npm]
+package_manager = "npm"
+
 [tools]
 node = { version = "latest", auto_update = true }
 pnpm = "latest"
